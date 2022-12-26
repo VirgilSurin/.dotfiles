@@ -1,0 +1,8 @@
+./.emacs.d/cache/
+./.emacs.d/eln-cache/
+./.emacs.d/elpa/
+recentf
+smex-items
+./.emacs.d/straight
+./.emacs.d/transient/
+./.emacs.d/snippets/
