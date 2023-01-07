@@ -5,3 +5,11 @@ recentf
 smex-items
 .emacs.d/straight
 .emacs.d/transient/
+/.emacs.d/.cache/
+/.emacs.d/.dap-breakpoints
+/.emacs.d/.lsp-session-v1
+/.emacs.d/dirvish/
+/.emacs.d/eclipse.jdt.ls/
+/.emacs.d/projectile.cache
+/.emacs.d/url/
+/.emacs.d/workspace/
