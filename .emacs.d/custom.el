@@ -17,6 +17,7 @@
  '(kill-ring-max 5)
  '(lsp-ui-sideline-diagnostic-max-line-length 20)
  '(lsp-ui-sideline-diagnostic-max-lines 5)
+ '(magit-display-buffer-function 'display-buffer)
  '(mini-frame-show-parameters '((top . 0.35) (width . 0.6) (left . 0.5)))
  '(package-selected-packages
    '(exwm flycheck-rust rustic dirvish hungry-delete comment-dwim-2 browse-kill-ring avy-zap smex tsc auctex pdf-tools vterm evil ein 0A11-2-low-theme 0A11-3-theme 0A11-2-theme 0A11-theme telephone-line esup smartparens ace-popup-menu autopair auto-pair treemacs-all-the-icons crux dired-x persp-mode lsp-pyright page-break-lines dashboard makefile-executor tree-sitter-langs tree-sitter magonyx-theme buffer-move visual-fill-column org-bullets groovy-mode ess racket-mode gradle-mode lsp-java elpy lsp-ui lsp-treemacs lsp-ivy lsp-mode magit java-snippets yasnippet-snippets yasnippet company flycheck iedit quickrun docstr fixmee rainbow-delimiters treemacs-icons-dired treemacs counsel-projectile projectile avy use-package-chords god-mode which-key helpful counsel ivy-hydra ivy-rich ivy mwim general dimmer solaire-mode highlight-indent-guides mini-frame doom-modeline use-package))
