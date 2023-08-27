@@ -1,7 +1,0 @@
-[Desktop Entry]
-Comment=Emacs Window Manager
-Exec=sh /home/virgil/Documents/emacs/V-emacs/exwm/start-exwm.sh
-TryExec=sh
-Name=Emacs
-Exec=emacs
-Type=Application
