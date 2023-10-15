@@ -10,17 +10,6 @@
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     alacritty
-    ripgrep
-    coreutils
-    fd
-    clang
-    nitrogen
-    polybar
-    dmenu
-    gnumake
-    cmake
-    libtool
-    libvterm
     btop
     emacs29
     librewolf
@@ -29,12 +18,23 @@
     gnome-extension-manager
     bitwarden
     mullvad-vpn
-    exa                       # the new ls !
-    direnv
     libreoffice
+    jetbrains-mono
 
     # linux utilities
+    ripgrep
+    coreutils
+    fd
+    clang
+    polybar
+    dmenu
+    gnumake
+    cmake
+    libtool
+    libvterm
     alsa-utils
+    direnv
+    exa                       # the new ls !
     acpilight
     brightnessctl
     fd
@@ -42,7 +42,16 @@
     ffmpegthumbnailer
     mediainfo
     poppler
-
+    i3lock-color                # lock screen
+    scrot                       # screenshots
+    picom                       # window compositor
+    nerdfonts
+    zip
+    unzip
+    xclip
+    xdotool
+    xorg.xprop
+    xorg.xwininfo
 
     # programming langages
     nodejs_20
@@ -71,6 +80,13 @@
     FOO = "Hello";
   };
 
+  services.picom = {
+    enable = true;
+    fade = true;
+    fadeDelta = 1;
+    fadeSteps = [0.01 0.05];
+    shadow = false;
+  };
 
   programs.bash = {
     enable = true;
