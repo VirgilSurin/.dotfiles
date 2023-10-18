@@ -37,7 +37,6 @@ editor = "emacsclient -c -a 'emacs' "
 terminal = "alacritty"
 
 qtile.cmd_spawn("picom")
-qtile.cmd_spawn("emacs --daemon")
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -140,7 +139,7 @@ colors = [["#282c34", "#282c34"], # 0
 
 # LAYOUTS
 layout_theme = {"border_width": 4,
-                "margin": 12,
+                "margin": 16,
                 "border_focus": "#e1acff",
                 "border_normal": "#1D2330"
                 }
@@ -177,7 +176,7 @@ sep_bar = widget.TextBox(
                     background = colors[0],
                     foreground = '#474747',
                     padding = 2,
-                    fontsize = 24
+                    fontsize = 26
                 )
 extension_defaults = widget_defaults.copy()
 
@@ -227,6 +226,14 @@ screens = [
                 ),
                 sep,
                 sep_bar,
+                widget.Wlan(
+                    disconnected_message = "󰖪 Disconnected",
+                    interface = "wlp6s0", # use "nmcli device status" to know what the write here
+                    foreground = colors[3],
+                    background = colors[0],
+                    fontsize = 12,
+                    padding = 5
+                ),
                 widget.Net(
                     interface = "wlp6s0",
                     format = 'Net: {down} ↓↑ {up}',
