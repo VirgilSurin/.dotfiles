@@ -33,10 +33,10 @@ from os.path import expanduser
 mod = "mod4"
 # terminal = guess_terminal()
 myBrowser = "librewolf"
-editor = "emacsclient -c -a 'emacs' "
+editor = "emacsclient -c -a 'alacritty vi' "
+# terminal = editor + "--eval (vterm)"
 terminal = "alacritty"
 
-qtile.cmd_spawn("picom")
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -79,7 +79,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(myBrowser), desc="Launch my web browser"),
     Key([mod], "e", lazy.spawn(editor), desc="Launch my editor"),
-    Key([mod], "v", lazy.spawn(editor + "--eval '(dirvish)'"), desc="Open file manager"),
+    Key([mod], "v", lazy.spawn(editor + "--eval '(dired)'"), desc="Open file manager"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),

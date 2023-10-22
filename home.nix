@@ -20,6 +20,8 @@
     mullvad-vpn
     libreoffice
     jetbrains-mono
+    emacs-all-the-icons-fonts
+    tree-sitter
 
     # linux utilities
     ripgrep
@@ -52,18 +54,37 @@
     xdotool
     xorg.xprop
     xorg.xwininfo
+    # wifi and bluetooth
+    connman
+    connman-gtk
+    blueman
+    wirelesstools
 
     # programming langages
     nodejs_20
     emacsPackages.lsp-pyright
 
-    # python packages
     (python311.withPackages(ps: with ps; [ pandas
                                            numpy
                                            matplotlib
                                            networkx
+                                           basiciw
+                                           # (
+                                           #   buildPythonPackage rec {
+                                           #     pname = "iwlib";
+                                           #     version = "1.7.0";
+                                           #     src = fetchPypi {
+                                           #       inherit pname version;
+                                           #       sha256 = "a805f6597a70ee3001aba8f039fb7b2dcb75dc15c4e7852f5594fd6379196da1";
+                                           #     };
+                                           #     doCheck = false;
+                                           #     propagatedBuildInputs = [
+                                           #       # Specify dependencies
+                                           #       pkgs.python311Packages.cffi
+                                           #     ];
+                                           #   }
+                                           # )
                                          ]))
-
   ];
 
 
@@ -88,6 +109,20 @@
     shadow = false;
   };
 
+  xsession.enable = true;
+
+  # systemd.user.services.emacs = {
+  #   Unit = {
+  #     After = [ "graphical-session-pre.target" ];
+  #     PartOf = [ "graphical-session.target" ];
+  #   };
+  #   Service = {
+  #     ExecStart = "${pkgs.emacs29}/bin/emacs --daemon";
+  #     ExecStop = "${pkgs.emacs29}/bin/emacsclient --eval \"(kill-emacs)\"";
+  #     Restart = "always";
+  #   };
+  # };
+
   programs.bash = {
     enable = true;
 
@@ -96,6 +131,9 @@
       hh="echo hello world";
       vi="nvim";
       vim="nvim";
+
+      python="python3.11";
+      python3="python3.11";
 
       cfg="sudo nvim /etc/nixos/configuration.nix";
       nrs="sudo nixos-rebuild switch";
