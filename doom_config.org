@@ -1,0 +1,252 @@
+#+title: doom_config
+#+PROPERTY: header-args :tangle ~/.config/doom/config.el
+
+* Some default settings
+** Directories
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+(defvar dotfiles "~/.dotfiles/")
+(setq org-agenda-files '("~/org/agenda.org" "~/org/todo.org"))
+#+end_src
+
+** Me
+#+begin_src emacs-lisp
+(setq user-full-name "Virgil Surin"
+      user-mail-address "virgl.surin@student.umons.ac.be")
+#+end_src
+
+** Some custom functions
+#+begin_src emacs-lisp
+(defun browse-org-files ()
+  "browse my org files"
+  (interactive)
+  (counsel-find-file org-directory)
+  )
+#+end_src
+A command to edit my .dotfiles/ files (home.nix and so on)
+#+begin_src emacs-lisp
+(defun edit-private-config ()
+  "Edit personnal config files"
+  (interactive)
+  (counsel-find-file dotfiles)
+  )
+#+end_src
+Now let's bind them !
+#+begin_src emacs-lisp
+
+(map! :leader
+      :desc "Open file in ~/.dotfiles" "f h" #'edit-private-config
+      :desc "Open org files" "f o" #'browse-org-files
+      )
+#+end_src
+* Sane default
+Some sane default config
+#+begin_src emacs-lisp
+(setq display-line-numbers-type t)
+
+;; visual line
+(visual-line-mode 1)
+
+;; y/n for  answering yes/no questions
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; emacs ask for confirmation before comitting suicide
+(setq confirm-kill-emacs 'y-or-n-p)
+
+; auto save
+(setq auto-save-default 1)
+
+;; Allow for a larger memory usage to read subprocess
+(setq gc-cons-threshold 100000000) ;; 100 MB
+(setq read-process-output-max (* 1 1024 1024)) ;; 1 MB
+
+;; Some default starting size
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+;; Some default starting size
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(display-battery-mode 1)
+#+end_src
+
+* Keybindings
+I love to go evil ! And doom emacs' default kbds are great. BUT I don't like the "window" management kbds so here are mines which are more unified with my Qtile kbds :
+#+begin_src emacs-lisp
+(map! "M-h" #'evil-window-left
+      "M-j" #'evil-window-down
+      "M-k" #'evil-window-up
+      "M-l" #'evil-window-right
+      "M-w" #'evil-window-delete
+      "M-W" #'delete-other-windows)
+#+end_src
+I move by visual line and not logical line :
+#+begin_src emacs-lisp
+(map! :nm
+      "j" #'evil-next-visual-line
+      :nm
+      "k" #'evil-previous-visual-line
+      )
+#+end_src
+When in insert mode I often need to just move my cursor one or two char away, I don't really want to leave insert mode so here it is :
+#+begin_src emacs-lisp
+(map! :map 'evil-insert-state-map
+      "C-l" #'evil-forward-char
+      "C-h" #'evil-backward-char
+      "C-j" #'evil-next-visual-line
+      "C-k" #'evil-previous-visual-line
+)
+#+end_src
+* UI
+In this section goes my UI config (theme, fonts and so on)
+** Theme
+/my-nord/ is a custom theme, a variant of doom-nord and doom-nord-aurora.
+#+begin_src emacs-lisp
+(setq doom-theme 'my-nord)
+#+end_src
+Some doom config
+#+begin_src emacs-lisp
+(after! doom-themes
+  (setq doom-themes-enable-bold 1
+        doom-themes-enable-italic 1))
+#+end_src
+** Fonts
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic )
+  )
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'semibold)
+      doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22))
+#+end_src
+* Packages config
+** Ivy
+#+begin_src emacs-lisp
+(after! ivy
+  :config
+        (setq swiper-use-visual-line nil)
+        (setq ivy-height 15)
+        (setq ivy-count-format "")
+        (setq ivy-initial-inputs-alist nil)
+        (setq ivy-use-virtual-buffers 1)
+        (setq enable-recursive-minibuffers 1)
+  )
+(map! "C-s"  'swiper)
+#+end_src
+** Which-key
+#+begin_src emacs-lisp
+(after! which-key
+  :config
+  (setq which-key-idle-delay 0.5)
+  )
+#+end_src
+
+* Programming
+Here is some default programming settings :
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-mode)
+#+end_src
+** LSP
+Lsp is great !
+#+begin_src emacs-lisp
+(after! lsp
+  :config
+  (lsp-ui-mode 1)
+  )
+#+end_src
+** Python
+For some reason, my nixos does not want to default to the python version I want... So let's force emacs not to do the same error.
+#+begin_src emacs-lisp
+(setq python-shell-interpreter "python3.11")
+(setq org-babel-python-command "python3.11")
+(setq lsp-pyright-python-executable-cmd "python3.11")
+#+end_src
+** PDF
+#+begin_src emacs-lisp
+(after! pdf-tools
+  :ensure t)
+#+end_src
+** LaTeX
+#+begin_src emacs-lisp
+(setq +latex-viewers '(pdf-tools evince zathura okular skim sumatrapdf))
+#+end_src
+
+* Org-mode
+#+begin_src emacs-lisp
+(after! org
+  (setq org-babel-default-header-args '((:session . "none")
+                                       (:results . "replace")
+                                       (:exports . "code")
+                                       (:cache . "no")
+                                       (:noweb . "no")
+                                       (:hlines . "no")
+                                       (:tangle . "yes")))
+  (setq org-agenda-start-on-weekday 1)
+  (setq org-agenda-start-with-log-mode 0)
+  (setq org-log-done 'day)
+  (setq org-log-into-drawer 0)
+  (setq org-agenda-prefix-format '((agenda . "%i %-12:c%?-12t% s")
+                                   (todo . "%l %i %-12:c")
+                                   (tags . "%i %-12:c")
+                                   (search . "%i %-12:c"))
+        )
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"
+           "BUG(b)"
+           "SYS(s)"
+           "UNI(u)"
+           "LIFE(l)"
+           "MASTER(mm)"
+           "EVENT(e)"
+           "|"
+           "DONE(d)"
+           )))
+  )
+#+end_src
+** Org-agenda
+I use org-super-agenda to have a better looking agenda.
+#+begin_src emacs-lisp
+(use-package! org-super-agenda
+  :commands org-super-agenda-mode)
+
+(after! org-agenda
+  (let ((inhibit-message 1))
+    (org-super-agenda-mode)))
+
+(setq org-agenda-skip-scheduled-if-done 1
+      org-agenda-skip-deadline-if-done 1
+      org-agenda-include-deadlines 1
+      org-agenda-tags-column 100 ;; from testing this seems to be a good value
+      )
+
+(setq org-agenda-custom-commands
+      '(("a" "Overview"
+         ((agenda "" ((org-agenda-span 10)
+                      (org-super-agenda-groups
+                       '((:name "Agenda"
+                          :time-grid t
+                          :todo "EVENT"
+                          :order 1)))))
+          (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '((:name "TODOs"
+                           :todo "TODO"
+                           :order 1)
+                          (:name "Unif"
+                           :todo "UNI"
+                           :order 2)
+                          (:name "Projet de Master"
+                           :todo "MASTER"
+                           :order 3)
+                          (:name "Life"
+                           :todo "LIFE"
+                           :order 4)
+                          (:name "My system"
+                           :todo "SYS"
+                           :order 5)
+                          (:name "Bugs"
+                           :todo "BUG"
+                           :order 6)
+                          ))))))))
+#+end_src
