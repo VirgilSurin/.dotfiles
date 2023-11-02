@@ -1,8 +1,4 @@
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
+# Copyright (c) 2010 Aldo Cortesi Copyright (c) 2010, 2014 dequis Copyright (c) 2012 Randall Ma Copyright (c) 2012-2014 Tycho Andersen Copyright (c) 2012 Craig Barnes
 # Copyright (c) 2013 horsik
 # Copyright (c) 2013 Tao Sauvage
 #
@@ -55,10 +51,9 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+    # Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    # Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    # Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -79,7 +74,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(myBrowser), desc="Launch my web browser"),
     Key([mod], "e", lazy.spawn(editor), desc="Launch my editor"),
-    Key([mod], "v", lazy.spawn(editor + "--eval '(dired)'"), desc="Open file manager"),
+    Key([mod], "v", lazy.spawn("ranger", shell=True), desc="Open file manager"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -135,7 +130,8 @@ colors = [["#282c34", "#282c34"], # 0
           ["#51afef", "#51afef"], # 6
           ["#c678dd", "#c678dd"], # 7
           ["#46d9ff", "#46d9ff"], # 8
-          ["#a9a1e1", "#a9a1e1"]] # 9
+          ["#a9a1e1", "#a9a1e1"], # 9
+          ["#759bc4", "#759bc4"]] # 10
 
 # LAYOUTS
 layout_theme = {"border_width": 4,
@@ -192,13 +188,13 @@ screens = [
                     padding_x = 5,
                     borderwidht = 1,
                     active = colors[2],
-                    inactive = colors[2],
+                    inactive = colors[10],
                     rounded = True,
-                    highlight_method = "block",
+                    # highlight_method = "line",
                     this_current_screen_border = colors[5],
-                    this_screen_border = colors[1],
-                    other_current_screen_border = colors[0],
-                    other_screen_border = colors[0],
+                    this_screen_border = colors[0],
+                    other_current_screen_border = colors[1],
+                    other_screen_border = colors[3],
                     foreground = colors[2],
                     background = colors[0]
                 ),
@@ -226,17 +222,17 @@ screens = [
                 ),
                 sep,
                 sep_bar,
-                widget.Wlan(
-                    disconnected_message = "󰖪 Disconnected",
-                    interface = "wlp6s0", # use "nmcli device status" to know what the write here
-                    foreground = colors[3],
-                    background = colors[0],
-                    fontsize = 12,
-                    padding = 5
-                ),
+                # widget.Wlan(
+                #     disconnected_message = "󰖪 Disconnected",
+                #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
+                #     foreground = colors[3],
+                #     background = colors[0],
+                #     fontsize = 12,
+                #     padding = 5
+                # ),
                 widget.Net(
                     interface = "wlp6s0",
-                    format = 'Net: {down} ↓↑ {up}',
+                    format = "Net:  {up} ↑↓ {down}",
                     foreground = colors[3],
                     background = colors[0],
                     fontsize = 12,
@@ -248,18 +244,19 @@ screens = [
                     foreground = colors[4],
                     padding = 5,
                     fontsize = 12,
-                    format = "{char} {percent:2.0%}",
                     charge_char = "󰂄",
                     discharge_char = "󱟤",
+                    full_char = "󱊣",
                     empty_char = "󱊡",
-                    full_char = "󱊣"),
+                    format = "{char} {percent:2.0%} ({hour:d}h{min:02d})"
+                ),
                 sep,
                 sep_bar,
                 widget.Volume(
                     foreground = colors[7],
                     background = colors[0],
                     fontsize = 12,
-                    fmt = 'Vol: {}',
+                    fmt = 'Vol : {}',
                     padding = 5,
                     emoji = False),
                 sep,
