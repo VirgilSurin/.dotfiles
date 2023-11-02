@@ -11,7 +11,7 @@
     texlive.combined.scheme-full
     alacritty
     btop
-    emacs29
+    emacs29-gtk3
     librewolf
     gnome.gnome-tweaks
     gnome.gnome-software
@@ -22,6 +22,13 @@
     jetbrains-mono
     emacs-all-the-icons-fonts
     tree-sitter
+    texlab
+    signal-desktop
+    vlc
+    ranger
+    powerline-go
+    powerline-symbols
+    powerline-fonts
 
     # linux utilities
     ripgrep
@@ -46,7 +53,6 @@
     poppler
     i3lock-color                # lock screen
     scrot                       # screenshots
-    picom                       # window compositor
     nerdfonts
     zip
     unzip
@@ -54,13 +60,15 @@
     xdotool
     xorg.xprop
     xorg.xwininfo
+    glxinfo
     # wifi and bluetooth
-    connman
-    connman-gtk
     blueman
+    networkmanagerapplet
     wirelesstools
 
     # programming langages
+    libclang
+    jdk19_headless
     nodejs_20
     emacsPackages.lsp-pyright
 
@@ -68,7 +76,6 @@
                                            numpy
                                            matplotlib
                                            networkx
-                                           basiciw
                                            # (
                                            #   buildPythonPackage rec {
                                            #     pname = "iwlib";
@@ -103,10 +110,16 @@
 
   services.picom = {
     enable = true;
+    backend = "glx";
     fade = true;
-    fadeDelta = 1;
-    fadeSteps = [0.01 0.05];
-    shadow = false;
+    fadeDelta = 5;
+    settings = {
+      blur = {
+        method = "gaussion";
+        size = 10;
+        deviation = 5.0;
+      };
+    };
   };
 
   xsession.enable = true;
@@ -122,6 +135,25 @@
   #     Restart = "always";
   #   };
   # };
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window.opacity = 0.90;
+      font.size = 10;
+      draw_bold_text_with_bright_colors = true;
+
+      colors = {
+        primary = {
+          background = "#2E3440";
+        };
+      };
+    };
+  };
+
+  programs.powerline-go = {
+    enable = true;
+    newline = true;
+  };
 
   programs.bash = {
     enable = true;
@@ -182,6 +214,7 @@ vterm_printf() {
     fi
 }
         ";
+
   };
 
   programs.git = {
