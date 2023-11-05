@@ -91,8 +91,8 @@ I move by visual line and not logical line :
 When in insert mode I often need to just move my cursor one or two char away, I don't really want to leave insert mode so here it is :
 #+begin_src emacs-lisp
 (map! :map 'evil-insert-state-map
-      "C-l" #'evil-forward-char
-      "C-h" #'evil-backward-char
+      "C-l" #'right-char
+      "C-h" #'left-char
       "C-j" #'evil-next-visual-line
       "C-k" #'evil-previous-visual-line
 )
@@ -153,7 +153,22 @@ When I write, I like to have a distraction free env, centered buffer and so.
   (setq which-key-idle-delay 0.5)
   )
 #+end_src
-
+** Avy - Jump everywhere !
+#+begin_src emacs-lisp
+(map! :nm
+      "g l" #'evil-avy-goto-line
+      :nm
+      "g k" #'evil-avy-goto-word-1
+      :nm
+      "g j" #'evil-avy-goto-char
+      :nm
+      "g h" #'evil-avy-goto-char-in-line)
+#+end_src
+** Ranger - the better dired
+#+begin_src emacs-lisp
+(map! :leader
+      :desc "Ranger" "o -" #'ranger)
+#+end_src
 * Programming
 Here is some default programming settings :
 #+begin_src emacs-lisp
@@ -609,7 +624,7 @@ Such special cases should be remapped to another value, as given in `string-offs
 (when EMACS28+
   (add-hook 'latex-mode-hook #'TeX-latex-mode))
 
-
+(setq lsp-ltex-mother-tongue "fr")
 
 #+end_src
 
