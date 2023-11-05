@@ -131,7 +131,8 @@ colors = [["#282c34", "#282c34"], # 0
           ["#c678dd", "#c678dd"], # 7
           ["#46d9ff", "#46d9ff"], # 8
           ["#a9a1e1", "#a9a1e1"], # 9
-          ["#759bc4", "#759bc4"]] # 10
+          ["#759bc4", "#759bc4"], # 10
+          ["#ff4500", "#ff4500"]] # 11
 
 # LAYOUTS
 layout_theme = {"border_width": 4,
@@ -182,7 +183,10 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             [
-                sep,
+                widget.Sep(linewidth = 0,
+                           padding = 6,
+                           foreground = colors[2],
+                           background = colors[0]),
                 widget.GroupBox(
                     padding_y = 5,
                     padding_x = 5,
@@ -198,8 +202,13 @@ screens = [
                     foreground = colors[2],
                     background = colors[0]
                 ),
-                sep,
-                sep_bar,
+                widget.TextBox(
+                    text = '',
+                    background = colors[0],
+                    foreground = colors[2],
+                    padding = 5,
+                    fontsize = 15
+                ),
                 widget.Prompt(),
                 widget.WindowName(
                     fontsize = 12,
@@ -212,17 +221,27 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                sep,
-                sep_bar,
-                widget.CurrentLayout(
-                    foreground = colors[8],
+                widget.TextBox(
+                    text = '',
                     background = colors[0],
-                    padding = 5,
+                    foreground = colors[8],
+                    padding = -1,
+                    fontsize = 30
+                ),
+                widget.CurrentLayout(
+                    foreground = colors[1],
+                    background = colors[8],
+                    padding = 10,
                     fontsize = 12,
                 ),
-                sep,
-                sep_bar,
-                # widget.Wlan(
+                widget.TextBox(
+                    text = '',
+                    background = colors[8],
+                    foreground = colors[3],
+                    padding = -1,
+                    fontsize = 30
+                ),
+                                # widget.Wlan(
                 #     disconnected_message = "󰖪 Disconnected",
                 #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
                 #     foreground = colors[3],
@@ -233,16 +252,22 @@ screens = [
                 widget.Net(
                     interface = "wlp6s0",
                     format = "Net:  {up} ↑↓ {down}",
-                    foreground = colors[3],
-                    background = colors[0],
+                    foreground = colors[1],
+                    background = colors[3],
                     fontsize = 12,
-                    padding = 5
+                    padding = 10
                 ),
-                sep,
-                sep_bar,
-                widget.Battery(
+                widget.TextBox(
+                    text = '',
+                    background = colors[3],
                     foreground = colors[4],
-                    padding = 5,
+                    padding = -1,
+                    fontsize = 30
+                ),
+                widget.Battery(
+                    foreground = colors[1],
+                    background = colors[4],
+                    padding = 10,
                     fontsize = 12,
                     charge_char = "󰂄",
                     discharge_char = "󱟤",
@@ -250,27 +275,36 @@ screens = [
                     empty_char = "󱊡",
                     format = "{char} {percent:2.0%} ({hour:d}h{min:02d})"
                 ),
-                sep,
-                sep_bar,
-                widget.Volume(
+                widget.TextBox(
+                    text = '',
+                    background = colors[4],
                     foreground = colors[7],
-                    background = colors[0],
+                    padding = -1,
+                    fontsize = 30
+                ),
+                widget.Volume(
+                    foreground = colors[1],
+                    background = colors[7],
                     fontsize = 12,
                     fmt = 'Vol : {}',
-                    padding = 5,
+                    padding = 10,
                     emoji = False),
-                sep,
-                sep_bar,
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
-
+                widget.TextBox(
+                    text = '',
+                    background = colors[7],
+                    foreground = colors[6],
+                    padding = -1,
+                    fontsize = 30
+                ),
                 widget.Systray(),
                 widget.Clock(
                     fontsize = 12,
-                    foreground = colors[6],
-                    background = colors[0],
+                    foreground = colors[1],
+                    background = colors[6],
                     format = "%A, %B %d - %H:%M ",
-                    padding = 5
+                    padding = 10
                 ),
                 sep,
             ],
