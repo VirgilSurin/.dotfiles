@@ -124,17 +124,6 @@
 
   xsession.enable = true;
 
-  # systemd.user.services.emacs = {
-  #   Unit = {
-  #     After = [ "graphical-session-pre.target" ];
-  #     PartOf = [ "graphical-session.target" ];
-  #   };
-  #   Service = {
-  #     ExecStart = "${pkgs.emacs29}/bin/emacs --daemon";
-  #     ExecStop = "${pkgs.emacs29}/bin/emacsclient --eval \"(kill-emacs)\"";
-  #     Restart = "always";
-  #   };
-  # };
   programs.alacritty = {
     enable = true;
     settings = {
