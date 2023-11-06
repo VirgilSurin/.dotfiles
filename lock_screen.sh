@@ -4,10 +4,12 @@ BLANK='#00000000'
 CLEAR='#dfdfdf'
 DEFAULT='#dfdfdf'
 TEXT='#dfdfdf'
+TYPING='#51afef'
 WRONG='#ff6c6b'
 VERIFYING='#c678dd'
 # i3lock-color -i "$tmpbg" -eu -p "win" --wrong-text="Ah ah ah! You didn't say the magic word!"
 i3lock-color \
+--ignore-empty-password      \
 --insidever-color=$CLEAR     \
 --ringver-color=$VERIFYING   \
 \
@@ -24,7 +26,7 @@ i3lock-color \
 --time-color=$TEXT           \
 --date-color=$TEXT           \
 --layout-color=$TEXT         \
---keyhl-color=$WRONG         \
+--keyhl-color=$TYPING        \
 --bshl-color=$WRONG          \
 \
 --screen 1                   \
