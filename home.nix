@@ -13,6 +13,8 @@
     btop
     emacs29-gtk3
     librewolf
+    chromium                    # I need a chromium web browser sometimes
+    wally-cli
     gnome.gnome-tweaks
     gnome.gnome-software
     gnome-extension-manager
@@ -31,6 +33,9 @@
     powerline-fonts
 
     # linux utilities
+    gtk3
+    webkitgtk
+    libusb1
     ripgrep
     coreutils
     fd
@@ -72,10 +77,12 @@
     nodejs_20
     emacsPackages.lsp-pyright
 
+    pipx
     (python311.withPackages(ps: with ps; [ pandas
                                            numpy
                                            matplotlib
                                            networkx
+                                           requests
                                            # (
                                            #   buildPythonPackage rec {
                                            #     pname = "iwlib";
@@ -98,6 +105,8 @@
   programs.home-manager.enable = true;
 
   home.sessionPath = [
+    # DO NOT FORGET TO LOG OUT AND LOG IN
+   "$HOME/.local/pipx/venvs/pydoc-markdown/bin"
    "$HOME/.config/emacs/bin"
   ];
 
@@ -105,7 +114,6 @@
     EDITOR = "emacsclient -t -a ''";
     VISUAL = "emacsclient -c -a emacs";
     TERM = "xterm-256color";
-    FOO = "Hello";
   };
 
   services.picom = {
@@ -140,14 +148,17 @@
   };
 
   programs.powerline-go = {
-    enable = true;
+    enable = false;
     newline = true;
   };
 
-  programs.bash = {
+  programs.fish = {
     enable = true;
-
-
+    # settings = {
+    #   shell = {
+    #     program = "fish";
+    #   };
+    # };
     shellAliases = {
       hh="echo hello world";
       vi="nvim";
@@ -169,7 +180,35 @@
       grep="grep --color=auto";
 
       rr="curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash";
+    };
+  };
 
+  programs.bash = {
+    enable = false;
+    shellAliases = {
+
+      # man="emacsclient -c -a 'emacs' --eval '(man \'$1\')'";
+
+      hh="echo hello world";
+      vi="nvim";
+      vim="nvim";
+
+      python="python3.11";
+      python3="python3.11";
+
+      cfg="sudo nvim /etc/nixos/configuration.nix";
+      nrs="sudo nixos-rebuild switch";
+      hms="home-manager switch";
+
+      # Changing "ls" to "exa"
+      ls="exa -al --color=always --group-directories-first"; # my preferred listing
+      la="exa -a --color=always --group-directories-first";  # all files and dirs
+      ll="exa -l --color=always --group-directories-first";  # long format
+      lt="exa -aT --color=always --group-directories-first"; # tree listing
+
+      grep="grep --color=auto";
+
+      rr="curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash";
     };
 
     bashrcExtra = "
