@@ -251,7 +251,7 @@ screens = [
                 # ),
                 widget.Net(
                     interface = "wlp6s0",
-                    format = "Net:  {up} ↑↓ {down}",
+                    format = "Net:{up} ↑↓ {down}",
                     foreground = colors[1],
                     background = colors[3],
                     fontsize = 12,

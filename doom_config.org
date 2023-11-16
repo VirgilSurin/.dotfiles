@@ -97,6 +97,16 @@ When in insert mode I often need to just move my cursor one or two char away, I 
       "C-k" #'evil-previous-visual-line
 )
 #+end_src
+** Escaping evil
+Quickly type jk or kj to get back to normal mode ASAP
+#+begin_src emacs-lisp
+(setq evil-escape-unordered-key-sequence t)
+#+end_src
+** Undo the correct way
+I don't want evil to agregate all I do in insert mode and undo everything all at once !
+#+begin_src emacs-lisp
+(setq evil-want-fine-undo t)
+#+end_src
 * UI
 In this section goes my UI config (theme, fonts and so on)
 ** Theme
