@@ -20,9 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from libqtile import bar, layout, widget, qtile
+from libqtile import bar, layout, widget, qtile, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+from qtile_extras import widget
+from qtile_extras.widget.decorations import BorderDecoration
+import themes
+
 # from libqtile.utils import guess_terminal
 from os.path import expanduser
 
@@ -30,7 +34,7 @@ mod = "mod4"
 # terminal = guess_terminal()
 myBrowser = "librewolf"
 editor = "emacsclient -c -a 'alacritty vi' "
-# terminal = editor + "--eval (vterm)"
+# terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
 
 

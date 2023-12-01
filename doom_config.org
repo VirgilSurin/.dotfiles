@@ -112,7 +112,7 @@ In this section goes my UI config (theme, fonts and so on)
 ** Theme
 /my-nord/ is a custom theme, a variant of doom-nord and doom-nord-aurora.
 #+begin_src emacs-lisp
-(setq doom-theme 'my-nord)
+(setq doom-theme 'my-everforest)
 #+end_src
 Some doom config
 #+begin_src emacs-lisp
@@ -130,7 +130,7 @@ Some doom config
 (custom-set-faces!
   '(font-lock-comment-face :slant italic )
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'semibold)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'bold)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22))
 #+end_src
@@ -178,6 +178,10 @@ When I write, I like to have a distraction free env, centered buffer and so.
 #+begin_src emacs-lisp
 (map! :leader
       :desc "Ranger" "o -" #'ranger)
+#+end_src
+** Vterm
+#+begin_src emacs-lisp
+(setq vterm-shell "/run/current-system/sw/bin/fish")
 #+end_src
 * Programming
 Here is some default programming settings :
