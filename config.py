@@ -85,8 +85,10 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-
+    Key([mod], 'r', lazy.run_extension(extension.DmenuRun(
+        dmenu_prompt=">",
+        dmenu_font="Andika-8"
+    ))),
     # Sound
     Key([], "xF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset Master 5%-"), desc="Lower Volume by 5%"),
@@ -125,24 +127,13 @@ for i in groups:
         ]
     )
 
-colors = [["#282c34", "#282c34"], # 0
-          ["#1c1f24", "#1c1f24"], # 1
-          ["#dfdfdf", "#dfdfdf"], # 2
-          ["#ff6c6b", "#ff6c6b"], # 3
-          ["#98be65", "#98be65"], # 4
-          ["#da8548", "#da8548"], # 5
-          ["#51afef", "#51afef"], # 6
-          ["#c678dd", "#c678dd"], # 7
-          ["#46d9ff", "#46d9ff"], # 8
-          ["#a9a1e1", "#a9a1e1"], # 9
-          ["#759bc4", "#759bc4"], # 10
-          ["#ff4500", "#ff4500"]] # 11
+colors = themes.Everforest
 
 # LAYOUTS
 layout_theme = {"border_width": 4,
                 "margin": 16,
-                "border_focus": "#e1acff",
-                "border_normal": "#1D2330"
+                "border_focus": colors["magenta"],
+                "border_normal": colors["black"]
                 }
 
 layouts = [
@@ -165,17 +156,17 @@ layouts = [
 widget_defaults = dict(
     fontsize = 10,
     padding = 2,
-    background = colors[0],
-    foreground = colors[2]
+    background = colors["bg"],
+    foreground = colors["fg"]
 )
 sep = widget.Sep(linewidth = 0,
                  padding = 6,
-                 foreground = colors[2],
-                 background = colors[0])
+                 foreground = colors["fg"],
+                 background = colors["bg"])
 sep_bar = widget.TextBox(
                     text = '|',
-                    background = colors[0],
-                    foreground = '#474747',
+                    background = colors["bg"],
+                    foreground = colors["black"],
                     padding = 2,
                     fontsize = 26
                 )
@@ -187,29 +178,25 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             [
-                widget.Sep(linewidth = 0,
-                           padding = 6,
-                           foreground = colors[2],
-                           background = colors[0]),
                 widget.GroupBox(
                     padding_y = 5,
                     padding_x = 5,
                     borderwidht = 1,
-                    active = colors[2],
-                    inactive = colors[10],
+                    active = colors["orange"],
+                    inactive = colors["fg"],
                     rounded = True,
                     # highlight_method = "line",
-                    this_current_screen_border = colors[5],
-                    this_screen_border = colors[0],
-                    other_current_screen_border = colors[1],
-                    other_screen_border = colors[3],
-                    foreground = colors[2],
-                    background = colors[0]
+                    this_current_screen_border = colors["orange"],
+                    this_screen_border = colors["bg"],
+                    other_current_screen_border = colors["fg"],
+                    other_screen_border = colors["red"],
+                    foreground = colors["fg"],
+                    background = colors["bg"]
                 ),
                 widget.TextBox(
                     text = '',
-                    background = colors[0],
-                    foreground = colors[2],
+                    background = colors["bg"],
+                    foreground = colors["fg"],
                     padding = 5,
                     fontsize = 15
                 ),
@@ -221,31 +208,31 @@ screens = [
                 ), # TODO : center the window name
                 widget.Chord(
                     chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
+                        "launch": (colors["red"], colors["white"]),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.TextBox(
                     text = '',
-                    background = colors[0],
-                    foreground = colors[8],
+                    background = colors["bg"],
+                    foreground = colors["cyan"],
                     padding = -1,
                     fontsize = 30
                 ),
                 widget.CurrentLayout(
-                    foreground = colors[1],
-                    background = colors[8],
+                    foreground = colors["black"],
+                    background = colors["cyan"],
                     padding = 10,
                     fontsize = 12,
                 ),
                 widget.TextBox(
                     text = '',
-                    background = colors[8],
-                    foreground = colors[3],
+                    background = colors["cyan"],
+                    foreground = colors["red"],
                     padding = -1,
                     fontsize = 30
                 ),
-                                # widget.Wlan(
+                # widget.Wlan(
                 #     disconnected_message = "󰖪 Disconnected",
                 #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
                 #     foreground = colors[3],
@@ -256,65 +243,71 @@ screens = [
                 widget.Net(
                     interface = "wlp6s0",
                     format = "Net:{up} ↑↓ {down}",
-                    foreground = colors[1],
-                    background = colors[3],
+                    foreground = colors["black"],
+                    background = colors["red"],
                     fontsize = 12,
                     padding = 10
                 ),
+                # widget.WiFiIcon(
+                #     foreground = colors[1],
+                #     background = colors[3],
+                #     fontsize = 12,
+                #     padding = 10
+                # ),
                 widget.TextBox(
                     text = '',
-                    background = colors[3],
-                    foreground = colors[4],
+                    background = colors["red"],
+                    foreground = colors["green"],
                     padding = -1,
                     fontsize = 30
                 ),
+                widget.UPowerWidget(
+                    foreground = colors["black"],
+                    background = colors["green"],
+                    fontsize = 12
+                ),
                 widget.Battery(
-                    foreground = colors[1],
-                    background = colors[4],
+                    foreground = colors["black"],
+                    background = colors["green"],
                     padding = 10,
                     fontsize = 12,
-                    charge_char = "󰂄",
-                    discharge_char = "󱟤",
-                    full_char = "󱊣",
-                    empty_char = "󱊡",
-                    format = "{char} {percent:2.0%} ({hour:d}h{min:02d})"
+                    format = "{percent:2.0%} ({hour:d}h{min:02d})"
                 ),
                 widget.TextBox(
                     text = '',
-                    background = colors[4],
-                    foreground = colors[7],
+                    background = colors["green"],
+                    foreground = colors["magenta"],
                     padding = -1,
                     fontsize = 30
                 ),
                 widget.Volume(
-                    foreground = colors[1],
-                    background = colors[7],
+                    foreground = colors["black"],
+                    background = colors["magenta"],
                     fontsize = 12,
-                    fmt = 'Vol : {}',
+                    fmt = 'Volume : {}',
                     padding = 10,
                     emoji = False),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.TextBox(
                     text = '',
-                    background = colors[7],
-                    foreground = colors[6],
+                    background = colors["magenta"],
+                    foreground = colors["blue"],
                     padding = -1,
                     fontsize = 30
                 ),
                 widget.Systray(),
                 widget.Clock(
                     fontsize = 12,
-                    foreground = colors[1],
-                    background = colors[6],
+                    foreground = colors["black"],
+                    background = colors["blue"],
                     format = "%A, %B %d - %H:%M ",
                     padding = 10
                 ),
-                sep,
             ],
-            24,
-            border_width=[2, 2, 2, 2],  # Draw top and bottom borders
-            border_color=[colors[1][0]] * 4  # Borders are magenta
+            28,
+            border_width=[0, 0, 0, 0],  # Draw top and bottom borders
+            border_color=[colors["bg"]] * 4  # Borders are magenta
         ),
     ),
 ]
