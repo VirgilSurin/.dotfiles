@@ -130,10 +130,10 @@ for i in groups:
 colors = themes.Everforest
 
 # LAYOUTS
-layout_theme = {"border_width": 4,
-                "margin": 16,
+layout_theme = {"border_width": 5,
+                "margin": 10,
                 "border_focus": colors["magenta"],
-                "border_normal": colors["black"]
+                "border_normal": colors["bg"]
                 }
 
 layouts = [
@@ -174,7 +174,7 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        wallpaper="~/Pictures/ign_astronaut.png",
+        wallpaper="~/Pictures/evergreentrees2.jpg",
         wallpaper_mode="fill",
         top=bar.Bar(
             [
@@ -307,7 +307,9 @@ screens = [
             ],
             28,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
-            border_color=[colors["bg"]] * 4  # Borders are magenta
+            border_color=[colors["bg"]] * 4,  # Borders are magenta
+            margin = 4,
+            opacity = 0.90
         ),
     ),
 ]
