@@ -45,7 +45,7 @@ Some sane default config
 (setq display-line-numbers-type t)
 
 ;; visual line
-(visual-line-mode 1)
+(visual-line-mode)
 
 ;; y/n for  answering yes/no questions
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -112,7 +112,7 @@ In this section goes my UI config (theme, fonts and so on)
 ** Theme
 /my-nord/ is a custom theme, a variant of doom-nord and doom-nord-aurora.
 #+begin_src emacs-lisp
-(setq doom-theme 'my-everforest)
+(setq doom-theme 'everforest-hard-dark)
 #+end_src
 Some doom config
 #+begin_src emacs-lisp
@@ -128,12 +128,16 @@ Some doom config
 ** Fonts
 #+begin_src emacs-lisp
 (custom-set-faces!
-  '(font-lock-comment-face :slant italic )
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-function-name-face :slant italic)
+  ;; '(font-lock-keyword-face :bold)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'bold)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight  'semi-bold)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22))
+
 #+end_src
+
 ** Zen
 When I write, I like to have a distraction free env, centered buffer and so.
 #+begin_src emacs-lisp
@@ -178,6 +182,9 @@ When I write, I like to have a distraction free env, centered buffer and so.
 #+begin_src emacs-lisp
 (map! :leader
       :desc "Ranger" "o -" #'ranger)
+#+end_src
+#+begin_src emacs-lisp
+(setq ranger-show-hidden t)
 #+end_src
 ** Vterm
 #+begin_src emacs-lisp

@@ -23,6 +23,7 @@
     libreoffice
     jetbrains-mono
     emacs-all-the-icons-fonts
+    neofetch
     tree-sitter
     texlab
     signal-desktop
@@ -126,8 +127,8 @@
     fade = true;
     fadeDelta = 10;
     opacityRules = [
-      "80:class_g = 'URxvt'"
-      "80:class_g = 'Alacritty'"
+      "85:class_g = 'URxvt'"
+      "85:class_g = 'Alacritty'"
     ];
     settings = {
       blur = {
