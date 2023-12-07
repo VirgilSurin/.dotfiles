@@ -174,7 +174,7 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        wallpaper="~/Pictures/evergreentrees2.jpg",
+        wallpaper="~/.dotfiles/wallpapers/evergreentrees2.jpg",
         wallpaper_mode="fill",
         top=bar.Bar(
             [
