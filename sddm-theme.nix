@@ -1,5 +1,12 @@
 { pkgs, ... }:
 
+let
+  imgLink = "https://github.com/VirgilSurin/.dotfiles/blob/main/wallpapers/evergreen1.jpg";
+  image = pkgs.fetchurl {
+    url = imgLink;
+    sha256 = "sha256-i80qCIO9WTyczUEq/Z9vTlsRqi+J7dWbI9t8kTGbpw8=";
+  };
+in
 pkgs.stdenv.mkDerivation {
   name = "sddm-theme";
   src = pkgs.fetchFromGitHub {
@@ -11,6 +18,7 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out
     cp -R ./* $out/
-    cp -R ~/.dotfiles/wallpapers/evergreen1.jpg $out/Backgrounds/background.jpg
+    rm $out/Backgrounds/background.png
+    cp ${image} $out/Backgrounds/background.jpg
   '';
 }
