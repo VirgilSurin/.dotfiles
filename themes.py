@@ -27,6 +27,20 @@ Nord = {
     "purple": "#B48EAD"
 }
 
+Gruvbox = {
+    "bg":      "#282828",
+    "fg":      "#bbc2cf",
+    "black":   "#0d1011",
+    "white":   "#ebdbb2",
+    "red":     "#fb4934",
+    "green":   "#b8bb26",
+    "orange":  "#fe8019",
+    "blue":    "#83a598",
+    "magenta": "#d3869b",
+    "cyan":    "#8ec07c",
+    "purple":  "#d3869b"
+}
+
 One = {
     "bg":      "#282c34",
     "fg":      "#bbc2cf",

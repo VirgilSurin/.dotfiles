@@ -23,8 +23,8 @@
 from libqtile import bar, layout, widget, qtile, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-from qtile_extras import widget
-from qtile_extras.widget.decorations import BorderDecoration
+# from qtile_extras import widget
+# from qtile_extras.widget.decorations import BorderDecoration
 import themes
 
 # from libqtile.utils import guess_terminal
@@ -200,7 +200,6 @@ screens = [
                     padding = 5,
                     fontsize = 15
                 ),
-                widget.Prompt(),
                 widget.WindowName(
                     fontsize = 12,
                     padding = 5,
@@ -242,7 +241,7 @@ screens = [
                 # ),
                 widget.Net(
                     interface = "wlp6s0",
-                    format = "Net:{up} ↑↓ {down}",
+                    format = "Net: {up:3.0f}{up_suffix} ↑↓ {down:3.0f}{down_suffix}",
                     foreground = colors["black"],
                     background = colors["red"],
                     fontsize = 12,
@@ -261,11 +260,11 @@ screens = [
                     padding = -1,
                     fontsize = 30
                 ),
-                widget.UPowerWidget(
-                    foreground = colors["black"],
-                    background = colors["green"],
-                    fontsize = 12
-                ),
+                # widget.UPowerWidget(
+                #     foreground = colors["black"],
+                #     background = colors["green"],
+                #     fontsize = 12
+                # ),
                 widget.Battery(
                     foreground = colors["black"],
                     background = colors["green"],
@@ -296,7 +295,9 @@ screens = [
                     padding = -1,
                     fontsize = 30
                 ),
-                widget.Systray(),
+                widget.Systray(
+                    background = colors["blue"]
+                ),
                 widget.Clock(
                     fontsize = 12,
                     foreground = colors["black"],
@@ -309,7 +310,6 @@ screens = [
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
             margin = 4,
-            opacity = 0.90
         ),
     ),
 ]
