@@ -6,13 +6,14 @@
   home.homeDirectory = "/home/virgil";
 
   home.stateVersion = "23.05";
-  
+
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     alacritty
     btop
     emacs29-gtk3
     librewolf
+    discord
     chromium                    # I need a chromium web browser sometimes
     wally-cli
     gnome.gnome-tweaks
@@ -82,37 +83,19 @@
     nodejs_20
     emacsPackages.lsp-pyright
 
-    pipx
     (python311.withPackages(ps: with ps; [ pandas
                                            numpy
-                                           matplotlib
-                                           networkx
-                                           requests
-                                           pulsectl
-                                           # (
-                                           #   buildPythonPackage rec {
-                                           #     pname = "iwlib";
-                                           #     version = "1.7.0";
-                                           #     src = fetchPypi {
-                                           #       inherit pname version;
-                                           #       sha256 = "a805f6597a70ee3001aba8f039fb7b2dcb75dc15c4e7852f5594fd6379196da1";
-                                           #     };
-                                           #     doCheck = false;
-                                           #     propagatedBuildInputs = [
-                                           #       # Specify dependencies
-                                           #       pkgs.python311Packages.cffi
-                                           #     ];
-                                           #   }
-                                           # )
+                                           # needed for Qtile
+                                           pulsectl-asyncio
+                                           xcffib
+                                           cairocffi
                                          ]))
   ];
-
 
   programs.home-manager.enable = true;
 
   home.sessionPath = [
     # DO NOT FORGET TO LOG OUT AND LOG IN
-   "$HOME/.local/pipx/venvs/pydoc-markdown/bin"
    "$HOME/.config/emacs/bin"
   ];
 
@@ -129,7 +112,7 @@
     fadeDelta = 10;
     opacityRules = [
       "85:class_g = 'URxvt'"
-      "85:class_g = 'Alacritty'"
+      # "60:class_g = 'Alacritty'"
     ];
     settings = {
       blur = {
@@ -149,13 +132,16 @@
     settings = {
       font.size = 10;
       draw_bold_text_with_bright_colors = true;
+      window = {
+        opacity = 0.6;
+      };
       colors = {
          primary = {
-           background = "#333c43";
+           background = "#2b3339";
            foreground= "#d3c6aa";
          };
          normal = {
-           black  = "#191C25";
+           black  = "#9099AB";
            red    = "#e67e80";
            green  = "#a7c080";
            yellow = "#dbbc7f";
@@ -165,7 +151,7 @@
            white  = "#d3c6aa";
          };
          bright = {
-           black  = "#191C25";
+           black  = "#9099AB";
            red    = "#e67e80";
            green  = "#a7c080";
            yellow = "#dbbc7f";
@@ -194,10 +180,10 @@
       hms="home-manager switch";
 
       # Changing "ls" to "exa"
-      ls="exa -al --color=always --group-directories-first"; # my preferred listing
-      la="exa -a --color=always --group-directories-first";  # all files and dirs
-      ll="exa -l --color=always --group-directories-first";  # long format
-      lt="exa -aT --color=always --group-directories-first"; # tree listing
+      ls="exa -al --color=always --group-directories-first --icons"; # my preferred listing
+      la="exa -a --color=always --group-directories-first --icons";  # all files and dirs
+      ll="exa -l --color=always --group-directories-first --icons";  # long format
+      lt="exa -aT --color=always --group-directories-first --icons"; # tree listing
 
       grep="grep --color=auto";
 
