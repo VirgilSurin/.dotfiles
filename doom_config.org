@@ -130,11 +130,22 @@ Some doom config
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-function-name-face :slant italic)
-  ;; '(font-lock-keyword-face :bold)
+  '(font-lock-keyword-face :weight extra-bold)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight  'semi-bold)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'semi-bold)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22))
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'semi-bold))
+
+#+end_src
+** Cursor
+TODO : how to set this with a doom-theme ???
+#+begin_src emacs-lisp
+(setq evil-normal-state-cursor '("#c6d3ab" box)
+      evil-emacs-state-cursor '("#c6d3ab" bar)
+      evil-insert-state-cursor '("#c6d3ab" bar)
+      evil-visual-state-cursor '("#c6d3ab" hollow)
+      evil-replace-state-cursor '("#c6d3ab" hbar)
+      )
 
 #+end_src
 
@@ -254,6 +265,10 @@ For some reason, my nixos does not want to default to the python version I want.
 (setq python-shell-interpreter "python3.11")
 (setq org-babel-python-command "python3.11")
 (setq lsp-pyright-python-executable-cmd "python3.11")
+#+end_src
+Run the python-mode along side the treesit mode so lsp starts correctly.
+#+begin_src emacs-lisp
+(add-hook 'python-ts-mode-hook 'python-mode)
 #+end_src
 ** PDF
 #+begin_src emacs-lisp
