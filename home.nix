@@ -180,10 +180,10 @@
       hms="home-manager switch";
 
       # Changing "ls" to "exa"
-      ls="exa -al --color=always --group-directories-first --icons"; # my preferred listing
-      la="exa -a --color=always --group-directories-first --icons";  # all files and dirs
-      ll="exa -l --color=always --group-directories-first --icons";  # long format
-      lt="exa -aT --color=always --group-directories-first --icons"; # tree listing
+      ls="eza -al --color=always --group-directories-first --icons"; # my preferred listing
+      la="eza -a --color=always --group-directories-first --icons";  # all files and dirs
+      ll="eza -l --color=always --group-directories-first --icons";  # long format
+      lt="eza -aT --color=always --group-directories-first --icons"; # tree listing
 
       grep="grep --color=auto";
 
