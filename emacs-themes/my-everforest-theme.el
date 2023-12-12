@@ -86,7 +86,7 @@ determine the exact padding."
    (keywords       red)
    (methods        blue)
    (operators      yellow)
-   (type           green)
+   (type           greend)
    (strings        greend)
    (variables      blue)
    (numbers        magenta)
