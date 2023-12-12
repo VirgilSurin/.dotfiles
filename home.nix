@@ -48,7 +48,8 @@
     libvterm
     alsa-utils
     direnv
-    exa                       # the new ls !
+    nix-direnv
+    eza                       # the new ls !
     acpilight
     brightnessctl
     fd

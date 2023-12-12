@@ -196,6 +196,12 @@ Here is some default programming settings :
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'rainbow-mode)
 #+end_src
+** Direnv
+#+begin_src emacs-lisp
+(use-package! direnv
+  :config
+  (direnv-mode))
+#+end_src
 ** LSP
 Lsp is great !
 #+begin_src emacs-lisp

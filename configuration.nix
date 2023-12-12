@@ -83,12 +83,18 @@
     windowManager.qtile = {
       enable = true;
       package = pkgs.qtile;
-      extraPackages = python3Packages: with python3Packages; [
-        qtile-extras
-      ];
+      # extraPackages = python311Packages: with python311Packages; [
+      #   qtile-extras
+      # ];
     };
 
   };
+
+  # Lock
+  # programs.xss-lock = {
+  #   enable = true;
+  #   lockerCommand = "${pkgs.sddm}/bin/sddm";
+  # };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

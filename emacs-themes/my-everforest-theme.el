@@ -47,7 +47,7 @@ determine the exact padding."
   ;; name        default   256       16
   ((bg         '("#2b3339" nil       nil            ))
    (bg-alt     '("#323c41" nil       nil            ))
-   (base0      '("#191C25" "black"   "black"        ))
+   (base0      '("#434f55" "black"   "black"        ))
    (base1      '("#3a464c" "#3a464c" "brightblack"  ))
    (base2      '("#434f55" "#434f55" "brightblack"  ))
    (base3      '("#4d5960" "#4d5960" "brightblack"  ))
@@ -59,7 +59,7 @@ determine the exact padding."
    (fg         '("#d3c6aa" "#d3c6aa" "white"        ))
    (fg-alt     '("#c6d3ab" "#c6d3ab" "brightwhite"  ))
 
-   (grey       '("#323c41" "#323c42" "grey"         ))
+   (grey       '("#9099AB" "#9099AB" "grey"         ))
    (red        '("#e67e80" "#e67e80" "red"          )) ;; Nord11
    (orange     '("#e69875" "#e69875" "brightred"    )) ;; Nord12
    (green      '("#a7c080" "#a7c080" "green"        )) ;; Nord14
@@ -76,7 +76,7 @@ determine the exact padding."
 
    ;; face categories -- required for all themes
    (highlight      base5)
-   (vertical-bar   (doom-darken base1 0.2))
+   (vertical-bar   (doom-darken base4 0.2))
    (selection      blue)
    (builtin        cyan)
    (comments       base6)
@@ -197,7 +197,8 @@ determine the exact padding."
 
 
   ;; --- extra variables ---------------------
-  ()
+  (
+  )
   )
 
 ;;; doom-nord-aurora-theme.el ends here
