@@ -42,7 +42,7 @@
     fd
     clang
     polybar
-    dmenu
+    dmenu-rs
     gnumake
     cmake
     libtool
@@ -120,7 +120,7 @@
         size = 5;
         deviation = 5.0;
       };
-      corner-radius = 12.0;
+      corner-radius = 14.0;
       round-borders = 1;
     };
   };
