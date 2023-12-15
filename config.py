@@ -36,6 +36,7 @@ myBrowser = "librewolf"
 editor = "emacsclient -c -a 'alacritty vi' "
 # terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
+colors = themes.Everforest
 
 
 keys = [
@@ -87,7 +88,14 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], 'r', lazy.run_extension(extension.DmenuRun(
         dmenu_prompt=">",
-        dmenu_font="Andika-8"
+        dmenu_font="JetBrains Mono bold",
+        background = colors["bg"],
+        foreground = colors["blue"],
+        selected_background = colors["bg"],
+        selected_foreground = colors["red"],
+        height=24,
+        dmenu_lines = 10,
+        dmenu_ignorecase = True,
     ))),
     # Sound
     Key([], "xF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
@@ -127,7 +135,6 @@ for i in groups:
         ]
     )
 
-colors = themes.Everforest
 
 # LAYOUTS
 layout_theme = {"border_width": 5,
@@ -171,145 +178,169 @@ sep_bar = widget.TextBox(
                     fontsize = 26
                 )
 extension_defaults = widget_defaults.copy()
+widget_list = [
+    widget.GroupBox(
+        padding_y = 4,
+        padding_x = 4,
+        borderwidht = 1,
+        font = "JetBrains Mono SemiBold",
+        active = colors["orange"] + "FF",
+        inactive = colors["fg"] + "FF",
+        rounded = True,
+        # highlight_method = "line",
+                    this_current_screen_border = colors["orange"],
+        this_screen_border = colors["bg"],
+        other_current_screen_border = colors["fg"],
+        other_screen_border = colors["red"],
+        foreground = colors["fg"] + "FF",
+        background = [colors["bg"] + "A0"],
+    ),
+    widget.TextBox(
+        text = '  ',
+        background = colors["bg"] + "60",
+        foreground = colors["bg"] + "60",
+        padding = -7,
+        fontsize = 40
+    ),
+    widget.WindowTabs(
+        fontsize = 12,
+        padding = 5,
+        max_chars = 40,
+        font = "JetBrains Mono SemiBold",
+        foreground = colors["black"],
+        background = colors["bg"] + "60"
+    ),
+    widget.TextBox(
+        text = '',
+        # text = '',
+                    background = colors["bg"] + "60",
+        foreground = colors["cyan"],
+        padding = -1,
+        fontsize = 40
+    ),
+    widget.CurrentLayout(
+        foreground = colors["black"],
+        background = colors["cyan"],
+        font = "JetBrains Mono SemiBold",
+        padding = 10,
+        fontsize = 12,
+    ),
+    widget.TextBox(
+        # text = '',
+                    text = '',
+        background = colors["cyan"],
+        foreground = colors["red"],
+        padding = -1,
+        fontsize = 40
+    ),
+    # widget.Wlan(
+    #     disconnected_message = "󰖪 Disconnected",
+    #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
+    #     foreground = colors[3],
+    #     background = colors[0],
+    #     fontsize = 12,
+    #     padding = 5
+    # ),
+    widget.Net(
+        interface = "wlp6s0",
+        format = "  {up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
+        foreground = colors["black"],
+        background = colors["red"],
+        font = "JetBrains Mono SemiBold",
+        fontsize = 12,
+        padding = 10
+    ),
+    # widget.WiFiIcon(
+    #     foreground = colors[1],
+    #     background = colors[3],
+    #     fontsize = 12,
+    #     padding = 10
+    # ),
+    widget.TextBox(
+        # text = '',
+        text = '',
+        background = colors["red"],
+        foreground = colors["green"],
+        padding = -1,
+        fontsize = 40
+    ),
+    # widget.UPowerWidget(
+    #     foreground = colors["black"],
+    #     background = colors["green"],
+    #     fontsize = 12
+    # ),
+    widget.Battery(
+        foreground = colors["black"],
+        background = colors["green"],
+        padding = 10,
+        fontsize = 12,
+        font = "JetBrains Mono SemiBold",
+        format = "  {percent:2.0%} ({hour:d}h{min:02d})"
+    ),
+    widget.TextBox(
+        # text = '',
+        text = '',
+        background = colors["green"],
+        foreground = colors["magenta"],
+        padding = -1,
+        fontsize = 40
+    ),
+    widget.Volume(
+        foreground = colors["black"],
+        background = colors["magenta"],
+        fontsize = 16,
+        font = "JetBrains Mono SemiBold",
+        fmt = ' : {} ',
+        padding = 10,
+        emoji = False,
+        emoji_list = ['󰝟', '󰕿', '󰖀', '󰕾']
+        ),
+    # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+    # widget.StatusNotifier(),
+                widget.TextBox(
+                    # text = '',
+                    text = '',
+                    background = colors["magenta"],
+                    foreground = colors["blue"],
+                    padding = -1,
+                    fontsize = 40
+                ),
+    widget.Systray(
+        background = colors["blue"]
+    ),
+    widget.Clock(
+        fontsize = 12,
+        foreground = colors["black"],
+        background = colors["blue"],
+        font = "JetBrains Mono SemiBold",
+        format = "%A, %d %B - %H:%M ",
+        padding = 10
+    ),
+]
 
 screens = [
     Screen(
         wallpaper="~/.dotfiles/wallpapers/evergreentrees2.jpg",
         wallpaper_mode="fill",
         top=bar.Bar(
-            [
-                widget.GroupBox(
-                    padding_y = 5,
-                    padding_x = 5,
-                    borderwidht = 1,
-                    active = colors["orange"],
-                    inactive = colors["fg"],
-                    rounded = True,
-                    # highlight_method = "line",
-                    this_current_screen_border = colors["orange"],
-                    this_screen_border = colors["bg"],
-                    other_current_screen_border = colors["fg"],
-                    other_screen_border = colors["red"],
-                    foreground = colors["fg"],
-                    background = colors["bg"]
-                ),
-                widget.TextBox(
-                    text = '',
-                    background = colors["bg"],
-                    foreground = colors["fg"],
-                    padding = 5,
-                    fontsize = 15
-                ),
-                widget.WindowName(
-                    fontsize = 12,
-                    padding = 5,
-                    max_chars = 40
-                ), # TODO : center the window name
-                widget.Chord(
-                    chords_colors={
-                        "launch": (colors["red"], colors["white"]),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.TextBox(
-                    text = '',
-                    background = colors["bg"],
-                    foreground = colors["cyan"],
-                    padding = -1,
-                    fontsize = 30
-                ),
-                widget.CurrentLayout(
-                    foreground = colors["black"],
-                    background = colors["cyan"],
-                    padding = 10,
-                    fontsize = 12,
-                ),
-                widget.TextBox(
-                    text = '',
-                    background = colors["cyan"],
-                    foreground = colors["red"],
-                    padding = -1,
-                    fontsize = 30
-                ),
-                # widget.Wlan(
-                #     disconnected_message = "󰖪 Disconnected",
-                #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
-                #     foreground = colors[3],
-                #     background = colors[0],
-                #     fontsize = 12,
-                #     padding = 5
-                # ),
-                widget.Net(
-                    interface = "wlp6s0",
-                    format = "Net: {up:3.0f}{up_suffix} ↑↓ {down:3.0f}{down_suffix}",
-                    foreground = colors["black"],
-                    background = colors["red"],
-                    fontsize = 12,
-                    padding = 10
-                ),
-                # widget.WiFiIcon(
-                #     foreground = colors[1],
-                #     background = colors[3],
-                #     fontsize = 12,
-                #     padding = 10
-                # ),
-                widget.TextBox(
-                    text = '',
-                    background = colors["red"],
-                    foreground = colors["green"],
-                    padding = -1,
-                    fontsize = 30
-                ),
-                # widget.UPowerWidget(
-                #     foreground = colors["black"],
-                #     background = colors["green"],
-                #     fontsize = 12
-                # ),
-                widget.Battery(
-                    foreground = colors["black"],
-                    background = colors["green"],
-                    padding = 10,
-                    fontsize = 12,
-                    format = "{percent:2.0%} ({hour:d}h{min:02d})"
-                ),
-                widget.TextBox(
-                    text = '',
-                    background = colors["green"],
-                    foreground = colors["magenta"],
-                    padding = -1,
-                    fontsize = 30
-                ),
-                widget.Volume(
-                    foreground = colors["black"],
-                    background = colors["magenta"],
-                    fontsize = 12,
-                    fmt = 'Volume : {}',
-                    padding = 10,
-                    emoji = False),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.TextBox(
-                    text = '',
-                    background = colors["magenta"],
-                    foreground = colors["blue"],
-                    padding = -1,
-                    fontsize = 30
-                ),
-                widget.Systray(
-                    background = colors["blue"]
-                ),
-                widget.Clock(
-                    fontsize = 12,
-                    foreground = colors["black"],
-                    background = colors["blue"],
-                    format = "%A, %B %d - %H:%M ",
-                    padding = 10
-                ),
-            ],
+            widget_list,
             28,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
             margin = 4,
+            background = colors["red"] + "AA"
+        ),
+    ),
+    Screen(
+        wallpaper="~/.dotfiles/wallpapers/evergreentrees2.jpg",
+        wallpaper_mode="fill",
+        top=bar.Bar(
+            widget_list,
+            28,
+            border_width=[0, 0, 0, 0],  # Draw top and bottom borders
+            border_color=[colors["bg"]] * 4,  # Borders are magenta
+            margin = 4,
+            background = colors["red"] + "AA"
         ),
     ),
 ]
