@@ -1,5 +1,14 @@
 #!/usr/bin/env sh
 
+
+# Emacs config
+rm -f ~/.config/doom/init.el
+rm -f ~/.config/doom/packages.el
+rm -f ~/.config/doom/config.el
+ln -f ./config.el ~/.config/doom/config.el
+ln -f ./init.el ~/.config/doom/init.el
+ln -f ./packages.el ~/.config/doom/packages.el
+
 # Emacs themes
 rm -f ~/.config/doom/themes/*
 ln -f ./emacs-themes/* ~/.config/doom/themes/
