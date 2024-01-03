@@ -16,9 +16,6 @@
     discord
     chromium                    # I need a chromium web browser sometimes
     wally-cli
-    gnome.gnome-tweaks
-    gnome.gnome-software
-    gnome-extension-manager
     bitwarden
     mullvad-vpn
     libreoffice
@@ -41,8 +38,7 @@
     coreutils
     fd
     clang
-    polybar
-    dmenu-rs
+    dmenu
     gnumake
     cmake
     libtool
@@ -68,6 +64,7 @@
     xorg.xprop
     xorg.xwininfo
     glxinfo
+    arandr
 
     # Arduino
     arduino
