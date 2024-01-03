@@ -26,6 +26,7 @@ from libqtile.lazy import lazy
 # from qtile_extras import widget
 # from qtile_extras.widget.decorations import BorderDecoration
 import themes
+import copy
 
 # from libqtile.utils import guess_terminal
 from os.path import expanduser
@@ -42,24 +43,28 @@ colors = themes.Everforest
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
+    # WINDOW MANAGEMENT
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+
+    # Move between screens
+    Key([mod], "n", lazy.next_screen()),
+
+    # Move windows between left/right columns or move up/down in current stack.
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    # Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    # Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    # Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "control"], "k", lazy.layout.grow(), desc="Grow"),
+    Key([mod, "control"], "j", lazy.layout.shrink(), desc="Shrink"),
+    Key([mod, "control"], "n", lazy.layout.normalize()),
+    Key([mod, "control"], "Return", lazy.maximize(), desc="Maximize window"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -87,15 +92,6 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], 'r', lazy.run_extension(extension.DmenuRun(
-        dmenu_prompt=">",
-        dmenu_font="JetBrains Mono bold",
-        background = colors["bg"],
-        foreground = colors["blue"],
-        selected_background = colors["bg"],
-        selected_foreground = colors["red"],
-        height=24,
-        dmenu_lines = 10,
-        dmenu_ignorecase = True,
     ))),
     # Sound
     Key([], "xF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
@@ -188,7 +184,7 @@ widget_list = [
         inactive = colors["fg"] + "FF",
         rounded = True,
         # highlight_method = "line",
-                    this_current_screen_border = colors["orange"],
+        this_current_screen_border = colors["orange"],
         this_screen_border = colors["bg"],
         other_current_screen_border = colors["fg"],
         other_screen_border = colors["red"],
@@ -213,7 +209,7 @@ widget_list = [
     widget.TextBox(
         text = '',
         # text = '',
-                    background = colors["bg"] + "60",
+        background = colors["bg"] + "60",
         foreground = colors["cyan"],
         padding = -1,
         fontsize = 40
@@ -227,7 +223,7 @@ widget_list = [
     ),
     widget.TextBox(
         # text = '',
-                    text = '',
+        text = '',
         background = colors["cyan"],
         foreground = colors["red"],
         padding = -1,
@@ -297,16 +293,152 @@ widget_list = [
         ),
     # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
     # widget.StatusNotifier(),
-                widget.TextBox(
-                    # text = '',
-                    text = '',
-                    background = colors["magenta"],
-                    foreground = colors["blue"],
-                    padding = -1,
-                    fontsize = 40
-                ),
+    widget.TextBox(
+        # text = '',
+        text = '',
+        background = colors["magenta"],
+        foreground = colors["blue"],
+        padding = -1,
+        fontsize = 40
+    ),
     widget.Systray(
         background = colors["blue"]
+    ),
+    widget.Clock(
+        fontsize = 12,
+        foreground = colors["black"],
+        background = colors["blue"],
+        font = "JetBrains Mono SemiBold",
+        format = "%A, %d %B - %H:%M ",
+        padding = 10
+    ),
+]
+widget_list_second = [
+    widget.GroupBox(
+        padding_y = 4,
+        padding_x = 4,
+        borderwidht = 1,
+        font = "JetBrains Mono SemiBold",
+        active = colors["orange"] + "FF",
+        inactive = colors["fg"] + "FF",
+        rounded = True,
+        # highlight_method = "line",
+        this_current_screen_border = colors["orange"],
+        this_screen_border = colors["bg"],
+        other_current_screen_border = colors["fg"],
+        other_screen_border = colors["red"],
+        foreground = colors["fg"] + "FF",
+        background = [colors["bg"] + "A0"],
+    ),
+    widget.TextBox(
+        text = '  ',
+        background = colors["bg"] + "60",
+        foreground = colors["bg"] + "60",
+        padding = -7,
+        fontsize = 40
+    ),
+    widget.WindowTabs(
+        fontsize = 12,
+        padding = 5,
+        max_chars = 40,
+        font = "JetBrains Mono SemiBold",
+        foreground = colors["black"],
+        background = colors["bg"] + "60"
+    ),
+    widget.TextBox(
+        text = '',
+        # text = '',
+        background = colors["bg"] + "60",
+        foreground = colors["cyan"],
+        padding = -1,
+        fontsize = 40
+    ),
+    widget.CurrentLayout(
+        foreground = colors["black"],
+        background = colors["cyan"],
+        font = "JetBrains Mono SemiBold",
+        padding = 10,
+        fontsize = 12,
+    ),
+    widget.TextBox(
+        # text = '',
+        text = '',
+        background = colors["cyan"],
+        foreground = colors["red"],
+        padding = -1,
+        fontsize = 40
+    ),
+    # widget.Wlan(
+    #     disconnected_message = "󰖪 Disconnected",
+    #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
+    #     foreground = colors[3],
+    #     background = colors[0],
+    #     fontsize = 12,
+    #     padding = 5
+    # ),
+    widget.Net(
+        interface = "wlp6s0",
+        format = "  {up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
+        foreground = colors["black"],
+        background = colors["red"],
+        font = "JetBrains Mono SemiBold",
+        fontsize = 12,
+        padding = 10
+    ),
+    # widget.WiFiIcon(
+    #     foreground = colors[1],
+    #     background = colors[3],
+    #     fontsize = 12,
+    #     padding = 10
+    # ),
+    widget.TextBox(
+        # text = '',
+        text = '',
+        background = colors["red"],
+        foreground = colors["green"],
+        padding = -1,
+        fontsize = 40
+    ),
+    # widget.UPowerWidget(
+    #     foreground = colors["black"],
+    #     background = colors["green"],
+    #     fontsize = 12
+    # ),
+    widget.Battery(
+        foreground = colors["black"],
+        background = colors["green"],
+        padding = 10,
+        fontsize = 12,
+        font = "JetBrains Mono SemiBold",
+        format = "  {percent:2.0%} ({hour:d}h{min:02d})"
+    ),
+    widget.TextBox(
+        # text = '',
+        text = '',
+        background = colors["green"],
+        foreground = colors["magenta"],
+        padding = -1,
+        fontsize = 40
+    ),
+    widget.Volume(
+        foreground = colors["black"],
+        background = colors["magenta"],
+        fontsize = 16,
+        font = "JetBrains Mono SemiBold",
+        fmt = ' : {} ',
+        padding = 10,
+        emoji = False,
+        emoji_list = ['󰝟', '󰕿', '󰖀', '󰕾']
+        ),
+    # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+    # widget.StatusNotifier(),
+    widget.TextBox(
+        # text = '',
+                    text = '',
+        background = colors["magenta"],
+        foreground = colors["blue"],
+        padding = -1,
+        fontsize = 40
     ),
     widget.Clock(
         fontsize = 12,
@@ -335,7 +467,7 @@ screens = [
         wallpaper="~/.dotfiles/wallpapers/evergreentrees2.jpg",
         wallpaper_mode="fill",
         top=bar.Bar(
-            widget_list,
+            widget_list_second,
             28,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
