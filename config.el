@@ -84,6 +84,12 @@
 ;;┃    Keybindings    ┃
 ;;┗━━━━━━━━━━━━━━━━━━━┛
 
+;; I don't use them but I input them a lot by mistake so let's unbind
+(global-unset-key (kbd "M-c"))
+(map! :nm
+      "L" #'nil
+      )
+
 ;; Unify moving between buffer and window (Qtile)
 (map! :map 'override
       "M-h" #'evil-window-left
@@ -148,6 +154,9 @@
       evil-visual-state-cursor '("#c6d3ab" hollow)
       evil-replace-state-cursor '("#c6d3ab" hbar)
       )
+
+;; -<< Smooth scrolling >>-
+(setq scroll-conservatively 101)
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
@@ -249,18 +258,21 @@
 ;;┏━━━━━━━━━━━━━┓
 ;;┃    LaTeX    ┃
 ;;┗━━━━━━━━━━━━━┛
-(setq +latex-viewers '(pdf-tools evince zathura okular skim sumatrapdf))
+(setq +latex-viewers '(pdf-tools evince))
+(setq lsp-tex-server 'texlab)
+(setq lsp-ltex-mother-tongue "fr")
 
 (after! tex
   (map!
    :map LaTeX-mode-map
-   :ei [C-return] #'LaTeX-insert-item)
+   :ei [C-return] #'LaTeX-insert-item
+   :map cdlatex-mode-map
+   :i "TAB" #'cdlatex-tab
+   )
   (setq TeX-electric-math '("\\(" . "")))
 
 (when EMACS28+
   (add-hook 'latex-mode-hook #'TeX-latex-mode))
-
-(setq lsp-ltex-mother-tongue "fr")
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━┓
@@ -314,7 +326,13 @@
   )
 
 ;; -<< Org-modern >>-
-;; (with-eval-after-load 'org (global-org-modern-mode))
+(after! org-modern
+  :config
+  (setq org-modern-todo nil ; I disable this because they look bad with transparency
+        org-modern-tag nil
+        )
+  )
+(with-eval-after-load 'org (global-org-modern-mode))
 
 ;; -<< Org-capture >>-
 (defun gkh/project-current-name ()
@@ -326,7 +344,7 @@
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-         "* TODO %?\n%a")
+         "* TODO %?\n")
         ("p" "Project todo" entry (file+headline "~/org/todo.org" "Projects")
          "* TODO %? :%(gkh/project-current-name):\n%a")
         ("b" "Bugs" entry (file+headline "~/org/todo.org" "Bugs")
@@ -348,7 +366,11 @@
 (setq org-agenda-skip-scheduled-if-done 1
       org-agenda-skip-deadline-if-done 1
       org-agenda-include-deadlines 1
-      org-agenda-tags-column 60 ;; from testing this seems to be a good value
+      org-agenda-tags-column 80 ;; from testing this seems to be a good value
+      org-agenda-sorting-strategy '((agenda habit-down time-up urgency-down category-keep)
+                                   (todo tag-up category-keep)
+                                   (tags tag-up category-keep)
+                                   (search tag-up category-keep))
       )
 
 (setq org-agenda-custom-commands

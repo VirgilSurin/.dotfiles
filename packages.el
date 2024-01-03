@@ -54,6 +54,9 @@
 (package! atom-one-dark-theme)
 (package! gruvbox-theme)
 
+(package! smooth-scrolling)
+;; (package! smooth-scroll)
+
 (package! ivy-posframe)
 (package! all-the-icons-ivy)
 (package! all-the-icons-dired)
