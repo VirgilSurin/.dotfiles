@@ -14,6 +14,9 @@
     emacs29-gtk3
     librewolf
     discord
+    element-desktop
+    cinny-desktop
+    rofi
     chromium                    # I need a chromium web browser sometimes
     wally-cli
     bitwarden
@@ -25,12 +28,11 @@
     tree-sitter
     texlab
     signal-desktop
+    spotify
     vlc
     ranger
-    powerline-go
-    powerline-symbols
-    powerline-fonts
     # linux utilities
+    shutter
     gtk3
     webkitgtk
     libusb1
@@ -115,7 +117,7 @@
       blur = {
         method = "gaussian";
         size = 5;
-        deviation = 5.0;
+        deviation = 9.0;
       };
       corner-radius = 14.0;
       round-borders = 1;

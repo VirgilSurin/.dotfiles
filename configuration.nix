@@ -142,6 +142,8 @@
     tod.driver = pkgs.libfprint-2-tod1-vfs0090;
   };
 
+  programs.steam.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;

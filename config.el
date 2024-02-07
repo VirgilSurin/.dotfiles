@@ -20,9 +20,9 @@
 ;;; Code:
 
 ;; tag
-;;┏━━━━━━━━━━━━━━━━━━━━━━━━┓
-;;┃    Default settings    ┃
-;;┗━━━━━━━━━━━━━━━━━━━━━━━━┛
+;;  ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
+;;; ┃    Default settings    ┃
+;;  ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 ;; -<< Directory variables >>-
 
@@ -30,7 +30,7 @@
 (defvar dotfiles "~/.dotfiles/")
 (setq org-agenda-files '("~/org/agenda.org" "~/org/todo.org"))
 
-;; -<< Personnal information >>-
+;;; -<< Personnal information >>-
 
 (setq user-full-name "Virgil Surin"
       user-mail-address "virgl.surin@student.umons.ac.be")
@@ -64,13 +64,13 @@
 (defun browse-org-files ()
   "browse my org files"
   (interactive)
-  (counsel-find-file org-directory)
+  (find-file org-directory)
   )
 
 (defun edit-private-config ()
   "Edit personnal config files"
   (interactive)
-  (counsel-find-file dotfiles)
+  (find-file dotfiles)
   )
 
 ;; map them
@@ -162,16 +162,31 @@
 ;;┏━━━━━━━━━━━┓
 ;;┃    Ivy    ┃
 ;;┗━━━━━━━━━━━┛
-(after! ivy
+;; (after! ivy
+;;   :config
+;;         (setq swiper-use-visual-line nil)
+;;         (setq ivy-height 15)
+;;         (setq ivy-count-format "")
+;;         (setq ivy-initial-inputs-alist nil)
+;;         (setq ivy-use-virtual-buffers 1)
+;;         (setq enable-recursive-minibuffers 1)
+;;   )
+;; (map! "C-s"  'swiper)
+
+;; tag
+;;┏━━━━━━━━━━━━━━━┓
+;;┃    Consult    ┃
+;;┗━━━━━━━━━━━━━━━┛
+
+(after! consult
   :config
-        (setq swiper-use-visual-line nil)
-        (setq ivy-height 15)
-        (setq ivy-count-format "")
-        (setq ivy-initial-inputs-alist nil)
-        (setq ivy-use-virtual-buffers 1)
-        (setq enable-recursive-minibuffers 1)
-  )
-(map! "C-s"  'swiper)
+  (consult-customize
+   consult-buffer
+   :preview-key 'nil))
+
+(advice-add 'consult-line :after #'recenter-top-bottom)
+
+(map! :nm "M-y" #'consult-yank-pop)
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
@@ -197,13 +212,23 @@
   )
 
 ;; tag
-;;┏━━━━━━━━━━━━━━┓
-;;┃    Ranger    ┃
-;;┗━━━━━━━━━━━━━━┛
-;; The better Dired !
+;;┏━━━━━━━━━━━━━┓
+;;┃    Dired    ┃
+;;┗━━━━━━━━━━━━━┛
+;; Ranger !
+;; (map! :leader
+;;       :desc "Ranger" "o -" #'ranger)
+;; (setq ranger-show-hidden t)
 (map! :leader
-      :desc "Ranger" "o -" #'ranger)
-(setq ranger-show-hidden t)
+      :desc "Dired" "d" nil
+      (
+       :prefix "d"
+       :desc "Open dired"                 "d" #'dired
+       :desc "Writable dired"             "w" #'wdired-change-to-wdired-mode
+       :desc "Writable dired finish edit" "f" #'wdired-finish-edit
+       :desc "Jump to current"            "j" #'dired-jump
+       )
+      )
 
 ;; tag
 ;;┏━━━━━━━━━━━━━┓
@@ -342,14 +367,16 @@
   (project-root (project-current t))))
 
 
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-         "* TODO %?\n")
-        ("p" "Project todo" entry (file+headline "~/org/todo.org" "Projects")
-         "* TODO %? :%(gkh/project-current-name):\n%a")
-        ("b" "Bugs" entry (file+headline "~/org/todo.org" "Bugs")
-         "* BUG %? :%(gkh/project-current-name):\n%a")
-        ))
+(after! org
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+           "* TODO %?\n")
+          ("p" "Project todo" entry (file+headline "~/org/todo.org" "Projects")
+           "* TODO %? :%(gkh/project-current-name):\n%a")
+          ("b" "Bugs" entry (file+headline "~/org/todo.org" "Bugs")
+           "* BUG %? :%(gkh/project-current-name):\n%a")
+          ))
+  )
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━━━┓
