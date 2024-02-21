@@ -33,7 +33,7 @@ from os.path import expanduser
 
 mod = "mod4"
 # terminal = guess_terminal()
-myBrowser = "librewolf"
+myBrowser = "chromium"
 editor = "emacsclient -c -a 'alacritty vi' "
 # terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
@@ -77,7 +77,7 @@ keys = [
     ),
 
     # lock
-    Key([mod, "control", "shift"], "l", lazy.spawn(expanduser("~/.dotfiles/lock_screen.sh"), shell=True), desc="Lock the screen"),
+    Key([mod, "control", "shift"], "l", lazy.spawn(expanduser("~/.dotfiles/scripts/lock_screen.sh"), shell=True), desc="Lock the screen"),
 
 
     # app shortcut
@@ -85,6 +85,7 @@ keys = [
     Key([mod], "b", lazy.spawn(myBrowser), desc="Launch my web browser"),
     Key([mod], "e", lazy.spawn(editor), desc="Launch my editor"),
     Key([mod], "v", lazy.spawn("ranger", shell=True), desc="Open file manager"),
+    Key([mod, "control"], "s", lazy.spawn("flameshot gui", shell=True), desc="Screenshot"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -104,31 +105,45 @@ keys = [
 ]
 
 
-groups = [Group(i) for i in "asdfuiop"]
+groups = [
+    Group("DEV"),
+    Group("WWW"),
+    Group("DOC"),
+    Group("CHAT"),
+    Group("MUS"),
+    Group("SYS")
+]
 
-for i in groups:
-    keys.extend(
-        [
-            # mod1 + letter of group = switch to group
-            Key(
-                [mod],
-                i.name,
-                lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name),
-            ),
-            # mod1 + shift + letter of group = switch to & move focused window to group
-            Key(
-                [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name, switch_group=True),
-                desc="Switch to & move focused window to group {}".format(i.name),
-            ),
-            # Or, use below if you prefer not to switch to that group.
-            # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
-        ]
-    )
+group_keys = ["a", "s", "d", "f", "u", "i", "o", "p"]
+for i in range(len(groups)):
+    group_key = group_keys[i]
+    group_name = groups[i].name
+    keys.append(Key([mod], group_key, lazy.group[group_name].toscreen()))
+    keys.append(Key([mod, "control"], group_key, lazy.window.togroup(group_name, switch_group = False)))
+    keys.append(Key([mod, "shift"], group_key, lazy.window.togroup(group_name, switch_group = True)))
+# for i in groups:
+#     keys.extend(
+#         [
+#             # mod1 + letter of group = switch to group
+#             Key(
+#                 [mod],
+#                 i.name,
+#                 lazy.group[i.name].toscreen(),
+#                 desc="Switch to group {}".format(i.name),
+#             ),
+#             # mod1 + shift + letter of group = switch to & move focused window to group
+#             Key(
+#                 [mod, "shift"],
+#                 i.name,
+#                 lazy.window.togroup(i.name, switch_group=True),
+#                 desc="Switch to & move focused window to group {}".format(i.name),
+#             ),
+#             # Or, use below if you prefer not to switch to that group.
+#             # # mod1 + shift + letter of group = move focused window to group
+#             # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+#             #     desc="move focused window to group {}".format(i.name)),
+#         ]
+#     )
 
 
 # LAYOUTS
@@ -174,19 +189,22 @@ sep_bar = widget.TextBox(
                 )
 extension_defaults = widget_defaults.copy()
 widget_list = [
+    sep,
     widget.GroupBox(
+        fontsize = 11,
         padding_y = 4,
         padding_x = 4,
         borderwidht = 1,
         font = "JetBrains Mono SemiBold",
-        active = colors["orange"] + "FF",
+        active = colors["green"] + "FF",
         inactive = colors["fg"] + "FF",
         rounded = True,
-        # highlight_method = "line",
-        this_current_screen_border = colors["orange"],
-        this_screen_border = colors["bg"],
-        other_current_screen_border = colors["fg"],
+        highlight_method = "line",
+        this_current_screen_border = colors["green"],
         other_screen_border = colors["red"],
+
+        this_screen_border = colors["fg"],
+        other_current_screen_border = colors["bg"],
         foreground = colors["fg"] + "FF",
         background = [colors["bg"] + "A0"],
     ),
@@ -449,9 +467,14 @@ widget_list_second = [
     ),
 ]
 
+# wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
+# wall = "~/.dotfiles/wallpapers/mountain-and-river-wallpapers.jpg"
+# wall = "~/.dotfiles/wallpapers/mountains-and-river-4k-wallpapers.jpg"
+# wall = "~/.dotfiles/wallpapers/nature4.jpg"
+wall = "~/.dotfiles/wallpapers/evergreentrees2.jpg"
 screens = [
     Screen(
-        wallpaper="~/.dotfiles/wallpapers/evergreentrees2.jpg",
+        wallpaper=wall,
         wallpaper_mode="fill",
         top=bar.Bar(
             widget_list,

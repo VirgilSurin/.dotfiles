@@ -67,6 +67,7 @@
     xorg.xwininfo
     glxinfo
     arandr
+    flameshot
 
     # Arduino
     arduino
@@ -81,21 +82,27 @@
     jdk19_headless
     nodejs_20
     emacsPackages.lsp-pyright
+    rustc
+    cargo
+    rust-analyzer
 
-    (python311.withPackages(ps: with ps; [ pandas
-                                           numpy
-                                           # needed for Qtile
-                                           pulsectl-asyncio
-                                           xcffib
-                                           cairocffi
-                                         ]))
+    # (python311.withPackages(ps: with ps; [ pandas
+    #                                        numpy
+    #                                        # needed for Qtile
+    #                                        qtile
+    #                                        qtile-extras
+    #                                        pulsectl-asyncio
+    #                                        xcffib
+    #                                        cairocffi
+    #                                      ]))
   ];
 
   programs.home-manager.enable = true;
 
   home.sessionPath = [
-    # DO NOT FORGET TO LOG OUT AND LOG IN
+    # DO NOT FORGET TO SOURCE bashrc/config.fish
    "$HOME/.config/emacs/bin"
+   "$HOME/.dotfiles/scripts"
   ];
 
   home.sessionVariables = {
@@ -130,7 +137,7 @@
     enable = true;
     settings = {
       font.size = 10;
-      draw_bold_text_with_bright_colors = true;
+      colors.draw_bold_text_with_bright_colors = true;
       window = {
         opacity = 0.6;
       };

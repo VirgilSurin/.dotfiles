@@ -4,7 +4,7 @@ let
   imgLink = "https://github.com/VirgilSurin/.dotfiles/blob/main/wallpapers/evergreen1.jpg";
   image = pkgs.fetchurl {
     url = imgLink;
-    sha256 = "sha256-i80qCIO9WTyczUEq/Z9vTlsRqi+J7dWbI9t8kTGbpw8=";
+    sha256 = "sha256-csxAs16udSU0GmeD+l6kwey8bOSDc9i/cVEUBP43Su8=";
   };
 in
 pkgs.stdenv.mkDerivation {

@@ -56,6 +56,14 @@
 
 (display-battery-mode 1)
 
+;; I want every buffer to open with writeroom mode because it is simply better
+(after! writeroom
+  :init
+  (add-hook 'global-treesit-auto-mode-hook 'writeroom-mode)
+  (add-hook 'org-mode-hook 'writeroom-mode)
+  )
+
+
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 ;;┃    Custom functions    ┃
@@ -141,9 +149,9 @@
   '(font-lock-function-name-face :slant italic)
   '(font-lock-keyword-face :weight extra-bold)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'semi-bold)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'bold)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'semi-bold))
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'bold))
 
 ;; -<< Cursor >>-
 
@@ -157,6 +165,13 @@
 
 ;; -<< Smooth scrolling >>-
 (setq scroll-conservatively 101)
+
+;;; -<< Treemacs >>-
+(after! treemacs
+  :config
+  (setf treemacs-position 'right))
+
+
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
@@ -192,15 +207,15 @@
 ;;┏━━━━━━━━━━━┓
 ;;┃    Avy    ┃
 ;;┗━━━━━━━━━━━┛
-;; TODO: install Avy
-;; (map! :nm
-;;       :leader
-;;       "l" #'evil-avy-goto-line
-;;       :nm
-;;       "k" #'evil-avy-goto-word-1
-;;       :nm
-;;       "j" #'evil-avy-goto-char
-;;       )
+
+(map! :map 'evil-snipe-local-mode-map
+      :nm
+      "s" #'evil-avy-goto-word-1
+      :nm
+      "f" #'evil-avy-goto-char
+      :nm
+      "S" #'evil-avy-goto-line
+      )
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━━┓
