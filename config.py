@@ -179,7 +179,7 @@ widget_defaults = dict(
 sep = widget.Sep(linewidth = 0,
                  padding = 6,
                  foreground = colors["fg"],
-                 background = colors["bg"])
+                 background = colors["bg"] + "A0")
 sep_bar = widget.TextBox(
                     text = '|',
                     background = colors["bg"],
@@ -200,6 +200,7 @@ widget_list = [
         inactive = colors["fg"] + "FF",
         rounded = True,
         highlight_method = "line",
+        highlight_color = [colors["bg"] + "00", colors["bg"] + "00"], # if using "line" as  highlight method
         this_current_screen_border = colors["green"],
         other_screen_border = colors["red"],
 
@@ -331,19 +332,22 @@ widget_list = [
     ),
 ]
 widget_list_second = [
+    sep,
     widget.GroupBox(
+        fontsize = 11,
         padding_y = 4,
         padding_x = 4,
         borderwidht = 1,
         font = "JetBrains Mono SemiBold",
-        active = colors["orange"] + "FF",
+        active = colors["green"] + "FF",
         inactive = colors["fg"] + "FF",
         rounded = True,
-        # highlight_method = "line",
-        this_current_screen_border = colors["orange"],
-        this_screen_border = colors["bg"],
-        other_current_screen_border = colors["fg"],
-        other_screen_border = colors["red"],
+        highlight_method = "line",
+        this_current_screen_border = colors["green"],
+        other_screen_border = colors["blue"],
+
+        this_screen_border = colors["fg"],
+        other_current_screen_border = colors["bg"],
         foreground = colors["fg"] + "FF",
         background = [colors["bg"] + "A0"],
     ),
