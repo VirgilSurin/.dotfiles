@@ -72,13 +72,13 @@
 (defun browse-org-files ()
   "browse my org files"
   (interactive)
-  (find-file org-directory)
+  (+vertico/find-file-in org-directory)
   )
 
 (defun edit-private-config ()
   "Edit personnal config files"
   (interactive)
-  (find-file dotfiles)
+  (+vertico/find-file-in dotfiles)
   )
 
 ;; map them
