@@ -197,6 +197,7 @@
   :config
   (consult-customize
    consult-buffer
+   consult-theme
    :preview-key 'nil))
 
 (advice-add 'consult-line :after #'recenter-top-bottom)
