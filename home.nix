@@ -49,6 +49,8 @@
     direnv
     nix-direnv
     eza                       # the new ls !
+    zoxide                    # the better cd !
+    fzf
     acpilight
     brightnessctl
     fd
@@ -68,6 +70,8 @@
     glxinfo
     arandr
     flameshot
+    nix-prefetch
+    nix-prefetch-github
 
     # Arduino
     arduino
@@ -117,8 +121,8 @@
     fade = true;
     fadeDelta = 10;
     opacityRules = [
-      "85:class_g = 'URxvt'"
-      # "60:class_g = 'Alacritty'"
+      "100:class_g = 'URxvt'"
+      # "100:class_g = 'Alacritty'"
     ];
     settings = {
       blur = {
@@ -139,7 +143,7 @@
       font.size = 10;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
-        opacity = 0.6;
+        opacity = 1;
       };
       colors = {
          primary = {
@@ -178,8 +182,8 @@
       vi="nvim";
       vim="nvim";
 
-      python="python3.11";
-      python3="python3.11";
+      # python="python3.11";
+      # python3="python3.11";
 
       cfg="sudo nvim /etc/nixos/configuration.nix";
       nrs="sudo nixos-rebuild switch";
@@ -190,6 +194,8 @@
       la="eza -a --color=always --group-directories-first --icons";  # all files and dirs
       ll="eza -l --color=always --group-directories-first --icons";  # long format
       lt="eza -aT --color=always --group-directories-first --icons"; # tree listing
+
+      # Changing cd to zoxide
 
       grep="grep --color=auto";
 
@@ -227,8 +233,9 @@ function fish_user_key_bindings
   fish_default_key_bindings
 end
 ### END OF VI MODE ###
-
     '';
+
+    shellInitLast = ''zoxide init fish | source'';
 
   };
 
@@ -242,8 +249,8 @@ end
       vi="nvim";
       vim="nvim";
 
-      python="python3.11";
-      python3="python3.11";
+      # python="python3.11";
+      # python3="python3.11";
 
       cfg="sudo nvim /etc/nixos/configuration.nix";
       nrs="sudo nixos-rebuild switch";

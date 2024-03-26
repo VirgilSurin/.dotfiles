@@ -49,6 +49,8 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
+(package! exec-path-from-shell)
+
 (package! nord-theme)
 (package! one-themes)
 (package! atom-one-dark-theme)
@@ -61,7 +63,6 @@
 (package! all-the-icons-ivy)
 (package! all-the-icons-dired)
 
-(package! ranger)
 
 (package! cdlatex)
 (package! lsp-ltex)

@@ -27,7 +27,7 @@
 ;; -<< Directory variables >>-
 
 (setq org-directory "~/org/")
-(defvar dotfiles "~/.dotfiles/")
+(defvar vs/dotfiles "~/.dotfiles/")
 (setq org-agenda-files '("~/org/agenda.org" "~/org/todo.org"))
 
 ;;; -<< Personnal information >>-
@@ -37,7 +37,8 @@
 
 ;; -<< Sane default >>-
 
-(setq display-line-numbers-type t)
+(setq display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
 
 (visual-line-mode t)
 
@@ -58,7 +59,7 @@
 
 ;; I want every buffer to open with writeroom mode because it is simply better
 (after! writeroom
-  :init
+  (setq writeroom-mode-line t)
   (add-hook 'global-treesit-auto-mode-hook 'writeroom-mode)
   (add-hook 'org-mode-hook 'writeroom-mode)
   )
@@ -78,7 +79,7 @@
 (defun edit-private-config ()
   "Edit personnal config files"
   (interactive)
-  (+vertico/find-file-in dotfiles)
+  (+vertico/find-file-in vs/dotfiles)
   )
 
 ;; map them
@@ -134,14 +135,14 @@
 ;;┗━━━━━━━━━━┛
 
 ;; -<< Theme >>-
-(setq doom-theme 'my-everforest)
+(setq doom-theme 'doom-one)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
 
 ;; -<< Transparency >>-
-(set-frame-parameter nil 'alpha-background 60)
-(add-to-list 'default-frame-alist '(alpha-background . 60))
+(set-frame-parameter nil 'alpha-background 100)
+(add-to-list 'default-frame-alist '(alpha-background . 100))
 
 ;; -<< Fonts >>-
 (custom-set-faces!
@@ -231,25 +232,64 @@
 ;;┏━━━━━━━━━━━━━┓
 ;;┃    Dired    ┃
 ;;┗━━━━━━━━━━━━━┛
-;; Ranger !
-;; (map! :leader
-;;       :desc "Ranger" "o -" #'ranger)
-;; (setq ranger-show-hidden t)
+
 (map! :leader
-      :desc "Dired" "d" nil
-      (
-       :prefix "d"
-       :desc "Open dired"                 "d" #'dired
-       :desc "Writable dired"             "w" #'wdired-change-to-wdired-mode
-       :desc "Writable dired finish edit" "f" #'wdired-finish-edit
-       :desc "Jump to current"            "j" #'dired-jump
-       )
-      )
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump)
+      (:after dired
+       (:map dired-mode-map
+        :desc "Peep-dired image previews" "d p" #'peep-dired
+        :desc "Dired view file"           "d v" #'dired-view-file)))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "w") 'wdired-change-to-wdired-mode
+  (kbd "f") 'wdired-finish-edit
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "Z") 'dired-do-compress
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-do-kill-lines
+  (kbd "% l") 'dired-downcase
+  (kbd "% m") 'dired-mark-files-regexp
+  (kbd "% u") 'dired-upcase
+  (kbd "* %") 'dired-mark-files-regexp
+  (kbd "* .") 'dired-mark-extension
+  (kbd "* /") 'dired-mark-directories
+  (kbd "; d") 'epa-dired-do-decrypt
+  (kbd "; e") 'epa-dired-do-encrypt)
+;; Get file icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; With dired-open plugin, you can launch external programs for certain extensions
+;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
+;; (setq dired-open-extensions '(("gif" . "sxiv")
+;;                               ("jpg" . "sxiv")
+;;                               ("png" . "sxiv")
+;;                               ("mkv" . "mpv")
+;;                               ("mp4" . "mpv")))
 
 ;; tag
 ;;┏━━━━━━━━━━━━━┓
 ;;┃    Vterm    ┃
 ;;┗━━━━━━━━━━━━━┛
+
+;; pls same $PATH !
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
 ;; Make Vterm uses fish
 (setq vterm-shell "/run/current-system/sw/bin/fish")
 

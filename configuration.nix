@@ -47,6 +47,9 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "virgil" ];
+
 
   # Configure keymap in X11
   services.xserver = {
@@ -65,7 +68,7 @@
     displayManager = {
       sddm.enable = true;
       sddm.autoNumlock = true;
-      sddm.theme = "${import ./sddm-theme.nix {  inherit pkgs; }}";
+      # sddm.theme = "${import ./sddm-theme.nix {  inherit pkgs; }}";
       defaultSession = "none+qtile";
 
       # lightdm.enable = true;
@@ -83,11 +86,10 @@
     windowManager.qtile = {
       enable = true;
       package = pkgs.qtile;
-      # extraPackages = python311Packages: with python311Packages; [
-      #   qtile-extras
-      # ];
+      extraPackages = python311Packages: with python311Packages; [
+        qtile-extras
+      ];
     };
-
   };
 
   # Lock
@@ -101,14 +103,17 @@
 
   services.power-profiles-daemon.enable = false;
 
+  services.logind.extraConfig = "IdleAction=ignore";
+
+
   services.tlp = {
     enable = true;
     settings = {
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "power";
 
       CPU_ENERGY_PERF_POLICY_ON_BAT = "performance";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "power";
 
       CPU_MIN_PERF_ON_AC = 0;
       CPU_MAX_PERF_ON_AC = 100;
@@ -153,7 +158,6 @@
     extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
     packages = with pkgs; [
       firefox
-      qtile
     #  thunderbird
     ];
   };
@@ -170,7 +174,8 @@
     neovim
     tlp
     home-manager
-    qtile
+    vial
+    via
 
     # qt5
     libsForQt5.qt5.qtquickcontrols2
@@ -184,6 +189,10 @@
     package = pkgs.emacs29-gtk3;
   };
 
+  services.udev.packages = with pkgs; [
+    vial
+    via
+  ];
   # I now use a ZSA keyboard, I must enable some udev rules for it
   hardware.keyboard.zsa.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
