@@ -31,6 +31,9 @@
     spotify
     vlc
     ranger
+    # Mail
+    mu
+    isync
     # linux utilities
     shutter
     gtk3

@@ -191,5 +191,5 @@
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
-       iterate
+       ;; literate
        (default +bindings +smartparens))

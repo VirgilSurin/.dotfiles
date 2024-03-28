@@ -70,22 +70,22 @@
 ;;┃    Custom functions    ┃
 ;;┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-(defun browse-org-files ()
+(defun vs/browse-org-files ()
   "browse my org files"
   (interactive)
   (+vertico/find-file-in org-directory)
   )
 
-(defun edit-private-config ()
+(defun vs/edit-private-config ()
   "Edit personnal config files"
   (interactive)
-  (+vertico/find-file-in vs/dotfiles)
+  (find-file vs/dotfiles)
   )
 
 ;; map them
 (map! :leader
-      :desc "Open file in ~/.dotfiles" "f h" #'edit-private-config
-      :desc "Open org files" "f o" #'browse-org-files
+      :desc "Open file in ~/.dotfiles" "f h" #'vs/edit-private-config
+      :desc "Open org files" "f o" #'vs/browse-org-files
       )
 
 ;; tag
@@ -121,7 +121,7 @@
       "C-h" #'left-char
       "C-j" #'evil-next-visual-line
       "C-k" #'evil-previous-visual-line
-)
+      )
 
 ;; Quickly type jk or kj to get back to normal mode ASAP
 (setq evil-escape-unordered-key-sequence t)
@@ -173,7 +173,6 @@
   (setf treemacs-position 'right))
 
 
-
 ;; tag
 ;;┏━━━━━━━━━━━┓
 ;;┃    Ivy    ┃
@@ -215,8 +214,6 @@
       "s" #'evil-avy-goto-word-1
       :nm
       "f" #'evil-avy-goto-char
-      :nm
-      "S" #'evil-avy-goto-line
       )
 
 ;; tag
@@ -245,7 +242,7 @@
 (evil-define-key 'normal dired-mode-map
   (kbd "M-RET") 'dired-display-file
   (kbd "h") 'dired-up-directory
-  (kbd "l") 'dired-open-file ; use dired-find-file instead of dired-open.
+  (kbd "l") 'dired-find-file ; use dired-find-file instead of dired-open.
   (kbd "m") 'dired-mark
   (kbd "t") 'dired-toggle-marks
   (kbd "u") 'dired-unmark
@@ -272,7 +269,7 @@
   (kbd "; d") 'epa-dired-do-decrypt
   (kbd "; e") 'epa-dired-do-encrypt)
 ;; Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
 ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
 ;; (setq dired-open-extensions '(("gif" . "sxiv")
@@ -484,4 +481,11 @@
 
 
 (provide 'config)
+
+;;  ┏━━━━━━━━━━━━━┓
+;;; ┃    Email    ┃
+;;  ┗━━━━━━━━━━━━━┛
+;; TODO
+
+
 ;;; config.el ends here
