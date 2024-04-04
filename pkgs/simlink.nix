@@ -1,7 +1,9 @@
-#!/usr/bin/env sh
+{  pkgs }:
 
-
+pkgs.writeShellScriptBin "simlink" ''
 # Emacs config
+cd ~/.dotfiles/
+
 rm -f ~/.config/doom/init.el
 rm -f ~/.config/doom/packages.el
 rm -f ~/.config/doom/config.el
@@ -20,9 +22,12 @@ ln -f ./config.py ~/.config/qtile/config.py
 ln -f ./themes.py ~/.config/qtile/themes.py
 
 # nix
-sudo rm -f //etc/nixos/home-configuration.nix
+sudo rm -f //etc/nixos/home.nix
 sudo rm -f //etc/nixos/configuration.nix
 sudo rm -f //etc/nixos/sddm-theme.nix
-sudo ln -f ./home.nix //etc/nixos/home-configuration.nix
-sudo ln -f ./configuration.nix //etc/nixos/configuration.nix
-sudo ln -f ./sddm-theme.nix //etc/nixos/sddm-theme.nix
+sudo rm -f //etc/nixos/pkgs/*.nix
+sudo ln -f ./nixos/home.nix //etc/nixos/home.nix
+sudo ln -f ./nixos/configuration.nix //etc/nixos/configuration.nix
+sudo ln -f ./nixos/sddm-theme.nix //etc/nixos/sddm-theme.nix
+sudo ln -f ./pkgs/* //etc/nixos/pkgs/
+''

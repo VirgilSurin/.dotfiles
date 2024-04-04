@@ -63,15 +63,10 @@
 (package! all-the-icons-ivy)
 (package! all-the-icons-dired)
 
+(package! direnv)
 
 (package! cdlatex)
 (package! lsp-ltex)
 
 (package! lsp-pyright)
 (package! treesit-auto)
-
-(package! screenshot
-  :recipe (:host github :repo "tecosaur/screenshot"))
-
-(package! org-modern)
-(package! org-super-agenda)

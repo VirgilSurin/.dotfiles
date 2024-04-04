@@ -1,48 +1,26 @@
-;;; config.el --- Description -*- lexical-binding: t; -*-
-;;
-;; Copyright (C) 2023 Virgil Surin
-;;
-;; Author: Virgil Surin <virgl.surin@student.umons.ac.be>
-;; Maintainer: Virgil Surin <virgl.surin@student.umons.ac.be>
-;; Created: décembre 20, 2023
-;; Modified: décembre 20, 2023
-;; Version: 0.0.1
-;; Keywords: abbrev bib c calendar comm convenience data docs emulations extensions faces files frames games hardware help hypermedia i18n internal languages lisp local maint mail matching mouse multimedia news outlines processes terminals tex tools unix vc wp
-;; Homepage: https://github.com/virgil/config
-;; Package-Requires: ((emacs "24.3"))
-;;
-;; This file is not part of GNU Emacs.
-;;
-;;; Commentary:
-;;
-;; This is my doom-emacs config.el file
-;;
-;;; Code:
+#+TITLE: Config
+#+AUTHOR: Virgil Surin
+#+DESCRIPTION: My own personal doom emacs config
+#+STARTUP: showeverything
 
-;; tag
-;;  ┏━━━━━━━━━━━━━━━━━━━━━━━━┓
-;;; ┃    Default settings    ┃
-;;  ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-;; -<< Directory variables >>-
+* Default settings
 
+#+begin_src emacs-lisp
 (setq org-directory "~/org/")
-(defvar vs/dotfiles "~/.dotfiles/")
 (setq org-agenda-files '("~/org/agenda.org" "~/org/todo.org"))
+#+end_src
 
-;;; -<< Personnal information >>-
-
+** Personnal informations
+#+begin_src emacs-lisp
 (setq user-full-name "Virgil Surin"
       user-mail-address "virgl.surin@student.umons.ac.be")
+#+end_src
 
-;; -<< Sane default >>-
-
-(setq display-line-numbers-mode t)
-(setq display-line-numbers-type 'relative)
-
-(visual-line-mode t)
-
-(fset 'yes-or-no-p 'y-or-n-p)
+** Sane default
+Here are some default settings that I find sane and usefull.
+#+begin_src emacs-lisp
+(setq 'yes-or-no-p 'y-or-n-p)
 
 (setq confirm-kill-emacs 'y-or-n-p)
 
@@ -51,30 +29,24 @@
 ;; Allow for a larger memory usage to read subprocess
 (setq gc-cons-threshold 100000000) ;; 100 MB
 (setq read-process-output-max (* 1 1024 1024)) ;; 1 MB
+#+end_src
 
-;; Some default starting size
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+* Lines
+#+begin_src emacs-lisp
+(setq display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
 
+(setq visual-line-mode t)
+#+end_src
+
+* Battery
+#+begin_src emacs-lisp
 (display-battery-mode 1)
+#+end_src
 
-;; I want every buffer to open with writeroom mode because it is simply better
-(after! writeroom
-  (setq writeroom-mode-line t)
-  (add-hook 'global-treesit-auto-mode-hook 'writeroom-mode)
-  (add-hook 'org-mode-hook 'writeroom-mode)
-  )
-
-
-;; tag
-;;┏━━━━━━━━━━━━━━━━━━━━━━━━┓
-;;┃    Custom functions    ┃
-;;┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-
-(defun vs/browse-org-files ()
-  "browse my org files"
-  (interactive)
-  (+vertico/find-file-in org-directory)
-  )
+* Browse dotfiles
+#+begin_src emacs-lisp
+(defvar vs/dotfiles "~/.dotfiles/")
 
 (defun vs/edit-private-config ()
   "Edit personnal config files"
@@ -85,21 +57,20 @@
 ;; map them
 (map! :leader
       :desc "Open file in ~/.dotfiles" "f h" #'vs/edit-private-config
-      :desc "Open org files" "f o" #'vs/browse-org-files
       )
+#+end_src
 
-;; tag
-;;┏━━━━━━━━━━━━━━━━━━━┓
-;;┃    Keybindings    ┃
-;;┗━━━━━━━━━━━━━━━━━━━┛
-
-;; I don't use them but I input them a lot by mistake so let's unbind
+* Editing keybindings
+I don't use them but I input them a lot by mistake so let's unbind them.
+#+begin_src emacs-lisp
 (global-unset-key (kbd "M-c"))
 (map! :nm
       "L" #'nil
       )
+#+end_src
 
-;; Unify moving between buffer and window (Qtile)
+Unify moving between buffer and window (Qtile), it is also used to move away from vterm.
+#+begin_src emacs-lisp
 (map! :map 'override
       "M-h" #'evil-window-left
       "M-j" #'evil-window-down
@@ -107,67 +78,77 @@
       "M-l" #'evil-window-right
       "M-w" #'evil-window-delete
       "M-W" #'delete-other-windows)
+#+end_src
 
-;; Move by visual line
+Move by visual line.
+#+begin_src emacs-lisp
 (map! :nm
       "j" #'evil-next-visual-line
       :nm
       "k" #'evil-previous-visual-line
       )
+#+end_src
 
-;; To do some small move in insert mode
+To do some small move in insert mode.
+#+begin_src emacs-lisp
 (map! :map 'evil-insert-state-map
       "C-l" #'right-char
       "C-h" #'left-char
       "C-j" #'evil-next-visual-line
       "C-k" #'evil-previous-visual-line
       )
+#+end_src
 
-;; Quickly type jk or kj to get back to normal mode ASAP
+Quickly type jk or kj to get back to normal mode ASAP
+#+begin_src emacs-lisp
 (setq evil-escape-unordered-key-sequence t)
+#+end_src
 
-;; Do not agregate all I do in insert mode and undo it
+Do not agregate all I do in insert mode and undo it
+#+begin_src emacs-lisp
 (setq evil-want-fine-undo t)
+#+end_src
 
+I want repeat to actually repeat any command
+#+begin_src emacs-lisp
 (map! :nm
       "." #'repeat)
+#+end_src
 ;; tag
 ;;┏━━━━━━━━━━┓
 ;;┃    UI    ┃
 ;;┗━━━━━━━━━━┛
-
-;; -<< Theme >>-
-(setq doom-theme 'doom-one)
+* UI
+** Theme
+#+begin_src emacs-lisp
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
 
-;; -<< Transparency >>-
-(set-frame-parameter nil 'alpha-background 100)
-(add-to-list 'default-frame-alist '(alpha-background . 100))
+(setq doom-theme 'doom-one)
+#+end_src
+** Transparency
+#+begin_src emacs-lisp
+(doom/set-frame-opacity 100)
 
-;; -<< Fonts >>-
+;; (set-frame-parameter nil 'alpha-background 100)
+;; (add-to-list 'default-frame-alist '(alpha-background . 100))
+#+end_src
+
+** Fonts
+#+begin_src emacs-lisp
+
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-function-name-face :slant italic)
   '(font-lock-keyword-face :weight extra-bold)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'bold)
+
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'semibold)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'bold))
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'semibold))
+#+end_src
 
-;; -<< Cursor >>-
-
-;; TODO: How to do it from my doom-theme ??
-(setq evil-normal-state-cursor '("#c6d3ab" box)
-      evil-emacs-state-cursor '("#c6d3ab" bar)
-      evil-insert-state-cursor '("#c6d3ab" bar)
-      evil-visual-state-cursor '("#c6d3ab" hollow)
-      evil-replace-state-cursor '("#c6d3ab" hbar)
-      )
-
-;; -<< Smooth scrolling >>-
-(setq scroll-conservatively 101)
 
 ;;; -<< Treemacs >>-
 (after! treemacs

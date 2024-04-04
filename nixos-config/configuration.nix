@@ -2,11 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page 
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 { imports = [ # Include the results of the hardware scan. 
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      inputs.home-manager.nixosModules.home-manager
     ];
 
   # Bootloader.
@@ -57,10 +57,10 @@
     # Enable the X11 windowing system.
     enable = true;
 
-    layout = "us";
+    xkb.layout = "us";
 
-    xkbVariant = "altgr-intl";
-    xkbOptions = "caps:ctrl_modifier";
+    xkb.variant = "altgr-intl";
+    xkb.options = "caps:ctrl_modifier";
 
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
@@ -68,7 +68,7 @@
     displayManager = {
       sddm.enable = true;
       sddm.autoNumlock = true;
-      # sddm.theme = "${import ./sddm-theme.nix {  inherit pkgs; }}";
+      sddm.theme = "${import ./sddm-theme.nix {  inherit pkgs; }}";
       defaultSession = "none+qtile";
 
       # lightdm.enable = true;
@@ -86,9 +86,7 @@
     windowManager.qtile = {
       enable = true;
       package = pkgs.qtile;
-      extraPackages = python311Packages: with python311Packages; [
-        qtile-extras
-      ];
+      extraPackages = p: with p; [ qtile-extras ];
     };
   };
 
@@ -164,6 +162,15 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  home-manager = {
+    extraSpecialArgs = { inherit inputs };
+    users = {
+      virgil = import ./home.nix
+    }
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

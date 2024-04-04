@@ -23,8 +23,8 @@
 from libqtile import bar, layout, widget, qtile, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-# from qtile_extras import widget
-# from qtile_extras.widget.decorations import BorderDecoration
+from qtile_extras import widget
+from qtile_extras.widget.decorations import BorderDecoration
 import themes
 import copy
 
@@ -37,8 +37,7 @@ myBrowser = "chromium"
 editor = "emacsclient -c -a 'emacs' "
 # terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
-colors = themes.Everforest
-
+colors = themes.One
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -107,14 +106,14 @@ keys = [
 
 groups = [
     Group("DEV"),
+    Group("SYS"),
     Group("WWW"),
     Group("DOC"),
     Group("CHAT"),
     Group("MUS"),
-    Group("SYS")
 ]
 
-group_keys = ["a", "s", "d", "f", "u", "i", "o", "p"]
+group_keys = ["a", "s", "d", "f", "u", "i"]
 for i in range(len(groups)):
     group_key = group_keys[i]
     group_name = groups[i].name
@@ -147,9 +146,9 @@ for i in range(len(groups)):
 
 
 # LAYOUTS
-layout_theme = {"border_width": 5,
-                "margin": 10,
-                "border_focus": colors["magenta"],
+layout_theme = {"border_width": 3,
+                "margin": 8,
+                "border_focus": colors["blue"],
                 "border_normal": colors["bg"]
                 }
 
@@ -164,7 +163,7 @@ layouts = [
     # layout.Floating(**layout_theme),
     # Try more layouts by unleashing below layouts.
 
-    # layout.Tile(),
+    # layout.Tile(**layout_theme),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
@@ -172,21 +171,21 @@ layouts = [
 
 
 widget_defaults = dict(
-    fontsize = 10,
-    padding = 2,
+    font = "Ubuntu Bold",
+    fontsize = 12,
+    padding = 0,
     background = colors["bg"],
-    foreground = colors["fg"]
 )
 sep = widget.Sep(linewidth = 0,
                  padding = 6,
                  foreground = colors["fg"],
-                 background = colors["bg"] + "A0")
+                 background = colors["bg"])
 sep_bar = widget.TextBox(
                     text = '|',
                     background = colors["bg"],
-                    foreground = colors["black"],
+                    foreground = colors["fg"],
                     padding = 2,
-                    fontsize = 26
+                    fontsize = 14
                 )
 extension_defaults = widget_defaults.copy()
 def create_widget():
@@ -194,144 +193,169 @@ def create_widget():
         sep,
         widget.GroupBox(
             fontsize = 11,
-            padding_y = 4,
-            padding_x = 4,
-            borderwidht = 1,
+            margin_x = 5,
+            margin_y = 5,
+            padding_y = 0,
+            padding_x = 2,
+            borderwidht = 3,
             font = "JetBrains Mono SemiBold",
-            active = colors["green"] + "FF",
-            inactive = colors["fg"] + "FF",
-            rounded = True,
+            active = colors["blue"],
+            inactive = colors["fg"],
+            rounded = False,
             highlight_method = "line",
-            highlight_color = [colors["bg"] + "00", colors["bg"] + "00"], # if using "line" as  highlight method
+            highlight_color = [colors["bg"], colors["bg"]], # if using "line" as  highlight method
             this_current_screen_border = colors["green"],
-            other_screen_border = colors["red"],
+            other_screen_border = colors["magenta"],
 
-            this_screen_border = colors["fg"],
-            other_current_screen_border = colors["bg"],
-            foreground = colors["fg"] + "FF",
-            background = [colors["bg"] + "A0"],
+            this_screen_border = colors["green"],
+            other_current_screen_border = colors["magenta"],
+            foreground = colors["fg"],
+            background = [colors["bg"]],
         ),
-        widget.TextBox(
-            text = '  ',
-            background = colors["bg"] + "60",
-            foreground = colors["bg"] + "60",
-            padding = -7,
-            fontsize = 40
+        sep_bar,
+        # widget.TextBox(
+        #     text = '  ',
+        #     background = colors["bg"] + "60",
+        #     foreground = colors["bg"] + "60",
+        #     padding = -7,
+        #     fontsize = 40
+        # ),
+        widget.CurrentLayoutIcon(
+            foreground = colors["fg"],
+            background = colors["bg"],
+            padding = 2,
+            scale = 0.7,
+            use_mask = True,
         ),
-        widget.WindowTabs(
+        widget.CurrentLayout(
+            foreground = colors["fg"],
+            background = colors["bg"],
+            font = "JetBrains Mono SemiBold",
+            padding = 10,
+            fontsize = 11,
+        ),
+        sep_bar,
+        widget.WindowName(
             fontsize = 12,
             padding = 5,
             max_chars = 40,
             font = "JetBrains Mono SemiBold",
-            foreground = colors["black"],
-            background = colors["bg"] + "60"
+            foreground = colors["fg"],
+            background = colors["bg"],
         ),
-        widget.TextBox(
-            text = '',
-            # text = '',
-            background = colors["bg"] + "60",
-            foreground = colors["cyan"],
-            padding = -1,
-            fontsize = 40
-        ),
-        widget.CurrentLayout(
-            foreground = colors["black"],
-            background = colors["cyan"],
-            font = "JetBrains Mono SemiBold",
-            padding = 10,
-            fontsize = 12,
-        ),
-        widget.TextBox(
-            # text = '',
-            text = '',
-            background = colors["cyan"],
-            foreground = colors["red"],
-            padding = -1,
-            fontsize = 40
-        ),
-        # widget.Wlan(
-        #     disconnected_message = "󰖪 Disconnected",
-        #     interface = "wlp6s0", # use "nmcli device status" to know what the write here
-        #     foreground = colors[3],
-        #     background = colors[0],
-        #     fontsize = 12,
-        #     padding = 5
+        # widget.TextBox(
+        #     text = '',
+        #     # text = '',
+        #     background = colors["bg"] + "60",
+        #     foreground = colors["cyan"],
+        #     padding = -1,
+        #     fontsize = 40
         # ),
+        widget.Spacer(length = 8),
+        widget.WiFiIcon(
+            interface = "wlp6s0",
+            # font = "JetBrains Mono SemiBold",
+            # fontsize = 11,
+            padding = 5,
+            foreground = colors["red"],
+            wifi_shape = "arc",
+            wifi_rectangle_width = 10,
+            active_colour = colors["red"],
+            disconnected_colour = colors["black"],
+            decorations = [
+                BorderDecoration(
+                    colour = colors["red"],
+                    border_width = [0, 0, 3, 0],
+                )
+            ]
+            ),
         widget.Net(
             interface = "wlp6s0",
-            format = "  {up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
-            foreground = colors["black"],
-            background = colors["red"],
-            font = "JetBrains Mono SemiBold",
+            format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
+            foreground = colors["red"],
+            background = colors["bg"],
+            font = "JetBrains Mono Bold",
             fontsize = 12,
-            padding = 10
+            padding = 4,
+            decorations = [
+                BorderDecoration(
+                    colour = colors["red"],
+                    border_width = [0, 0, 3, 0],
+                )
+            ]
         ),
-        # widget.WiFiIcon(
-        #     foreground = colors[1],
-        #     background = colors[3],
-        #     fontsize = 12,
-        #     padding = 10
-        # ),
-        widget.TextBox(
-            # text = '',
-            text = '',
-            background = colors["red"],
+        widget.Spacer(length = 8),
+        widget.UPowerWidget(
             foreground = colors["green"],
-            padding = -1,
-            fontsize = 40
+            background = colors["bg"],
+            fontsize = 11,
+            fill_charge = colors["green"],
+            fill_critical = colors["red"],
+            fill_low = colors["orange"],
+            fill_normal = colors["green"],
+            border_colour = colors["green"],
+            border_charge_colour = colors["green"],
+            border_critical_colour = colors["green"],
+            decorations = [
+                BorderDecoration(
+                    colour = colors["green"],
+                    border_width = [0, 0, 3, 0],
+                )
+            ]
         ),
-        # widget.UPowerWidget(
-        #     foreground = colors["black"],
-        #     background = colors["green"],
-        #     fontsize = 12
-        # ),
         widget.Battery(
-            foreground = colors["black"],
-            background = colors["green"],
-            padding = 10,
+            foreground = colors["green"],
+            background = colors["bg"],
+            padding = 2,
             fontsize = 12,
-            font = "JetBrains Mono SemiBold",
-            format = "  {percent:2.0%} ({hour:d}h{min:02d})"
+            font = "JetBrains Mono Bold",
+            format = "{percent:2.0%} ({hour:d}h{min:02d})",
+            decorations = [
+                BorderDecoration(
+                    colour = colors["green"],
+                    border_width = [0, 0, 3, 0],
+                )
+            ]
         ),
-        widget.TextBox(
-            # text = '',
-            text = '',
-            background = colors["green"],
-            foreground = colors["magenta"],
-            padding = -1,
-            fontsize = 40
-        ),
+        widget.Spacer(length = 8),
         widget.Volume(
-            foreground = colors["black"],
-            background = colors["magenta"],
-            fontsize = 16,
-            font = "JetBrains Mono SemiBold",
-            fmt = ' : {} ',
+            foreground = colors["magenta"],
+            background = colors["bg"],
+            fontsize = 14,
+            font = "JetBrains Mono Bold",
+            fmt = ' Vol: {} ',
             padding = 10,
-            emoji = False,
-            emoji_list = ['󰝟', '󰕿', '󰖀', '󰕾']
+            decorations = [
+                BorderDecoration(
+                    colour = colors["magenta"],
+                    border_width = [0, 0, 3, 0],
+                )
+            ]
             ),
+        widget.Spacer(length = 8),
         # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
         # widget.StatusNotifier(),
-        widget.TextBox(
-            # text = '',
-            text = '',
-            background = colors["magenta"],
-            foreground = colors["blue"],
-            padding = -1,
-            fontsize = 40
-        ),
-        widget.Systray(
-            background = colors["blue"]
-        ),
         widget.Clock(
             fontsize = 12,
-            foreground = colors["black"],
-            background = colors["blue"],
-            font = "JetBrains Mono SemiBold",
-            format = "%A, %d %B - %H:%M ",
-            padding = 10
+            foreground = colors["blue"],
+            background = colors["bg"],
+            font = "JetBrains Mono ExtraBold",
+            format = "⏱ %a, %d %b - %H:%M ",
+            padding = 10,
+            decorations = [
+                BorderDecoration(
+                    colour = colors["blue"],
+                    border_width = [0, 0, 3, 0],
+                )
+            ]
         ),
+        widget.Spacer(length = 8),
+        widget.Systray(
+            padding = 3,
+            background = colors["bg"],
+            foreground = colors["blue"],
+                       ),
+        widget.Spacer(length = 8),
     ]
 
 wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
@@ -348,20 +372,20 @@ screens = [
             28,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
-            margin = 4,
-            background = colors["red"] + "AA"
+            margin = 0,
+            background = colors["bg"]
         ),
     ),
     Screen(
         wallpaper = wall,
         wallpaper_mode="fill",
         top=bar.Bar(
-            create_widget(),
+            create_widget()[:-2],
             28,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
-            margin = 4,
-            background = colors["red"] + "AA"
+            margin = 0,
+            background = colors["bg"]
         ),
     ),
 ]

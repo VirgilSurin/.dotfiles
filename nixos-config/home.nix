@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ inputs, config, lib, pkgs, ... }:
 
 {
 
@@ -8,10 +8,11 @@
   home.stateVersion = "23.05";
 
   home.packages = with pkgs; [
+    (import ./pkgs/make-shell.nix {inherit pkgs; })
+    (import ./pkgs/simlink.nix {inherit pkgs; })
     texlive.combined.scheme-full
     alacritty
     btop
-    emacs29-gtk3
     librewolf
     discord
     element-desktop
@@ -133,8 +134,6 @@
         size = 5;
         deviation = 9.0;
       };
-      corner-radius = 14.0;
-      round-borders = 1;
     };
   };
 

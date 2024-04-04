@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ pkgs }:
 
 let
   imgLink = "https://github.com/VirgilSurin/.dotfiles/blob/main/wallpapers/evergreen1.jpg";
   image = pkgs.fetchurl {
     url = imgLink;
-    sha256 = "sha256-csxAs16udSU0GmeD+l6kwey8bOSDc9i/cVEUBP43Su8=";
+    sha256 = "sha256-QRHG5gr78AA1FPTkw62oMeyjVZbMXTvFmeEmlq/hSU4=";
   };
 in
 pkgs.stdenv.mkDerivation {
@@ -18,7 +18,8 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out
     cp -R ./* $out/
-    rm $out/Backgrounds/background.png
-    cp ${image} $out/Backgrounds/background.jpg
+    cd $out
+    rm Backgrounds/background.png
+    cp -r ${image} $out/Backgrounds/background.jpg
   '';
 }

@@ -29,9 +29,9 @@ Nord = {
 
 Gruvbox = {
     "bg":      "#282828",
-    "fg":      "#bbc2cf",
+    "fg":      "#ebdbb2",
     "black":   "#0d1011",
-    "white":   "#ebdbb2",
+    "white":   "#bbc2cf",
     "red":     "#fb4934",
     "green":   "#b8bb26",
     "orange":  "#fe8019",

@@ -1,5 +1,6 @@
-#!/usr/bin/env sh
+{ pkgs }:
 
+pkgs.writeShellScriptBin "make-shell" ''
 echo "{ pkgs ? import <nixpkgs> {} }:
 
 let
@@ -17,3 +18,4 @@ pkgs.mkShell {
 echo "use nix" >> .envrc
 
 direnv allow
+''
