@@ -13,9 +13,7 @@
     system = "x86-64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      config = {
-        allowUnfree = true;
-      };
+      config.allowUnfree = true;
     };
   in
     {

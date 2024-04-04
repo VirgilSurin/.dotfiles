@@ -166,10 +166,10 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs };
+    extraSpecialArgs = { inherit inputs; };
     users = {
-      virgil = import ./home.nix
-    }
+      virgil = import ./home.nix;
+    };
   };
 
   # List packages installed in system profile. To search, run:

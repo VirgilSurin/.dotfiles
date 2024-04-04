@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
 
@@ -7,6 +7,7 @@
 
   home.stateVersion = "23.05";
 
+
   home.packages = with pkgs; [
     (import ./pkgs/make-shell.nix {inherit pkgs; })
     (import ./pkgs/simlink.nix {inherit pkgs; })
@@ -14,7 +15,7 @@
     alacritty
     btop
     librewolf
-    discord
+    # discord
     element-desktop
     cinny-desktop
     rofi
@@ -29,9 +30,8 @@
     tree-sitter
     texlab
     signal-desktop
-    spotify
+    # spotify
     vlc
-    ranger
     # Mail
     mu
     isync
@@ -82,7 +82,6 @@
 
     # wifi and bluetooth
     blueman
-    networkmanagerapplet
     wirelesstools
 
     # programming langages
