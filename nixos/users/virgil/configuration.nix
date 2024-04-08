@@ -1,13 +1,10 @@
-# Edit this configuration file to define what should be installed on 
-# your system.  Help is available in the configuration.nix(5) man page 
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+{ config, pkgs, inputs, ... }:
 
-{ inputs, config, pkgs, ... }:
-
-{ imports = [ # Include the results of the hardware scan. 
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
-    ];
+{
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.default
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true; 
@@ -68,7 +65,7 @@
     displayManager = {
       sddm.enable = true;
       sddm.autoNumlock = true;
-      sddm.theme = "${import ./sddm-theme.nix {  inherit pkgs; }}";
+      sddm.theme = "${import ../modules/sddm-theme.nix {  inherit pkgs; }}";
       defaultSession = "none+qtile";
 
       # lightdm.enable = true;
@@ -160,17 +157,17 @@
     ];
   };
 
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "virgil" = import ./home.nix;
+    };
+  };
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      virgil = import ./home.nix;
-    };
-  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

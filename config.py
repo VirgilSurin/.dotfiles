@@ -37,7 +37,7 @@ myBrowser = "chromium"
 editor = "emacsclient -c -a 'emacs' "
 # terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
-colors = themes.One
+colors = themes.Gruvbox
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -147,7 +147,7 @@ for i in range(len(groups)):
 
 # LAYOUTS
 layout_theme = {"border_width": 3,
-                "margin": 8,
+                "margin": 10,
                 "border_focus": colors["blue"],
                 "border_normal": colors["bg"]
                 }
@@ -265,7 +265,7 @@ def create_widget():
             decorations = [
                 BorderDecoration(
                     colour = colors["red"],
-                    border_width = [0, 0, 3, 0],
+                    border_width = [0, 0, 2, 0],
                 )
             ]
             ),
@@ -274,13 +274,13 @@ def create_widget():
             format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
             foreground = colors["red"],
             background = colors["bg"],
-            font = "JetBrains Mono Bold",
+            font = "JetBrains Mono SemiBold",
             fontsize = 12,
             padding = 4,
             decorations = [
                 BorderDecoration(
                     colour = colors["red"],
-                    border_width = [0, 0, 3, 0],
+                    border_width = [0, 0, 2, 0],
                 )
             ]
         ),
@@ -299,7 +299,7 @@ def create_widget():
             decorations = [
                 BorderDecoration(
                     colour = colors["green"],
-                    border_width = [0, 0, 3, 0],
+                    border_width = [0, 0, 2, 0],
                 )
             ]
         ),
@@ -308,12 +308,12 @@ def create_widget():
             background = colors["bg"],
             padding = 2,
             fontsize = 12,
-            font = "JetBrains Mono Bold",
+            font = "JetBrains Mono SemiBold",
             format = "{percent:2.0%} ({hour:d}h{min:02d})",
             decorations = [
                 BorderDecoration(
                     colour = colors["green"],
-                    border_width = [0, 0, 3, 0],
+                    border_width = [0, 0, 2, 0],
                 )
             ]
         ),
@@ -322,13 +322,13 @@ def create_widget():
             foreground = colors["magenta"],
             background = colors["bg"],
             fontsize = 14,
-            font = "JetBrains Mono Bold",
+            font = "JetBrains Mono SemiBold",
             fmt = ' Vol: {} ',
             padding = 10,
             decorations = [
                 BorderDecoration(
                     colour = colors["magenta"],
-                    border_width = [0, 0, 3, 0],
+                    border_width = [0, 0, 2, 0],
                 )
             ]
             ),
@@ -339,13 +339,13 @@ def create_widget():
             fontsize = 12,
             foreground = colors["blue"],
             background = colors["bg"],
-            font = "JetBrains Mono ExtraBold",
+            font = "JetBrains Mono SemiBold",
             format = "⏱ %a, %d %b - %H:%M ",
             padding = 10,
             decorations = [
                 BorderDecoration(
                     colour = colors["blue"],
-                    border_width = [0, 0, 3, 0],
+                    border_width = [0, 0, 2, 0],
                 )
             ]
         ),
@@ -358,11 +358,12 @@ def create_widget():
         widget.Spacer(length = 8),
     ]
 
-wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
+# wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
 # wall = "~/.dotfiles/wallpapers/mountain-and-river-wallpapers.jpg"
 # wall = "~/.dotfiles/wallpapers/mountains-and-river-4k-wallpapers.jpg"
 # wall = "~/.dotfiles/wallpapers/nature4.jpg"
 # wall = "~/.dotfiles/wallpapers/evergreentrees2.jpg"
+wall = "~/.dotfiles/wallpapers/ign_astronaut.png"
 screens = [
     Screen(
         wallpaper=wall,

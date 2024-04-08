@@ -1,6 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, config, lib, self, inputs, ... }:
 
 {
+
+  imports = [
+    inputs.nix-colors.homeManagerModules.default
+    ../programs/alacritty.nix
+    ../window_managers/qtile.nix
+  ];
+
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -9,13 +17,12 @@
 
 
   home.packages = with pkgs; [
-    (import ./pkgs/make-shell.nix {inherit pkgs; })
-    (import ./pkgs/simlink.nix {inherit pkgs; })
+    # (import ./pkgs/make-shell.nix {inherit pkgs; })
+    # (import ./pkgs/simlink.nix {inherit pkgs; })
     texlive.combined.scheme-full
     alacritty
     btop
     librewolf
-    # discord
     element-desktop
     cinny-desktop
     rofi
@@ -30,8 +37,12 @@
     tree-sitter
     texlab
     signal-desktop
-    # spotify
     vlc
+
+    # unfree
+    # discord
+    # spotify
+
     # Mail
     mu
     isync
@@ -118,6 +129,7 @@
     TERM = "xterm-256color";
   };
 
+
   services.picom = {
     enable = true;
     backend = "glx";
@@ -137,43 +149,6 @@
   };
 
   xsession.enable = true;
-
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      font.size = 10;
-      colors.draw_bold_text_with_bright_colors = true;
-      window = {
-        opacity = 1;
-      };
-      colors = {
-         primary = {
-           background = "#2b3339";
-           foreground= "#d3c6aa";
-         };
-         normal = {
-           black  = "#9099AB";
-           red    = "#e67e80";
-           green  = "#a7c080";
-           yellow = "#dbbc7f";
-           blue   = "#7fbbb3";
-           magenta= "#d699b6";
-           cyan   = "#83c092";
-           white  = "#d3c6aa";
-         };
-         bright = {
-           black  = "#9099AB";
-           red    = "#e67e80";
-           green  = "#a7c080";
-           yellow = "#dbbc7f";
-           blue   = "#7fbbb3";
-           magenta= "#d699b6";
-           cyan   = "#83c092";
-           white  = "#d3c6aa";
-         };
-      };
-    };
-  };
 
   programs.fish = {
     enable = true;
