@@ -6,9 +6,11 @@
     inputs.nix-colors.homeManagerModules.default
     ../programs/alacritty.nix
     ../window_managers/qtile.nix
+    ../modules/qtile.nix
   ];
 
-  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+  colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -17,14 +19,11 @@
 
 
   home.packages = with pkgs; [
-    # (import ./pkgs/make-shell.nix {inherit pkgs; })
-    # (import ./pkgs/simlink.nix {inherit pkgs; })
+    (import ../shell_scripts/make-shell.nix {inherit pkgs; })
     texlive.combined.scheme-full
     alacritty
     btop
-    librewolf
-    element-desktop
-    cinny-desktop
+    firefox
     rofi
     chromium                    # I need a chromium web browser sometimes
     wally-cli
@@ -85,8 +84,10 @@
     glxinfo
     arandr
     flameshot
+
     nix-prefetch
     nix-prefetch-github
+    nil # nix lsp
 
     # Arduino
     arduino

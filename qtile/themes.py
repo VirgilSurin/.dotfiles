@@ -1,4 +1,3 @@
-
 Everforest = {
     "bg":      "#333c43",
     "fg":      "#d3c6aa",

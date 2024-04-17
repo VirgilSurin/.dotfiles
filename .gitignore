@@ -13,3 +13,4 @@ smex-items
 /.emacs.d/projectile.cache
 /.emacs.d/url/
 /.emacs.d/workspace/
+/qtile/__pycache__/

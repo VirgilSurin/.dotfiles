@@ -4,6 +4,7 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
+    # inputs.hosts.nixosModules.default
   ];
 
   # Bootloader.
@@ -65,7 +66,7 @@
     displayManager = {
       sddm.enable = true;
       sddm.autoNumlock = true;
-      sddm.theme = "${import ../modules/sddm-theme.nix {  inherit pkgs; }}";
+      sddm.theme = "${import ../pkgs/sddm-theme.nix {  inherit pkgs; }}";
       defaultSession = "none+qtile";
 
       # lightdm.enable = true;
@@ -87,6 +88,11 @@
     };
   };
 
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    xwayland.enable = true;
+  };
   # Lock
   # programs.xss-lock = {
   #   enable = true;
@@ -142,7 +148,7 @@
     tod.driver = pkgs.libfprint-2-tod1-vfs0090;
   };
 
-  programs.steam.enable = true;
+  programs.steam.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.fish.enable = true;
@@ -181,6 +187,10 @@
     vial
     via
 
+    # hyprland
+    waybar
+    swww
+
     # qt5
     libsForQt5.qt5.qtquickcontrols2
     libsForQt5.qt5.qtgraphicaleffects
@@ -191,6 +201,13 @@
   services.emacs = {
     enable = true;
     package = pkgs.emacs29-gtk3;
+  };
+
+  networking.stevenBlackHosts = {
+    blockFakenews = false;
+    blockGambling = false;
+    blockPorn = true;
+    blockSocial = false;
   };
 
   services.udev.packages = with pkgs; [

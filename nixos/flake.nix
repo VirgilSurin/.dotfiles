@@ -11,6 +11,14 @@
 
     nix-colors.url = "github:misterio77/nix-colors";
 
+    hosts.url = github:StevenBlack/hosts;
+
+    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
+
   };
   outputs = { self, nixpkgs, ... }@inputs:
     let
@@ -28,6 +36,9 @@
             modules = [
               ./users/virgil/configuration.nix
               inputs.home-manager.nixosModules.default
+              inputs.hosts.nixosModule {
+                networking.stevenBlackHosts.enable = true;
+              }
             ];
           };
         };

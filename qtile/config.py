@@ -25,11 +25,10 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration
+from os.path import expanduser
 import themes
 import copy
 
-# from libqtile.utils import guess_terminal
-from os.path import expanduser
 
 mod = "mod4"
 # terminal = guess_terminal()
@@ -37,7 +36,7 @@ myBrowser = "chromium"
 editor = "emacsclient -c -a 'emacs' "
 # terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
-colors = themes.Gruvbox
+colors = themes.One
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -60,10 +59,28 @@ keys = [
     # Move windows between left/right columns or move up/down in current stack.
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "k", lazy.layout.grow(), desc="Grow"),
-    Key([mod, "control"], "j", lazy.layout.shrink(), desc="Shrink"),
-    Key([mod, "control"], "n", lazy.layout.normalize()),
     Key([mod, "control"], "Return", lazy.maximize(), desc="Maximize window"),
+    Key([mod], "t", lazy.window.toggle_floating(), desc='toggle floating'),
+    # Grow/shrink windows left/right.
+    # This is mainly for the 'monadtall' and 'monadwide' layouts
+    # although it does also work in the 'bsp' and 'columns' layouts.
+    Key([mod], "equal",
+        lazy.layout.grow_left().when(layout=["bsp", "columns"]),
+        lazy.layout.grow().when(layout=["monadtall", "monadwide"]),
+        desc="Grow window to the left"
+        ),
+    Key([mod], "minus",
+        lazy.layout.grow_right().when(layout=["bsp", "columns"]),
+        lazy.layout.shrink().when(layout=["monadtall", "monadwide"]),
+        desc="Grow window to the left"
+        ),
+
+    # Grow windows up, down, left, right.  Only works in certain layouts.
+    # Works in 'bsp' and 'columns' layout.
+    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -154,12 +171,8 @@ layout_theme = {"border_width": 3,
 
 layouts = [
     layout.MonadTall(**layout_theme),
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"],
-                   # border_width=4,
-                   # margin=10,
-                   # border_on_single=True
-                   # ),
     layout.Max(**layout_theme),
+    layout.Columns(**layout_theme),
     # layout.Floating(**layout_theme),
     # Try more layouts by unleashing below layouts.
 
