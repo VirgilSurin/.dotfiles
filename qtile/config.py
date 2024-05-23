@@ -24,7 +24,7 @@ from libqtile import bar, layout, widget, qtile, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from qtile_extras import widget
-from qtile_extras.widget.decorations import BorderDecoration
+from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
 from os.path import expanduser
 import themes
 import copy
@@ -38,6 +38,15 @@ editor = "emacsclient -c -a 'emacs' "
 terminal = "alacritty"
 colors = themes.One
 
+# A function for toggling between MAX and MONADTALL layouts
+@lazy.function
+def maximize_by_switching_layout(qtile):
+    current_layout_name = qtile.current_group.layout.name
+    if current_layout_name == 'monadtall':
+        qtile.current_group.layout = 'max'
+    elif current_layout_name == 'max':
+        qtile.current_group.layout = 'monadtall'
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -46,7 +55,8 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "space", maximize_by_switching_layout(), lazy.window.toggle_fullscreen(), desc='toggle fullscreen'),
+
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
@@ -100,7 +110,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(myBrowser), desc="Launch my web browser"),
     Key([mod], "e", lazy.spawn(editor), desc="Launch my editor"),
-    Key([mod], "v", lazy.spawn(editor + "--eval '(dired nil)'"), desc="Open file manager"),
+    Key([mod], "v", lazy.spawn("pcmanfm"), desc="Open file manager"),
     Key([mod, "control"], "s", lazy.spawn("flameshot gui", shell=True), desc="Screenshot"),
 
     # Toggle between different layouts as defined below
@@ -123,10 +133,10 @@ keys = [
 
 groups = [
     Group("DEV"),
-    Group("SYS"),
-    Group("WWW"),
+    Group("WEB"),
     Group("DOC"),
-    Group("CHAT"),
+    Group("SYS"),
+    Group("MSG"),
     Group("MUS"),
 ]
 
@@ -164,15 +174,21 @@ for i in range(len(groups)):
 
 # LAYOUTS
 layout_theme = {"border_width": 3,
-                "margin": 10,
+                "margin": 12,
                 "border_focus": colors["blue"],
-                "border_normal": colors["bg"]
+                "border_normal": colors["black"]
                 }
 
 layouts = [
-    layout.MonadTall(**layout_theme),
+    layout.MonadTall(**layout_theme,
+                     ratio = 0.6,
+                     ),
     layout.Max(**layout_theme),
-    layout.Columns(**layout_theme),
+    layout.Columns(**layout_theme,
+                   border_on_single = True,
+                   border_focus_stack = colors["magenta"],
+                   border_normal_stack = colors["bg"]
+                   ),
     # layout.Floating(**layout_theme),
     # Try more layouts by unleashing below layouts.
 
@@ -197,10 +213,23 @@ sep_bar = widget.TextBox(
                     text = '|',
                     background = colors["bg"],
                     foreground = colors["fg"],
-                    padding = 2,
+                    padding = 4,
                     fontsize = 14
                 )
 extension_defaults = widget_defaults.copy()
+
+decoration_group = {
+    "decorations": [
+        RectDecoration(colour="#353b45",
+                       line_colour = "#565c64",
+                       line_width = 2,
+                       radius=10,
+                       filled=True,
+                       padding_y= 4,
+                       group=True)
+    ],
+    "padding": 10,
+}
 def create_widget():
     return [
         sep,
@@ -208,7 +237,6 @@ def create_widget():
             fontsize = 11,
             margin_x = 5,
             margin_y = 5,
-            padding_y = 0,
             padding_x = 2,
             borderwidht = 3,
             font = "JetBrains Mono SemiBold",
@@ -216,7 +244,7 @@ def create_widget():
             inactive = colors["fg"],
             rounded = False,
             highlight_method = "line",
-            highlight_color = [colors["bg"], colors["bg"]], # if using "line" as  highlight method
+            highlight_color = ["#565c6400"], # if using "line" as  highlight method
             this_current_screen_border = colors["green"],
             other_screen_border = colors["magenta"],
 
@@ -224,6 +252,7 @@ def create_widget():
             other_current_screen_border = colors["magenta"],
             foreground = colors["fg"],
             background = [colors["bg"]],
+            **decoration_group,
         ),
         sep_bar,
         # widget.TextBox(
@@ -367,27 +396,28 @@ def create_widget():
             padding = 3,
             background = colors["bg"],
             foreground = colors["blue"],
-                       ),
+            **decoration_group,
+        ),
         widget.Spacer(length = 8),
     ]
 
-# wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
+wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
 # wall = "~/.dotfiles/wallpapers/mountain-and-river-wallpapers.jpg"
 # wall = "~/.dotfiles/wallpapers/mountains-and-river-4k-wallpapers.jpg"
 # wall = "~/.dotfiles/wallpapers/nature4.jpg"
 # wall = "~/.dotfiles/wallpapers/evergreentrees2.jpg"
-wall = "~/.dotfiles/wallpapers/ign_astronaut.png"
+# wall = "~/.dotfiles/wallpapers/ign_astronaut.png"
 screens = [
     Screen(
         wallpaper=wall,
         wallpaper_mode="fill",
         top=bar.Bar(
             create_widget(),
-            28,
+            32,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
-            margin = 0,
-            background = colors["bg"]
+            margin = 4,
+            background = colors["bg"] + "00"
         ),
     ),
     Screen(
@@ -395,10 +425,10 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             create_widget()[:-2],
-            28,
+            32,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["bg"]] * 4,  # Borders are magenta
-            margin = 0,
+            margin = 4,
             background = colors["bg"]
         ),
     ),

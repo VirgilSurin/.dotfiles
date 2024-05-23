@@ -53,20 +53,18 @@
   services.xserver = {
 
     # Enable the X11 windowing system.
-    enable = true;
+    enable = false;
 
     xkb.layout = "us";
-
     xkb.variant = "altgr-intl";
     xkb.options = "caps:ctrl_modifier";
-
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
 
     displayManager = {
-      sddm.enable = true;
+      sddm.enable = false;
       sddm.autoNumlock = true;
-      sddm.theme = "${import ../pkgs/sddm-theme.nix {  inherit pkgs; }}";
+      # sddm.theme = "${import ../pkgs/sddm-theme.nix {  inherit pkgs; }}";
       defaultSession = "none+qtile";
 
       # lightdm.enable = true;
@@ -74,11 +72,6 @@
         enable = true;
         user = "virgil";
       };
-    };
-
-    # Enable the GNOME Desktop Environment.
-    desktopManager.gnome = {
-      enable = true;
     };
 
     windowManager.qtile = {
@@ -91,8 +84,10 @@
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    xwayland.enable = true;
+    # xwayland.enable = true;
   };
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # Lock
   # programs.xss-lock = {
   #   enable = true;
@@ -105,7 +100,6 @@
   services.power-profiles-daemon.enable = false;
 
   services.logind.extraConfig = "IdleAction=ignore";
-
 
   services.tlp = {
     enable = true;
@@ -129,8 +123,8 @@
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
+    # alsa.enable = true;
+    # alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
@@ -187,9 +181,6 @@
     vial
     via
 
-    # hyprland
-    waybar
-    swww
 
     # qt5
     libsForQt5.qt5.qtquickcontrols2
@@ -200,7 +191,7 @@
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs29-gtk3;
+    package = pkgs.emacs-gtk;
   };
 
   networking.stevenBlackHosts = {

@@ -1,10 +1,15 @@
-{ inputs, pkgs, lib, ... }:
+{ inputs, config, pkgs, lib, ... }:
+
+with lib;
 
 let
   inherit (lib) mkOptions types;
+  cfg = config.qtile;
 in
 {
-  options.layouts.monadTall = mkOptions {
+  options.qtile.enable = mkEnableOption "Enables qtile configuration";
+
+  options.qtile.layouts.monadTall = mkOptions {
     type = types.listOf (types.submodule {
       options = {
         align = mkOptions {
@@ -80,4 +85,10 @@ in
     });
     default = [];
   };
+
+  config = mkIf cfg.enable {
+    home.packages = [ pkgs.qtile ];
+    home.file."config.py".target = "config.py";
+  };
+
 }

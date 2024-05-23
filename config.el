@@ -39,6 +39,13 @@
 
 (setq display-line-numbers-mode t)
 (setq display-line-numbers-type 'relative)
+;; Disable line numbers for some modes
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                pdf-view-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (visual-line-mode t)
 
@@ -49,7 +56,7 @@
 (setq auto-save-default 1)
 
 ;; Allow for a larger memory usage to read subprocess
-(setq gc-cons-threshold 100000000) ;; 100 MB
+(setq gc-cons-threshold 100000000000000)
 (setq read-process-output-max (* 1 1024 1024)) ;; 1 MB
 
 ;; Some default starting size
@@ -69,7 +76,6 @@
 ;;┏━━━━━━━━━━━━━━━━━━━━━━━━┓
 ;;┃    Custom functions    ┃
 ;;┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-
 (defun vs/browse-org-files ()
   "browse my org files"
   (interactive)
