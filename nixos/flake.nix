@@ -27,6 +27,11 @@
       inputs.hyprland.follows = "hyprland";
     };
 
+    hyprlock = {
+      url = "github:hyprwm/hyprlock";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
   outputs = { self, nixpkgs, ... }@inputs:
     let

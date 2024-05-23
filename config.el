@@ -143,7 +143,7 @@
 ;;┗━━━━━━━━━━┛
 
 ;; -<< Theme >>-
-(setq doom-theme 'doom-one)
+(setq doom-theme 'my-everforest)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
