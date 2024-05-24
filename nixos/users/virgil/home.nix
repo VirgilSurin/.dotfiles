@@ -5,9 +5,10 @@
   imports = [
     inputs.nix-colors.homeManagerModules.default
     ../window_managers/hyprland.nix
-    ../window_managers/hyprlock.nix
+    # ../window_managers/hyprlock.nix
     ../programs/alacritty.nix
     ../programs/waybar.nix
+    ../programs/wofi.nix
     ../programs/picom.nix
     ../programs/fish.nix
     ../programs/bash.nix

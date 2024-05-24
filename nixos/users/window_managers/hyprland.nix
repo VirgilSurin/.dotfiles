@@ -121,9 +121,8 @@ in
 
       "$terminal" = "alacritty";
       "$editor" = "emacsclient -c -a 'emacs'";
-      "$browser" = "chormium";
+      "$browser" = "firefox";
       "$fileManager" = "pcmanfm";
-      "$menu" = "wofi --show drun";
 
       "$mainMod" = "SUPER";
 
@@ -134,7 +133,6 @@ in
         "$mainMod, m, exec, $fileManager"
         "$mainMod, e, exec, $editor"
         "$mainMod, b, exec, $browser"
-        "$mainMod, r, exec, $menu"
         "$mainMod, space, togglefloating,"
         # "$mainMod, P, swapsplit, # dwindle"
         # "$mainMod, V, togglesplit, # dwindle"

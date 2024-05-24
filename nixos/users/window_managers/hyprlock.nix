@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [
     inputs.hyprlock.homeManagerModules.hyprlock
   ];
+
+  wayland.windowManager.hyprland = {
+    settings = {
+      bind = [ "$mainMod SHIFT, e, exec, hyprlock" ];
+    };
+  };
 
   programs.hyprlock = {
     enable = true;
@@ -18,7 +24,7 @@
     backgrounds = [
       {
         monitor = "";
-        path = "${~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png}";
+        path = "${../../../wallpapers/star-wars-naboo-wallpapers.png}";
         blur_passes = 2;
         vibrancy = 0.3;
       }
