@@ -4,7 +4,7 @@
 
   wayland.windowManager.hyprland = {
     settings = {
-      bindr = [ "$mainMod, D, exec, wofi" ];
+      bindr = [ "$mainMod, r, exec, wofi" ];
     };
   };
 
@@ -40,7 +40,7 @@
       #window {
         margin: 0px;
         border: 2px solid;
-        border-color: #${config.colorScheme.palette.base00};
+        border-color: #${config.colorScheme.palette.base0D};
         border-radius: 12px;
         background-color: #${config.colorScheme.palette.base00};
       }

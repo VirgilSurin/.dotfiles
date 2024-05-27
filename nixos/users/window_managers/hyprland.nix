@@ -30,7 +30,8 @@ in
 
       input = {
         kb_layout = "us";
-        kb_options = "ctrl:nocaps";
+        # kb_variant = ",qwerty";
+        kb_options = "compose:ralt,ctrl:nocaps";
         numlock_by_default = true;
         accel_profile = "flat";
 
@@ -142,9 +143,10 @@ in
         ",121, exec, pamixer -t" # mute sound F1
 
 
-        "$mainMod SHIFT, Return, hy3:makegroup, tab"
-        "$mainMod CONTROL, j, hy3:changefocus, lower"
-        "$mainMod CONTROL, k, hy3:changefocus, raise"
+        "$mainMod SHIFT, Return, hy3:changegroup, toggletab"
+        "$mainMod CONTROL, k, hy3:changegroup, h"
+        "$mainMod CONTROL, j, hy3:movefocus, v"
+
 
         # Move focus with mainMod + arrow keys
         "$mainMod, h, hy3:movefocus, l, visible, nowarp"

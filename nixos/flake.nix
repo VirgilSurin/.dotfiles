@@ -10,6 +10,7 @@
     };
 
     nix-colors.url = "github:misterio77/nix-colors";
+    stylix.url = "github:danth/stylix";
 
     hosts.url = github:StevenBlack/hosts;
 
@@ -49,6 +50,7 @@
             modules = [
               ./users/virgil/configuration.nix
               inputs.home-manager.nixosModules.default
+              # inputs.stylix.nixosModules.stylix
               inputs.hosts.nixosModule {
                 networking.stevenBlackHosts.enable = true;
               }

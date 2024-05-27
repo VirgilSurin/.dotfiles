@@ -12,9 +12,15 @@
     ../programs/picom.nix
     ../programs/fish.nix
     ../programs/bash.nix
+    ../programs/zathura.nix
     # ../window_managers/qtile.nix
     # ../modules/qtile.nix
   ];
+
+  # stylix = {
+  #     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+  #     image = ./../../../wallpapers/star-wars-naboo-wallpapers.png;
+  # };
 
   colorScheme = inputs.nix-colors.colorSchemes.everforest;
   # colorScheme = inputs.nix-colors.colorSchemes.onedark;
@@ -27,6 +33,7 @@
 
   home.packages = with pkgs; [
     (import ../shell_scripts/make-shell.nix {inherit pkgs; })
+    base16-schemes
     texlive.combined.scheme-full
     alacritty
     btop
@@ -45,6 +52,7 @@
     signal-desktop
     vlc
     pcmanfm
+    zathura
 
     # wayland related things
     wofi
