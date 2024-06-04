@@ -7,6 +7,12 @@
     # inputs.hosts.nixosModules.default
   ];
 
+
+  # stylix = {
+  #     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+  #     image = ./../../../wallpapers/star-wars-naboo-wallpapers.png;
+  # };
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true; 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -181,6 +187,8 @@
     vial
     via
 
+    spotify
+    discord
 
     # qt5
     libsForQt5.qt5.qtquickcontrols2

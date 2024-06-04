@@ -17,10 +17,6 @@
     # ../modules/qtile.nix
   ];
 
-  # stylix = {
-  #     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-  #     image = ./../../../wallpapers/star-wars-naboo-wallpapers.png;
-  # };
 
   colorScheme = inputs.nix-colors.colorSchemes.everforest;
   # colorScheme = inputs.nix-colors.colorSchemes.onedark;
@@ -61,7 +57,6 @@
 
     # unfree
     # discord
-    # spotify
 
     # Mail
     mu
