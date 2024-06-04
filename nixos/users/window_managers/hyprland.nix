@@ -12,7 +12,11 @@ in
 
   imports = [
     inputs.hyprland.homeManagerModules.default
+    ../modules/monitors.nix
+    ../modules/wallpaper.nix
   ];
+
+  wallpaper = ../../../wallpapers/star-wars-naboo-wallpapers.png;
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -26,7 +30,16 @@ in
         "${pkgs.bash}/bin/bash ${startScript}/bin/start"
       ];
 
-      monitor=",preferred,auto,1";
+      # monitor=",preferred,auto,1";
+      monitor = map
+        (m:
+          let
+            resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+            position = "${toString m.x}x${toString m.y}";
+          in
+            "${m.name},${if m.enabled then "${resolution},${position},1" else "disable"}"
+        )
+        (config.monitors);
 
       input = {
         kb_layout = "us";
@@ -73,14 +86,15 @@ in
           "pace, 0.46, 1, 0.29, 0.99"
           "overshot, 0.13, 0.99, 0.29, 1.1"
           "md3_decel, 0.05, 0.7, 0.1, 1"
+          "myBezier, 0.05, 0.9, 0.1, 1.05"
         ];
         animation = [
-          "windowsIn, 1, 6, md3_decel, slide"
-          "windowsOut, 1, 6, md3_decel, slide"
+          "windows, 1, 7, myBezier"
+          "windowsOut, 1, 7, default, popin 80%"
           "windowsMove, 1, 6, md3_decel, slide"
-          "fade, 1, 10, md3_decel"
-          "workspaces, 1, 7, md3_decel, slide"
-          "border, 0, 3, md3_decel"
+          "fade, 1, 7, default"
+          "workspaces, 1, 6, default"
+          "border, 1, 10, default"
           "layers, 1, 7, md3_decel, slide"
         ];
       };

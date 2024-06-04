@@ -5,11 +5,11 @@
     inputs.hyprlock.homeManagerModules.hyprlock
   ];
 
-  wayland.windowManager.hyprland = {
-    settings = {
-      bind = [ "$mainMod SHIFT, e, exec, hyprlock" ];
-    };
-  };
+  # wayland.windowManager.hyprland = {
+  #   settings = {
+  #     bind = [ "$mainMod SHIFT, e, exec, hyprlock" ];
+  #   };
+  # };
 
   programs.hyprlock = {
     enable = true;
@@ -59,7 +59,7 @@
         monitor = "";
         text =
         ''
-          cmd[update:1000] echo "<span>$(${lib.getExe' pkgs.coreutils-full "date"} '+%H:%M')</span>"
+          LOCKED
         '';
         font_family = "JetBrains Mono Bold";
         font_size = 80;
