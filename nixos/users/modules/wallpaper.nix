@@ -2,7 +2,7 @@
 
 {
   options = {
-    wallpaper = lib.mkOptions {
+    wallpaper = lib.mkOption {
       default = ../../../wallpapers/ign_sunGarden.png;
       type = lib.types.path;
       description = ''

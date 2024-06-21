@@ -68,12 +68,7 @@
     libinput.touchpad.naturalScrolling = true;
 
     displayManager = {
-      sddm.enable = false;
-      sddm.autoNumlock = true;
-      # sddm.theme = "${import ../pkgs/sddm-theme.nix {  inherit pkgs; }}";
-      defaultSession = "none+qtile";
-
-      # lightdm.enable = true;
+      defaultSession = "Hyrpland";
       autoLogin = {
         enable = true;
         user = "virgil";

@@ -30,6 +30,7 @@
 
         "hyprland/workspaces" = {
           "active-only" = "false";
+          "all-outputs" = "true";
           "format" = "{icon}";
           "format-icons" = {
             "1" = "";
@@ -41,11 +42,13 @@
             "default" = "";
             };
           "persistent-workspaces" = {
-            "*" = 6;
+            "eDP-1" = [1 2 3 4 5 6];
+            "HDMI-A-1" = [1 2 3 4 5 6];
           };
         };
         "hyprland/window" = {
-
+          "max-length" = 200;
+          "separate-outputs" = "true";
         };
         "cpu"= {
           "interval"=10;
@@ -85,7 +88,7 @@
       * {
         border: none;
         border-radius: 0;
-        font-family: JetBrains Mono SemiBold;
+        font-family: JetBrains Mono Normal;
         font-size: 14;
         min-height: 0;
         padding: 0;
@@ -134,13 +137,10 @@
           margin-top: 2px;
           margin-bottom: 2px;
       }
-      #workspaces button.active {
-          border-bottom: 2px solid #${config.colorScheme.palette.base0B};
-      }
 
       #workspaces button:hover {
-          background: none;
-          border: none;
+          box-shadow: inherit;
+          text-shadow: inherit;
       }
       #workspaces button {
           padding-left: 1px;
@@ -150,6 +150,15 @@
           margin-left: 2px;
           margin-right: 2px;
           border-bottom: 2px solid transparent;
+      }
+
+      #workspaces button.active {
+          border-bottom: 2px solid #${config.colorScheme.palette.base0B};
+      }
+
+      /* Focused button but on inactive monitor */
+      #workspaces button.visible:not(.active) {
+          border-bottom: 2px solid #${config.colorScheme.palette.base08};
       }
 
       #window {

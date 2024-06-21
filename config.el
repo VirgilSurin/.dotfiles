@@ -143,7 +143,7 @@
 ;;┗━━━━━━━━━━┛
 
 ;; -<< Theme >>-
-(setq doom-theme 'my-everforest)
+(setq! doom-theme 'my-everforest)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
@@ -156,11 +156,19 @@
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-function-name-face :slant italic)
-  '(font-lock-keyword-face :weight extra-bold)
+  '(font-lock-keyword-face :weight normal)
+  `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'green) :weight normal)
+  `(tree-sitter-hl-face:function :foreground ,(doom-color 'greend) :weight normal :slant italic)
+  `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'green) :weight normal :slant italic)
+  `(tree-sitter-hl-face:type.builtin :foreground ,(doom-color 'blue) :weight normal :slant italic)
+  `(tree-sitter-hl-face:function.builtin :foreground ,(doom-color 'dark-cyan) :weight normal :slant italic)
+  `(tree-sitter-hl-face:variable.builtin :foreground ,(doom-color 'dark-blue) :weight normal :slant italic)
+  `(tree-sitter-hl-face:constant :foreground ,(doom-color 'yellow) :weight bold)
+  `(tree-sitter-hl-face:number :foreground ,(doom-color 'magenta) :weight bold)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'bold)
-      doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'bold))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 18 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 18)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal))
 
 ;; -<< Cursor >>-
 

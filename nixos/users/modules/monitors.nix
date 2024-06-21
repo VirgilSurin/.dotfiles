@@ -5,7 +5,7 @@ let
 in
 {
   options.monitors = mkOption {
-    type = types.listof (types.submodule {
+    type = types.listOf (types.submodule {
       options = {
         name = mkOption {
           type = types.str;
@@ -37,6 +37,6 @@ in
         };
       };
     });
-    defaullt = [ ];
+    default = [ ];
   };
 }

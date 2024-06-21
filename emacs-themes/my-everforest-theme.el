@@ -45,7 +45,7 @@ determine the exact padding."
   "A green theme with the everforest soft palette"
 
   ;; name        default   256       16
-  ((bg         '("#2b3339" nil       nil            ))
+  ((bg         '("#2f383e" nil       nil            ))
    (bg-alt     '("#323c41" nil       nil            ))
    (base0      '("#434f55" "black"   "black"        ))
    (base1      '("#3a464c" "#3a464c" "brightblack"  ))
@@ -75,24 +75,24 @@ determine the exact padding."
    (cyan       '("#83c092" "#83c092" "cyan"         )) ;; Nord7
 
    ;; face categories -- required for all themes
-   (highlight      base5)
+   (highlight      base3)
    (vertical-bar   (doom-darken base4 0.2))
    (selection      blue)
-   (builtin        cyan)
-   (comments       grey)
+   (builtin        green)
+   (comments       base4)
    (doc-comments   green)
-   (constants      cyan)
-   (functions      greend)
+   (constants      violet)
+   (functions      teal)
    (keywords       red)
-   (methods        blue)
+   (methods        dark-cyan)
    (operators      yellow)
-   (type           greend)
-   (strings        greend)
+   (type           aqua)
+   (strings        yellow)
    (variables      blue)
    (numbers        magenta)
    (region         base4)
    (error          red)
-   (warning        yellow)
+   (warning        orange)
    (success        green)
    (vc-modified    blue)
    (vc-added       green)
@@ -127,8 +127,8 @@ determine the exact padding."
   ;; --- extra faces ------------------------
   (((region &override) :foreground region-fg)
 
-   ((line-number &override) :foreground (doom-lighten 'base5 0.2))
-   ((line-number-current-line &override) :foreground base7)
+   ((line-number &override) :foreground base0)
+   ((line-number-current-line &override) :foreground base3)
    ((paren-face-match &override) :foreground red :background base3 :weight 'ultra-bold)
    ((paren-face-mismatch &override) :foreground base3 :background red :weight 'ultra-bold)
    ((vimish-fold-overlay &override) :inherit 'font-lock-comment-face :background base3 :weight 'light)

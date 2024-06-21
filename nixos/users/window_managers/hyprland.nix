@@ -18,6 +18,33 @@ in
 
   wallpaper = ../../../wallpapers/star-wars-naboo-wallpapers.png;
 
+  monitors = [
+    {
+      name = "eDP-1";
+      width = 1920;
+      height = 1080;
+      refreshRate = 60;
+      x = 0;
+      y = 1080;
+    }
+    #{
+     # name = "HDMI-A-1";
+      #width = 1920;
+      #height = 1080;
+      #refreshRate = 60;
+      #x = 0;
+      #y = 0;
+    #
+   {
+      name = "HDMI-A-1";
+      width = 3440;
+      height = 1440;
+      refreshRate = 60;
+      x = 0;
+      y = 0;
+    }
+  ];
+
   wayland.windowManager.hyprland = {
     enable = true;
     plugins = [
@@ -30,7 +57,6 @@ in
         "${pkgs.bash}/bin/bash ${startScript}/bin/start"
       ];
 
-      # monitor=",preferred,auto,1";
       monitor = map
         (m:
           let
@@ -63,7 +89,7 @@ in
         border_size = 3;
         "col.active_border" = "rgba(${config.colorScheme.palette.base0D}ff)";
         "col.inactive_border" = "rgba(${config.colorScheme.palette.base01}ff)";
-        layout = "hy3";
+        layout = "dwindle";
       };
 
       decoration = {
@@ -99,13 +125,36 @@ in
         ];
       };
 
+      windowrule = [
+        "opacity 0.95, zathura"
+      ];
+
       dwindle = {
         pseudotile = true;
         preserve_split = true;
+        force_split = 2;
+        # tab_bar_height = 5;            # Sets the height of the tab bar in pixels
+        # tab_bar_padding = 5;            # Sets the padding around the tab bar in pixels
+        # tab_bar_font_size = 10;         # Sets the font size of the text in the tab bar
+        # tab_bar_active_color = "rgba(${config.colorScheme.palette.base0A}ff)";  # Sets the background color of the active tab
+        # tab_bar_inactive_color = "rgba(${config.colorScheme.palette.base01}ff)"; # Sets the background color of inactive tabs
+        # tab_bar_border_color = "rgba(${config.colorScheme.palette.base0A}ff)";  # Sets the color of the border around the tab bar
+        # tab_bar_text_color = "rgba(${config.colorScheme.palette.base01}ff)";   # Sets the color of the text in the tab bar
       };
 
       master = {
         new_is_master = true;
+      };
+
+      group = {
+        "col.border_active" = "rgba(${config.colorScheme.palette.base09}ff)";
+        "col.border_inactive" = "rgba(${config.colorScheme.palette.base01}ff)";
+        groupbar = {
+          height = 0;
+          render_titles = false;
+          "col.active" = "rgba(${config.colorScheme.palette.base09}ff)";
+          "col.inactive" = "rgba(${config.colorScheme.palette.base01}ff)";
+        };
       };
 
       gestures = {
@@ -148,30 +197,31 @@ in
         "$mainMod, m, exec, $fileManager"
         "$mainMod, e, exec, $editor"
         "$mainMod, b, exec, $browser"
-        "$mainMod, space, togglefloating,"
-        # "$mainMod, P, swapsplit, # dwindle"
-        # "$mainMod, V, togglesplit, # dwindle"
+        "$mainMod, space, fullscreen,"
+        "$mainMod SHIFT, z, exec, grim -g \"$(slurp)\" | wl-copy"
 
-        ",233, exec, brightessctl set +5%"
+        ",233, exec, brightessctl set 5%+"
         ",232, exec, brightnessctl set 5%-"
         ",121, exec, pamixer -t" # mute sound F1
 
 
-        "$mainMod SHIFT, Return, hy3:changegroup, toggletab"
-        "$mainMod CONTROL, k, hy3:changegroup, h"
-        "$mainMod CONTROL, j, hy3:movefocus, v"
+        "$mainMod SHIFT, Return, togglegroup"
+        "$mainMod CONTROL, k, changegroupactive, f"
+        "$mainMod CONTROL, j, changegroupactive, b"
+        "$mainMod, P, swapsplit, # dwindle"
+        "$mainMod, V, togglesplit, # dwindle"
 
 
         # Move focus with mainMod + arrow keys
-        "$mainMod, h, hy3:movefocus, l, visible, nowarp"
-        "$mainMod, l, hy3:movefocus, r, visible, nowarp"
-        "$mainMod, k, hy3:movefocus, u, visible, nowarp"
-        "$mainMod, j, hy3:movefocus, d, visible, nowarp"
+        "$mainMod, h, movefocus, l"
+        "$mainMod, l, movefocus, r"
+        "$mainMod, k, movefocus, u"
+        "$mainMod, j, movefocus, d"
 
-        "$mainMod SHIFT, h, hy3:movewindow, l"
-        "$mainMod SHIFT, j, hy3:movewindow, d"
-        "$mainMod SHIFT, k, hy3:movewindow, u"
-        "$mainMod SHIFT, l, hy3:movewindow, r"
+        "$mainMod SHIFT, h, movewindoworgroup, l"
+        "$mainMod SHIFT, j, movewindoworgroup, d"
+        "$mainMod SHIFT, k, movewindoworgroup, u"
+        "$mainMod SHIFT, l, movewindoworgroup, r"
 
         "$mainMod, equal, resizeactive,10 0"
         "$mainMod, minus, resizeactive,-10 0"
@@ -186,30 +236,30 @@ in
         # "$mainMod, n, hy3:changegroup, opposite"
 
         # Switch workspaces with mainMod + [0-9]
-        "$mainMod, a, workspace, 1"
-        "$mainMod, s, workspace, 2"
-        "$mainMod, d, workspace, 3"
-        "$mainMod, f, workspace, 4"
-        "$mainMod, u, workspace, 5"
-        "$mainMod, i, workspace, 6"
-        "$mainMod, o, workspace, 7"
+        "$mainMod, a, focusworkspaceoncurrentmonitor, 1"
+        "$mainMod, s, focusworkspaceoncurrentmonitor, 2"
+        "$mainMod, d, focusworkspaceoncurrentmonitor, 3"
+        "$mainMod, f, focusworkspaceoncurrentmonitor, 4"
+        "$mainMod, u, focusworkspaceoncurrentmonitor, 5"
+        "$mainMod, i, focusworkspaceoncurrentmonitor, 6"
+        "$mainMod, o, focusworkspaceoncurrentmonitor, 7"
 
         # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "$mainMod SHIFT, a, hy3:movetoworkspace, 1, follow"
-        "$mainMod SHIFT, s, hy3:movetoworkspace, 2, follow"
-        "$mainMod SHIFT, d, hy3:movetoworkspace, 3, follow"
-        "$mainMod SHIFT, f, hy3:movetoworkspace, 4, follow"
-        "$mainMod SHIFT, u, hy3:movetoworkspace, 5, follow"
-        "$mainMod SHIFT, i, hy3:movetoworkspace, 6, follow"
-        "$mainMod SHIFT, o, hy3:movetoworkspace, 7, follow"
+        "$mainMod SHIFT, a, movetoworkspace, 1, follow"
+        "$mainMod SHIFT, s, movetoworkspace, 2, follow"
+        "$mainMod SHIFT, d, movetoworkspace, 3, follow"
+        "$mainMod SHIFT, f, movetoworkspace, 4, follow"
+        "$mainMod SHIFT, u, movetoworkspace, 5, follow"
+        "$mainMod SHIFT, i, movetoworkspace, 6, follow"
+        "$mainMod SHIFT, o, movetoworkspace, 7, follow"
 
-        "$mainMod CONTROL, a, hy3:movetoworkspace, 1"
-        "$mainMod CONTROL, s, hy3:movetoworkspace, 2"
-        "$mainMod CONTROL, d, hy3:movetoworkspace, 3"
-        "$mainMod CONTROL, f, hy3:movetoworkspace, 4"
-        "$mainMod CONTROL, u, hy3:movetoworkspace, 5"
-        "$mainMod CONTROL, i, hy3:movetoworkspace, 6"
-        "$mainMod CONTROL, o, hy3:movetoworkspace, 7"
+        "$mainMod CONTROL, a, movetoworkspace, 1"
+        "$mainMod CONTROL, s, movetoworkspace, 2"
+        "$mainMod CONTROL, d, movetoworkspace, 3"
+        "$mainMod CONTROL, f, movetoworkspace, 4"
+        "$mainMod CONTROL, u, movetoworkspace, 5"
+        "$mainMod CONTROL, i, movetoworkspace, 6"
+        "$mainMod CONTROL, o, movetoworkspace, 7"
         # Example special workspace (scratchpad)
         # $mainMod, S, togglespecialworkspace, magic
         # $mainMod SHIFT, S, movetoworkspace, special:magic
@@ -222,6 +272,7 @@ in
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
       ];
+
     };
   };
 }

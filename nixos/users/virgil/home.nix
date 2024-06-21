@@ -89,7 +89,11 @@
     mediainfo
     poppler
     i3lock-color                # lock screen
-    scrot                       # screenshots
+    # for screenshot
+    grim
+    slurp
+    wl-clipboard
+
     nerdfonts
     zip
     unzip

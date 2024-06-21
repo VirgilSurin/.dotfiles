@@ -5,11 +5,11 @@
     inputs.hyprlock.homeManagerModules.hyprlock
   ];
 
-  # wayland.windowManager.hyprland = {
-  #   settings = {
-  #     bind = [ "$mainMod SHIFT, e, exec, hyprlock" ];
-  #   };
-  # };
+  wayland.windowManager.hyprland = {
+    settings = {
+      bind = [ "$mainMod SHIFT, e, exec, hyprlock" ];
+    };
+  };
 
   programs.hyprlock = {
     enable = true;
