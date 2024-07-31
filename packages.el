@@ -63,6 +63,8 @@
 (package! all-the-icons-ivy)
 (package! all-the-icons-dired)
 
+(package! org-mime)
+
 (package! direnv)
 
 (package! cdlatex)

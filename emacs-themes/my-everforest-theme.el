@@ -8,6 +8,7 @@
   "Options for doom-themes"
   :group 'doom-themes)
 
+
 (defcustom doom-nord-aurora-brighter-modeline nil
   "If non-nil, more vivid colors will be used to style the mode-line."
   :group 'doom-nord-aurora-theme

@@ -56,14 +56,8 @@
 
 
   # Configure keymap in X11
-  services.xserver = {
 
-    # Enable the X11 windowing system.
-    enable = false;
-
-    xkb.layout = "us";
-    xkb.variant = "altgr-intl";
-    xkb.options = "caps:ctrl_modifier";
+  services = {
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
 
@@ -74,6 +68,16 @@
         user = "virgil";
       };
     };
+  };
+
+  services.xserver = {
+
+    # Enable the X11 windowing system.
+    enable = false;
+
+    xkb.layout = "us";
+    xkb.variant = "altgr-intl";
+    xkb.options = "caps:ctrl_modifier";
 
     windowManager.qtile = {
       enable = true;

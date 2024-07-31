@@ -13,11 +13,13 @@
     ../programs/fish.nix
     ../programs/bash.nix
     ../programs/zathura.nix
+    ../programs/emacs-theme.nix
     # ../window_managers/qtile.nix
     # ../modules/qtile.nix
   ];
 
 
+  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
   colorScheme = inputs.nix-colors.colorSchemes.everforest;
   # colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
@@ -49,6 +51,7 @@
     vlc
     pcmanfm
     zathura
+    evince
 
     # wayland related things
     wofi
@@ -89,6 +92,7 @@
     mediainfo
     poppler
     i3lock-color                # lock screen
+    pinentry-rofi
     # for screenshot
     grim
     slurp
@@ -119,7 +123,7 @@
     # programming langages
     python3
     libclang
-    jdk19_headless
+    jdk
     nodejs_20
     rustc
     cargo
@@ -155,6 +159,19 @@
     enable = true;
     userName  = "VirgilSurin";
     userEmail = "virgil.surin@student.umons.ac.be";
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-rofi;
+  };
+
+  programs.gpg = {
+    enable = true;
+  };
+
+  services.mbsync = {
+    enable = true;
   };
 
 }

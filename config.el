@@ -48,6 +48,7 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (visual-line-mode t)
+(+global-word-wrap-mode t)
 
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -71,29 +72,6 @@
   (add-hook 'org-mode-hook 'writeroom-mode)
   )
 
-
-;; tag
-;;┏━━━━━━━━━━━━━━━━━━━━━━━━┓
-;;┃    Custom functions    ┃
-;;┗━━━━━━━━━━━━━━━━━━━━━━━━┛
-(defun vs/browse-org-files ()
-  "browse my org files"
-  (interactive)
-  (+vertico/find-file-in org-directory)
-  )
-
-(defun vs/edit-private-config ()
-  "Edit personnal config files"
-  (interactive)
-  (find-file vs/dotfiles)
-  )
-
-;; map them
-(map! :leader
-      :desc "Open file in ~/.dotfiles" "f h" #'vs/edit-private-config
-      :desc "Open org files" "f o" #'vs/browse-org-files
-      )
-
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━━━━┓
 ;;┃    Keybindings    ┃
@@ -105,6 +83,11 @@
       "L" #'nil
       )
 
+(map! :leader
+      (:prefix ("f" . "file")
+               :desc "open org files" "o" #'(lambda () (interactive) (find-file "~/org/"))
+               :desc "open dotfiles" "h" #'(lambda () (interactive) (find-file "~/.dotfiles/"))
+               ))
 ;; Unify moving between buffer and window (Qtile)
 (map! :map 'override
       "M-h" #'evil-window-left
@@ -142,6 +125,7 @@
 ;;┃    UI    ┃
 ;;┗━━━━━━━━━━┛
 
+
 ;; -<< Theme >>-
 (setq! doom-theme 'my-everforest)
 (after! doom-themes
@@ -165,12 +149,15 @@
   `(tree-sitter-hl-face:variable.builtin :foreground ,(doom-color 'dark-blue) :weight normal :slant italic)
   `(tree-sitter-hl-face:constant :foreground ,(doom-color 'yellow) :weight bold)
   `(tree-sitter-hl-face:number :foreground ,(doom-color 'magenta) :weight bold)
+  `(vertical-border :foreground ,(doom-color 'base3))
   )
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 18 :weight 'normal)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 18)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal))
+(setq window-divider-default-right-width 2
+      window-divider-default-bottom-width 2)
 
-;; -<< Cursor >>-
+;; << Cursor >>-
 
 ;; TODO: How to do it from my doom-theme ??
 (setq evil-normal-state-cursor '("#c6d3ab" box)
@@ -368,6 +355,7 @@
 (when EMACS28+
   (add-hook 'latex-mode-hook #'TeX-latex-mode))
 
+(unbind-key "'" cdlatex-mode-map)
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━┓
 ;;┃    Org-mode    ┃
@@ -503,6 +491,57 @@
 ;;; ┃    Email    ┃
 ;;  ┗━━━━━━━━━━━━━┛
 ;; TODO
+;; (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+;; (setq mu4e-maildir (expand-file-name "~/Maildir"))
+;; (setq  mu4e-get-mail-command "mbsync -c ~/.config/mu4e/.mbsyncrc -a"
+;;        mu4e-view-prefer-html t
+;;        mu4e-update-interval 180
+;;        mu4e-headers-auto-update t
+;;        mu4e-compose-signature-auto-include nil
+;;        mu4e-compose-format-flowed t)
 
+;; (add-to-list 'mu4e-view-actions
+;;   '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+;; ;; enable inline images
+;; (setq mu4e-view-show-images t)
+;; ;; use imagemagick, if available
+;; (when (fboundp 'imagemagick-register-types)
+;;   (imagemagick-register-types))
+
+;; ;; every new email composition gets its own frame!
+;; (setq mu4e-compose-in-new-frame t)
+
+;; ;; don't save message to Sent Messages, IMAP takes care of this
+;; (setq mu4e-sent-messages-behavior 'delete)
+
+;; (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+
+;; ;; <tab> to navigate to links, <RET> to open them in browser
+;; (add-hook 'mu4e-view-mode-hook
+;;           (lambda()
+;;             ;; try to emulate some of the eww key-bindings
+;;             (local-set-key (kbd "<RET>") 'mu4e~view-browse-url-from-binding)
+;;             (local-set-key (kbd "<tab>") 'shr-next-link)
+;;             (local-set-key (kbd "<backtab>") 'shr-previous-link)))
+
+;; ;; from https://www.reddit.com/r/emacs/comments/bfsck6/mu4e_for_dummies/elgoumx
+;; (add-hook 'mu4e-headers-mode-hook
+;;           (defun my/mu4e-change-headers ()
+;;             (interactive)
+;;             (setq mu4e-headers-fields
+;;                   `((:human-date . 25) ;; alternatively, use :date
+;;                     (:flags . 6)
+;;                     (:from . 22)
+;;                     (:thread-subject . ,(- (window-body-width) 70)) ;; alternatively, use :subject
+;;                     (:size . 7)))))
+;; ;; spell check
+;; (add-hook 'mu4e-compose-mode-hook
+;;     (defun my-do-compose-stuff ()
+;;        "My settings for message composition."
+;;        (visual-line-mode)
+;;        (org-mu4e-compose-org-mode)
+;;            (use-hard-newlines -1)
+;;        (flyspell-mode)))
 
 ;;; config.el ends here

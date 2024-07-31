@@ -52,12 +52,12 @@
         };
         "cpu"= {
           "interval"=10;
-          "format"=" {usage:02}%";
+          "format"="  {usage:02}%";
         };
         "network"= {
           "interface"= "wlp6s0";
           # "format"= "{ifname}";
-          "format-wifi"= " {signalStrength}%";
+          "format-wifi"= "  {signalStrength}%";
           # "format-ethernet"= "{ifname}  ";
           # "format-disconnected"= "  ";
           "tooltip-format"= "{ifname}";
@@ -72,7 +72,7 @@
           "format-plugged"= " {capacity}% ({time})";
         };
         "pulseaudio" = {
-          "format" = "{icon} {volume}%";
+          "format" = "{icon}  {volume}%";
           "format-muted" = "";
           "format-icons" = [
             ""
@@ -103,7 +103,7 @@
       }
 
       window#waybar {
-        border-radius: 10px 10px 10px 10px;
+        border-radius: 0px 0px 0px 0px;
         color: #${config.colorScheme.palette.base05};
         background: #${config.colorScheme.palette.base00};
       }

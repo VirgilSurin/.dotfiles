@@ -25,7 +25,7 @@ in
       height = 1080;
       refreshRate = 60;
       x = 0;
-      y = 1080;
+      y = 0;
     }
     #{
      # name = "HDMI-A-1";
@@ -37,11 +37,11 @@ in
     #
    {
       name = "HDMI-A-1";
-      width = 3440;
-      height = 1440;
-      refreshRate = 60;
-      x = 0;
-      y = 0;
+      width = 0;
+      height = 0;
+      refreshRate = 0;
+      x = -1;
+      y = -1;
     }
   ];
 
@@ -63,7 +63,7 @@ in
             resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
             position = "${toString m.x}x${toString m.y}";
           in
-            "${m.name},${if m.enabled then "${resolution},${position},1" else "disable"}"
+            "${m.name},${if m.enabled then "${if m.width > 0 then resolution else "preferred"},${if m.x >= 0 then "auto" else "auto-left"},1" else "disable"}"
         )
         (config.monitors);
 
@@ -90,10 +90,12 @@ in
         "col.active_border" = "rgba(${config.colorScheme.palette.base0D}ff)";
         "col.inactive_border" = "rgba(${config.colorScheme.palette.base01}ff)";
         layout = "dwindle";
+        cursor_inactive_timeout = 1;
+        no_cursor_warps = true;
       };
 
       decoration = {
-        rounding = 2;
+        rounding = 0;
         blur = {
           enabled = true;
           size = 8;
@@ -200,7 +202,7 @@ in
         "$mainMod, space, fullscreen,"
         "$mainMod SHIFT, z, exec, grim -g \"$(slurp)\" | wl-copy"
 
-        ",233, exec, brightessctl set 5%+"
+        ",233, exec, brightessctl set +5%"
         ",232, exec, brightnessctl set 5%-"
         ",121, exec, pamixer -t" # mute sound F1
 
@@ -219,8 +221,8 @@ in
         "$mainMod, j, movefocus, d"
 
         "$mainMod SHIFT, h, movewindoworgroup, l"
-        "$mainMod SHIFT, j, movewindoworgroup, d"
         "$mainMod SHIFT, k, movewindoworgroup, u"
+        "$mainMod SHIFT, j, movewindoworgroup, d"
         "$mainMod SHIFT, l, movewindoworgroup, r"
 
         "$mainMod, equal, resizeactive,10 0"
