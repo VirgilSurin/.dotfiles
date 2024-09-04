@@ -1,0 +1,103 @@
+{ config, lib, pkgs, ... }:
+
+{
+  programs.rofi = {
+    enable = true;
+
+    cycle = true;
+    location = "center";
+    plugins = [
+      pkgs.rofi-calc
+    ];
+
+
+    theme = let
+      inherit (config.lib.formats.rasi) mkLiteral;
+    in {
+      "*" = {
+        background-color            = mkLiteral "#282c34";
+        border-color                = mkLiteral "#51afef";
+        text-color                  = mkLiteral "#bbc2cf";
+        font                        = "Ubuntu Mono 11";
+        prompt-font                 = "Ubuntu Bold 10";
+        prompt-background           = mkLiteral '#51afef';
+          prompt-foreground           = mkLiteral '#282c34';
+            prompt-padding              = mkLiteral '4px';
+        alternate-normal-background = mkLiteral "#1c1f24";
+        alternate-normal-foreground = mkLiteral "@text-color";
+        selected-normal-background  = mkLiteral "#ae3f3e";
+        selected-normal-foreground  = mkLiteral "#ffffff";
+        spacing                     = 3;
+      };
+      "#window" = {
+        border = 2;
+        padding = 0;
+      };
+      "mainbox" = {
+        border = 0;
+        padding = 0;
+      };
+      "message" = {
+        border = mkLiteral "1px dash 0px 0px";
+        padding = mkLiteral "1px";
+      };
+      "#listview" = {
+        fixed-height = 0;
+        border       = mkLiteral "2px solid 0px 0px";
+        border-color = mkLiteral "#1c1f24";
+        spacing      = mkLiteral "2px";
+        scrollbar    = mkLiteral "true";
+        padding      = mkLiteral "2px 0px 0px";
+      };
+      "#element" = {
+        border = 0;
+        padding = mkLiteral "1px";
+      };
+      "#element.selected.normal" = {
+        background-color = mkLiteral "@selected-normal-background";
+        text-color       = mkLiteral "@selected-normal-foreground";
+      };
+      "#element.alternate.normal" = {
+        background-color = mkLiteral "@alternate-normal-background";
+        text-color       = mkLiteral "@alternate-normal-foreground";
+      };
+      "#scrollbar" = {
+        width        = mkLiteral "0px";
+        border       = 0;
+        handle-width = mkLiteral "0px";
+        padding      = 0;
+      };
+      "#sidebar" = {
+        border = mkLiteral "2px dash 0px 0px";
+      };
+      "#button.selected" = {
+        background-color = mkLiteral "@selected-normal-background";
+        text-color       = mkLiteral "@selected-normal-foreground";
+      };
+      "#inputbar" = {
+        spacing = 0;
+        padding = mkLiteral "1px";
+      };
+      "#case-indicator" = {
+        spacing = 0;
+      };
+      "#entry" = {
+        padding = mkLiteral "4px 4px";
+        expand  = mkLiteral "false";
+        width   = mkLiteral "10em";
+      };
+      "#prompt" = {
+        padding          = mkLiteral "@prompt-padding";
+        background-color = mkLiteral "@prompt-background";
+        text-color       = mkLiteral "@prompt-foreground";
+        font             = mkLiteral "@prompt-font";
+        border-radius    = mkLiteral "2px";
+      };
+
+      "element-text" = {
+        background-color = mkLiteral "inherit";
+        text-color       = mkLiteral "inherit";
+      };
+    };
+  };
+}
