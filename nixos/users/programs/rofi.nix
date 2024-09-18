@@ -10,28 +10,33 @@
       pkgs.rofi-calc
     ];
 
+    extraConfig = {
+
+    };
 
     theme = let
       inherit (config.lib.formats.rasi) mkLiteral;
     in {
       "*" = {
-        background-color            = mkLiteral "#282c34";
-        border-color                = mkLiteral "#51afef";
-        text-color                  = mkLiteral "#bbc2cf";
-        font                        = "Ubuntu Mono 11";
-        prompt-font                 = "Ubuntu Bold 10";
-        prompt-background           = mkLiteral '#51afef';
-          prompt-foreground           = mkLiteral '#282c34';
-            prompt-padding              = mkLiteral '4px';
-        alternate-normal-background = mkLiteral "#1c1f24";
+        background-color            = mkLiteral "#${config.colorScheme.palette.base00}";
+        border-color                = mkLiteral "#${config.colorScheme.palette.base08}";
+        text-color                  = mkLiteral "#${config.colorScheme.palette.base05}";
+        font                        = "FiraCode Nerd Font Medium 12";
+        prompt-font                 = "FiraCode Nerd Font Medium 12";
+        prompt-background           = mkLiteral "#${config.colorScheme.palette.base08}";
+        prompt-foreground           = mkLiteral "#${config.colorScheme.palette.base00}";
+        prompt-padding              = mkLiteral "4px";
+        alternate-normal-background = mkLiteral "#${config.colorScheme.palette.base01}";
         alternate-normal-foreground = mkLiteral "@text-color";
-        selected-normal-background  = mkLiteral "#ae3f3e";
-        selected-normal-foreground  = mkLiteral "#ffffff";
-        spacing                     = 3;
+        selected-normal-background  = mkLiteral "#${config.colorScheme.palette.base0D}";
+        selected-normal-foreground  = mkLiteral "#${config.colorScheme.palette.base00}";
+        spacing                     = 0;
+        margin                      = 0;
+        padding                     = 0;
       };
       "#window" = {
         border = 2;
-        padding = 0;
+        padding = 5;
       };
       "mainbox" = {
         border = 0;
@@ -44,7 +49,7 @@
       "#listview" = {
         fixed-height = 0;
         border       = mkLiteral "2px solid 0px 0px";
-        border-color = mkLiteral "#1c1f24";
+        border-color = mkLiteral "#${config.colorScheme.palette.base01}";
         spacing      = mkLiteral "2px";
         scrollbar    = mkLiteral "true";
         padding      = mkLiteral "2px 0px 0px";

@@ -4,11 +4,12 @@
 
   imports = [
     inputs.nix-colors.homeManagerModules.default
-    ../window_managers/hyprland.nix
+    # ../window_managers/hyprland.nix
     # ../window_managers/hyprlock.nix
     ../programs/alacritty.nix
     ../programs/waybar.nix
     ../programs/wofi.nix
+    ../programs/rofi.nix
     ../programs/picom.nix
     ../programs/fish.nix
     ../programs/bash.nix
@@ -36,7 +37,6 @@
     alacritty
     btop
     firefox
-    rofi
     chromium                    # I need a chromium web browser sometimes
     firefox
     bitwarden
@@ -61,9 +61,6 @@
     # unfree
     # discord
 
-    # Mail
-    mu
-    isync
     # linux utilities
     shutter
     gtk3
@@ -92,7 +89,6 @@
     mediainfo
     poppler
     i3lock-color                # lock screen
-    pinentry-rofi
     # for screenshot
     grim
     slurp
@@ -115,6 +111,7 @@
 
     # Arduino
     # arduino
+
 
     # wifi and bluetooth
     blueman
@@ -159,19 +156,6 @@
     enable = true;
     userName  = "VirgilSurin";
     userEmail = "virgil.surin@student.umons.ac.be";
-  };
-
-  services.gpg-agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-rofi;
-  };
-
-  programs.gpg = {
-    enable = true;
-  };
-
-  services.mbsync = {
-    enable = true;
   };
 
 }

@@ -31,6 +31,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  systemd.services.NetworkManager-wait-online.enable = pkgs.lib.mkForce false;
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
@@ -62,10 +63,14 @@
     libinput.touchpad.naturalScrolling = true;
 
     displayManager = {
-      defaultSession = "Hyrpland";
+      defaultSession = "qtile";
       autoLogin = {
         enable = true;
         user = "virgil";
+      };
+      sddm = {
+        enable = true;
+        wayland.enable = true;
       };
     };
   };
@@ -73,7 +78,7 @@
   services.xserver = {
 
     # Enable the X11 windowing system.
-    enable = false;
+    enable = true;
 
     xkb.layout = "us";
     xkb.variant = "altgr-intl";
@@ -87,9 +92,9 @@
   };
 
   programs.hyprland = {
-    enable = true;
+    enable = false;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    # xwayland.enable = true;
+    xwayland.enable = false;
   };
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
@@ -123,7 +128,6 @@
   };
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -198,9 +202,8 @@
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs29-pgtk;
+    package = pkgs.emacs-gtk;
   };
-
   networking.stevenBlackHosts = {
     blockFakenews = false;
     blockGambling = false;

@@ -25,9 +25,8 @@
 ;;  ┗━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 ;; -<< Directory variables >>-
-
 (setq org-directory "~/org/")
-(defvar vs/dotfiles "~/.dotfiles/")
+(setq dotfiles "~/.dotfiles/")
 (setq org-agenda-files '("~/org/agenda.org" "~/org/todo.org"))
 
 ;;; -<< Personnal information >>-
@@ -133,8 +132,8 @@
         doom-themes-enable-italic 1))
 
 ;; -<< Transparency >>-
-(set-frame-parameter nil 'alpha-background 100)
-(add-to-list 'default-frame-alist '(alpha-background . 100))
+(set-frame-parameter nil 'alpha-background 95)
+(add-to-list 'default-frame-alist '(alpha-background . 95))
 
 ;; -<< Fonts >>-
 (custom-set-faces!
@@ -350,12 +349,12 @@
    :map cdlatex-mode-map
    :i "TAB" #'cdlatex-tab
    )
-  (setq TeX-electric-math '("\\(" . "")))
+  (setq TeX-electric-math '("\\(" . ""))
+  )
 
 (when EMACS28+
   (add-hook 'latex-mode-hook #'TeX-latex-mode))
 
-(unbind-key "'" cdlatex-mode-map)
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━┓
 ;;┃    Org-mode    ┃

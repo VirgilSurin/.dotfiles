@@ -8,13 +8,25 @@
     backend = "glx";
 
     fade = true;
-    fadeDelta = 10;
-
-    opacityRules = [
-      "100:class_g = 'URxvt'"
-      "90:class_g = 'Emacs'" # Adjust the value for desired transparency
-      # "100:class_g = 'Alacritty'"
+    fadeSteps = [
+      0.03
+      0.03
     ];
+
+    inactiveOpacity = 0.98;
+    activeOpacity = 1.0;
+    menuOpacity = 1.0;
+
+    shadow = true;
+
+    wintypes = {
+      normal = { fade = false; shadow = false; };
+      tooltip = { fade = true; shadow = false; opacity = 0.75; focus = true; full-shadow = false; };
+      dock = { shadow = false; };
+      dnd = { shadow = false; };
+      popup_menu = { opacity = 1.0; };
+      dropdown_menu = { opacity = 1.0; };
+    };
 
     settings = {
       blur = {

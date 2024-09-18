@@ -103,7 +103,7 @@
       }
 
       window#waybar {
-        border-radius: 0px 0px 0px 0px;
+        border-radius: 10px 10px 10px 10px;
         color: #${config.colorScheme.palette.base05};
         background: #${config.colorScheme.palette.base00};
       }
@@ -174,7 +174,7 @@
       #cpu {
           color: #${config.colorScheme.palette.base0A};
           border-bottom: 3px solid #${config.colorScheme.palette.base0A};
-          border-radius: 4px 4px 4px 4px;
+          border-radius: 0px 0px 0px 0px;
           padding-left: 2px;
           padding-right: 2px;
           margin-left: 4px;
@@ -184,7 +184,7 @@
       #network {
           color: #${config.colorScheme.palette.base08};
           border-bottom: 3px solid #${config.colorScheme.palette.base08};
-          border-radius: 4px 4px 4px 4px;
+          border-radius: 0px 0px 0px 0px;
           padding-left: 2px;
           padding-right: 2px;
           margin-left: 4px;
@@ -194,7 +194,7 @@
       #battery {
           color: #${config.colorScheme.palette.base0B};
           border-bottom: 3px solid #${config.colorScheme.palette.base0B};
-          border-radius: 4px 4px 4px 4px;
+          border-radius: 0px 0px 0px 0px;
           padding-left: 2px;
           padding-right: 2px;
           margin-left: 4px;
@@ -204,7 +204,7 @@
       #pulseaudio {
           color: #${config.colorScheme.palette.base0E};
           border-bottom: 3px solid #${config.colorScheme.palette.base0E};
-          border-radius: 4px 4px 4px 4px;
+          border-radius: 0px 0px 0px 0px;
           padding-left: 2px;
           padding-right: 2px;
           margin-left: 4px;
@@ -214,7 +214,7 @@
       #clock {
           color: #${config.colorScheme.palette.base0D};
           border-bottom: 3px solid #${config.colorScheme.palette.base0D};
-          border-radius: 4px 4px 4px 4px;
+          border-radius: 0px 0px 0px 0px;
           padding-left: 2px;
           padding-right: 2px;
           margin-left: 4px;
