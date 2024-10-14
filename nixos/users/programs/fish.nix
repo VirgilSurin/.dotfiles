@@ -15,6 +15,8 @@
       cfg="sudo nvim /etc/nixos/configuration.nix";
       nrs="sudo nixos-rebuild switch";
       hms="home-manager switch";
+      rebuild="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
+      update="nix flake update";
 
       # Changing "ls" to "exa"
       ls="eza -al --color=always --group-directories-first --icons"; # my preferred listing
@@ -23,7 +25,6 @@
       lt="eza -aT --color=always --group-directories-first --icons"; # tree listing
 
       # Changing cd to zoxide
-
       grep="grep --color=auto";
 
       rr="curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash";
