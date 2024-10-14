@@ -13,7 +13,7 @@
       0.03
     ];
 
-    inactiveOpacity = 0.98;
+    inactiveOpacity = 1.0;
     activeOpacity = 1.0;
     menuOpacity = 1.0;
 
