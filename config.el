@@ -132,8 +132,8 @@
         doom-themes-enable-italic 1))
 
 ;; -<< Transparency >>-
-(set-frame-parameter nil 'alpha-background 95)
-(add-to-list 'default-frame-alist '(alpha-background . 95))
+(set-frame-parameter nil 'alpha-background 100)
+(add-to-list 'default-frame-alist '(alpha-background . 100))
 
 ;; -<< Fonts >>-
 (custom-set-faces!
@@ -349,7 +349,6 @@
    :map cdlatex-mode-map
    :i "TAB" #'cdlatex-tab
    )
-  (setq TeX-electric-math '("\\(" . ""))
   )
 
 (when EMACS28+

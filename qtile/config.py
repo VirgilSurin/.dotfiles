@@ -23,8 +23,8 @@
 from libqtile import bar, layout, widget, qtile, extension
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-from qtile_extras import widget
-from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
+# from qtile_extras import widget
+# from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
 from os.path import expanduser
 import themes
 import copy
@@ -32,7 +32,7 @@ import copy
 
 mod = "mod4"
 # terminal = guess_terminal()
-myBrowser = "chromium"
+myBrowser = "firefox"
 editor = "emacsclient -c -a 'emacs' "
 # terminal = editor + "--eval \"(progn (vterm) (delete-other-windows))\""
 terminal = "alacritty"
@@ -220,13 +220,13 @@ extension_defaults = widget_defaults.copy()
 
 decoration_group = {
     "decorations": [
-        RectDecoration(colour="#353b45",
-                       line_colour = "#565c64",
-                       line_width = 2,
-                       radius=10,
-                       filled=True,
-                       padding_y= 4,
-                       group=True)
+        # RectDecoration(colour="#353b45",
+        #                line_colour = "#565c64",
+        #                line_width = 2,
+        #                radius=10,
+        #                filled=True,
+        #                padding_y= 4,
+        #                group=True)
     ],
     "padding": 10,
 }
@@ -252,7 +252,7 @@ def create_widget():
             other_current_screen_border = colors["magenta"],
             foreground = colors["fg"],
             background = [colors["bg"]],
-            **decoration_group,
+            # **decoration_group,
         ),
         sep_bar,
         # widget.TextBox(
@@ -294,23 +294,23 @@ def create_widget():
         #     fontsize = 40
         # ),
         widget.Spacer(length = 8),
-        widget.WiFiIcon(
-            interface = "wlp6s0",
-            # font = "JetBrains Mono SemiBold",
-            # fontsize = 11,
-            padding = 5,
-            foreground = colors["red"],
-            wifi_shape = "arc",
-            wifi_rectangle_width = 10,
-            active_colour = colors["red"],
-            disconnected_colour = colors["black"],
-            decorations = [
-                BorderDecoration(
-                    colour = colors["red"],
-                    border_width = [0, 0, 2, 0],
-                )
-            ]
-            ),
+        # widget.WiFiIcon(
+        #     interface = "wlp6s0",
+        #     # font = "JetBrains Mono SemiBold",
+        #     # fontsize = 11,
+        #     padding = 5,
+        #     foreground = colors["red"],
+        #     wifi_shape = "arc",
+        #     wifi_rectangle_width = 10,
+        #     active_colour = colors["red"],
+        #     disconnected_colour = colors["black"],
+        #     # decorations = [
+        #     #     BorderDecoration(
+        #     #         colour = colors["red"],
+        #     #         border_width = [0, 0, 2, 0],
+        #     #     )
+        #     # ]
+        #     ),
         widget.Net(
             interface = "wlp6s0",
             format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
@@ -319,12 +319,12 @@ def create_widget():
             font = "JetBrains Mono SemiBold",
             fontsize = 12,
             padding = 4,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["red"],
-                    border_width = [0, 0, 2, 0],
-                )
-            ]
+            # decorations = [
+            #     BorderDecoration(
+            #         colour = colors["red"],
+            #         border_width = [0, 0, 2, 0],
+            #     )
+            # ]
         ),
         widget.Spacer(length = 8),
         widget.UPowerWidget(
@@ -338,12 +338,12 @@ def create_widget():
             border_colour = colors["green"],
             border_charge_colour = colors["green"],
             border_critical_colour = colors["green"],
-            decorations = [
-                BorderDecoration(
-                    colour = colors["green"],
-                    border_width = [0, 0, 2, 0],
-                )
-            ]
+            # decorations = [
+            #     BorderDecoration(
+            #         colour = colors["green"],
+            #         border_width = [0, 0, 2, 0],
+            #     )
+            # ]
         ),
         widget.Battery(
             foreground = colors["green"],
@@ -352,12 +352,12 @@ def create_widget():
             fontsize = 12,
             font = "JetBrains Mono SemiBold",
             format = "{percent:2.0%} ({hour:d}h{min:02d})",
-            decorations = [
-                BorderDecoration(
-                    colour = colors["green"],
-                    border_width = [0, 0, 2, 0],
-                )
-            ]
+            # decorations = [
+            #     BorderDecoration(
+            #         colour = colors["green"],
+            #         border_width = [0, 0, 2, 0],
+            #     )
+            # ]
         ),
         widget.Spacer(length = 8),
         widget.Volume(
@@ -367,12 +367,12 @@ def create_widget():
             font = "JetBrains Mono SemiBold",
             fmt = ' Vol: {} ',
             padding = 10,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["magenta"],
-                    border_width = [0, 0, 2, 0],
-                )
-            ]
+            # decorations = [
+            #     BorderDecoration(
+            #         colour = colors["magenta"],
+            #         border_width = [0, 0, 2, 0],
+            #     )
+            # ]
             ),
         widget.Spacer(length = 8),
         # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
@@ -384,12 +384,12 @@ def create_widget():
             font = "JetBrains Mono SemiBold",
             format = "⏱ %a, %d %b - %H:%M ",
             padding = 10,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["blue"],
-                    border_width = [0, 0, 2, 0],
-                )
-            ]
+            # decorations = [
+            #     BorderDecoration(
+            #         colour = colors["blue"],
+            #         border_width = [0, 0, 2, 0],
+            #     )
+            # ]
         ),
         widget.Spacer(length = 8),
         widget.Systray(

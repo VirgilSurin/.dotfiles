@@ -21,12 +21,12 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +childframe)           ; the ultimate code completion backend
+       (company)           ; the ultimate code completion backend
        ;;(corfu +icons +orderless +tng +dict)
        ;; (helm +childframe +fuzzy +icons)              ; the *other* search engine for love and life
        ;; ido               ; the other *other* search engine...
-       ;(ivy +childframe +icons)                 ;a search engine for love and life
-       (vertico +childframe +icons)           ; the search engine of the future
+       (ivy +icons)                 ;a search engine for love and life
+       ;; (vertico +icons)           ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -143,7 +143,7 @@
        ;;idris             ; a language you can depend on
        json              ; At least it ain't XML
        (java +lsp)       ; the poster child for carpal tunnel syndrome
-       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        (latex +cdlatex +latexmk +lsp +fold)             ; writing papers in Emacs has never been so fun

@@ -1,6 +1,11 @@
 #+title: config.py
 
+Bonjour je suis Virgil
+#+begin_src python
+print("Coucou Virgil")
+#+end_src
 * Imports
+Default import, needed for the config to run. _Do not forget them !_
 #+begin_src python
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -19,6 +24,11 @@ colors = themes.Everforest
 #+end_src
 
 * Variables
+
+Change them to what you prefer. Emacs is my editor, the current variable stands for the emacs client. Meaning you must first run an emacs daemon somewhere.
+
+Note that 'mod4' is the 'super' key.
+
 #+begin_src python
 mod = "mod4"
 terminal = guess_terminal()
@@ -39,6 +49,9 @@ groups = [
 #+end_src
 
 * Keybindings
+The following tab shows all of the used kbd in the config. They are based around Vim motion kbd.
+
+|---------------------------+-------------------------------------|
 | Bind                      | Command                             |
 |---------------------------+-------------------------------------|
 | Mod + h/j/k/l             | Focus window left/down/up/right     |
