@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -175,6 +175,14 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "jetbrains-toolbox"
+    "jetbrains.idea-ultimate"
+    "jetbrains.pycharm-community"
+    "discord"
+    "slack"
+  ];
+  # nixpkgs.config.allowUnfreePredicate = _: true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -182,6 +190,11 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    discord
+    jetbrains-toolbox
+    jetbrains.pycharm-community
+    jetbrains.idea-ultimate
+    slack
     wget
     git
     neovim
@@ -191,7 +204,6 @@
     via
 
     spotify
-    discord
 
     # qt5
     libsForQt5.qt5.qtquickcontrols2

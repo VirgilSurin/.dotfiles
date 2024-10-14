@@ -37,11 +37,6 @@
   outputs = { self, nixpkgs, ... }@inputs:
     let
       system = "x86-64-linux";
-      pkgs = import nixpkgs {
-        config = {
-          allowUnfree = true;
-        };
-      };
     in
       {
         nixosConfigurations = {
