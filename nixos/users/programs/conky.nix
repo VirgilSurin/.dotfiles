@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
   services.conky = {
     enable = true;
     extraConfig =
@@ -132,8 +131,9 @@ conky.text = [[
 \${color1}[S]+p, o\${alignr}\${color2}dm-bookman\${color}
 \${color1}[S]+p, s\${alignr}\${color2}dm-websearch\${color}
 \${color1}\${hr}\${color}
-\${color1}[S]+[SHIFT]+r\${alignr}\${color2}restart qtile\${color}
-\${color1}[S]+[SHIFT]+q\${alignr}\${color2}quit qtile\${color}
+\${color1}[S]+[CTRL]+z\${alignr}\${color2}Lock screen\${color}
+\${color1}[S]+[CTRL]+r\${alignr}\${color2}restart qtile\${color}
+\${color1}[S]+[CTRL]+q\${alignr}\${color2}quit qtile\${color}
 ]];
 
 ";
