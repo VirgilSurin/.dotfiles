@@ -1,4 +1,4 @@
-{ pkgs, config, lib, self, inputs, ... }:
+{ pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 {
 
@@ -11,6 +11,9 @@
     ../programs/wofi.nix
     ../programs/rofi.nix
     ../programs/picom.nix
+    ../programs/git.nix
+    ../programs/dunst.nix
+    ../programs/conky.nix
     ../programs/fish.nix
     ../programs/bash.nix
     ../programs/zathura.nix
@@ -85,6 +88,7 @@
     brightnessctl
     fd
     imagemagick
+    scrot
     ffmpegthumbnailer
     mediainfo
     poppler
@@ -109,6 +113,13 @@
     nix-prefetch-github
     nil # nix lsp
 
+    # jetbrains-toolbox
+
+    nodejs
+    nodePackages.npm
+    nodePackages.yarn
+    awscli2
+    nodePackages.aws-cdk
     # Arduino
     # arduino
 
@@ -126,6 +137,7 @@
     cargo
     rust-analyzer
 
+    slack-cli
     # (python311.withPackages(ps: with ps; [ pandas
     #                                        numpy
     #                                        # needed for Qtile
@@ -152,10 +164,5 @@
 
   xsession.enable = true;
 
-  programs.git = {
-    enable = true;
-    userName  = "VirgilSurin";
-    userEmail = "virgil.surin@student.umons.ac.be";
-  };
 
 }
