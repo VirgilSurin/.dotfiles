@@ -72,3 +72,5 @@
 
 (package! lsp-pyright)
 (package! treesit-auto)
+
+(package! ellama)

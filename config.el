@@ -26,8 +26,8 @@
 
 ;; -<< Directory variables >>-
 (setq org-directory "~/org/")
-(setq dotfiles "~/.dotfiles/")
 (setq org-agenda-files '("~/org/agenda.org" "~/org/todo.org"))
+(setq dotfiles "~/.dotfiles/")
 
 ;;; -<< Personnal information >>-
 
@@ -143,15 +143,18 @@
   `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'green) :weight normal)
   `(tree-sitter-hl-face:function :foreground ,(doom-color 'greend) :weight normal :slant italic)
   `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'green) :weight normal :slant italic)
-  `(tree-sitter-hl-face:type.builtin :foreground ,(doom-color 'blue) :weight normal :slant italic)
+  `(tree-sitter-hl-face:type.builtin :foreground ,(doom-color 'green) :weight normal :slant italic)
   `(tree-sitter-hl-face:function.builtin :foreground ,(doom-color 'dark-cyan) :weight normal :slant italic)
   `(tree-sitter-hl-face:variable.builtin :foreground ,(doom-color 'dark-blue) :weight normal :slant italic)
   `(tree-sitter-hl-face:constant :foreground ,(doom-color 'yellow) :weight bold)
   `(tree-sitter-hl-face:number :foreground ,(doom-color 'magenta) :weight bold)
+  `(tree-sitter-hl-face:embedded :foreground ,(doom-color 'red) :weight bold)
   `(vertical-border :foreground ,(doom-color 'base3))
+  '(whitespace-tab-regexp :background nil :foreground nil)
+  '(whitespace-tab :background nil :foreground nil)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 18 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 18)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal))
 (setq window-divider-default-right-width 2
       window-divider-default-bottom-width 2)
@@ -172,7 +175,7 @@
 ;;; -<< Treemacs >>-
 (after! treemacs
   :config
-  (setf treemacs-position 'right))
+  (setf treemacs-position 'left))
 
 
 ;; tag
@@ -299,6 +302,7 @@
 
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'rainbow-mode)
+(add-hook 'prog-mode-hook 'tree-sitter-hl-mode)
 
 ;; -<< Direnv >>-
 (use-package! direnv
@@ -317,6 +321,28 @@
   (lsp-ui-mode 1)
   )
 
+(use-package! ellama
+  :init
+  (setopt ellama-keymap-prefix "C-c e")  ;; keymap for all ellama functions
+  (setopt ellama-language "English")     ;; language ellama should translate to
+  (require 'llm-ollama)
+  (setopt ellama-provider
+          (make-llm-ollama
+           ;; this model should be pulled to use it
+           ;; value should be the same as you print in terminal during pull
+           :chat-model "llama3.1"
+           :embedding-model "nomic-embed-text"
+           :default-chat-non-standard-params '(("num_ctx" . 8192))))
+  ;; Predefined llm providers for interactive switching.
+  (setopt ellama-providers
+            ("llama3.1" . (make-llm-ollama
+                           :chat-model "llama3.1"
+                           :embedding-model "llama3.1"))
+  (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
+  :config
+  (setq ellama-sessions-directory "~/.config/emacs/ellama-sessions/"
+        ellama-sessions-auto-save t))
+
 ;; tag
 ;;┏━━━━━━━━━━━━━━┓
 ;;┃    Python    ┃
@@ -326,6 +352,9 @@
 ;; (setq lsp-pyright-python-executable-cmd "python3.11")
 
 (add-hook 'python-ts-mode-hook 'python-mode)
+(add-hook 'python-mode-hook 'tree-sitter-hl-mode)
+(setq! python-indent-guess-indent-offset nil)
+(setq! python-indent-offset 4)
 
 ;; tag
 ;;┏━━━━━━━━━━━┓

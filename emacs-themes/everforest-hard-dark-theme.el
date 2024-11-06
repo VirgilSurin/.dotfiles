@@ -299,7 +299,7 @@
    `(eshell-ls-archive    ((t (:foreground ,everforest-hard-dark-purple :weight bold))))
    `(eshell-ls-backup     ((t (:foreground ,everforest-hard-dark-yellow))))
    `(eshell-ls-clutter    ((t (:foreground ,everforest-hard-dark-red :weight bold))))
-   `(eshell-ls-directory  ((t (:foreground ,everforest-hard-dark-blue :weight bold))))
+   `(eshell-ls-directory  ((t (:foreground ,everforest-hard-dark-green :weight bold))))
    `(eshell-ls-executable ((t (:foreground ,everforest-hard-dark-green :weight bold))))
    `(eshell-ls-missing    ((t (:foreground ,everforest-hard-dark-red :weight bold))))
    `(eshell-ls-product    ((t (:foreground ,everforest-hard-dark-yellow))))
@@ -764,6 +764,15 @@
    `(whitespace-space-before-tab ((t (:foreground ,everforest-hard-dark-border))))
    `(whitespace-tab              ((t (:foreground ,everforest-hard-dark-border))))
    `(whitespace-trailing         ((t (:foreground ,everforest-hard-dark-silver))))
+
+   `(term-color-black ((t (:foreground ,everforest-hard-dark-black))))
+   `(term-color-blue ((t (:foreground ,everforest-hard-dark-blue))))
+   `(term-color-green ((t (:foreground ,everforest-hard-dark-green))))
+   `(term-color-cyan ((t (:foreground ,everforest-hard-dark-cyan))))
+   `(term-color-magenta ((t (:foreground ,everforest-hard-dark-purple))))
+   `(term-color-red ((t (:foreground ,everforest-hard-dark-red))))
+   `(term-color-white ((t (:foreground ,everforest-hard-dark-mono-1))))
+   `(term-color-yellow ((t (:foreground ,everforest-hard-dark-yellow))))
    ))
 
 (everforest-hard-dark-with-color-variables

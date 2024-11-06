@@ -8,7 +8,7 @@
       font.size = 10;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
-        opacity = 0.95;
+        opacity = 1.0;
       };
       colors = {
          primary = {

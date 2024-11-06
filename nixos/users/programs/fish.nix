@@ -63,7 +63,8 @@ end
 ### END OF VI MODE ###
     '';
 
-    shellInitLast = ''zoxide init fish | source'';
-
+    shellInitLast = ''zoxide init fish | source
+uv generate-shell-completion fish | source
+'';
   };
 }

@@ -17,6 +17,7 @@
     ../programs/fish.nix
     ../programs/bash.nix
     ../programs/zathura.nix
+    ../programs/autorandr.nix
     ../programs/emacs-theme.nix
     # ../window_managers/qtile.nix
     # ../modules/qtile.nix
@@ -40,8 +41,8 @@
     alacritty
     btop
     firefox
+    qutebrowser
     chromium                    # I need a chromium web browser sometimes
-    firefox
     bitwarden
     mullvad-vpn
     libreoffice
@@ -108,6 +109,10 @@
     glxinfo
     arandr
     flameshot
+    biome
+
+
+    ollama
 
     nix-prefetch
     nix-prefetch-github
@@ -130,6 +135,7 @@
 
     # programming langages
     python3
+    uv
     libclang
     jdk
     nodejs_20

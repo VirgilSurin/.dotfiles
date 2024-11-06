@@ -3,6 +3,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../services/ollama-service.nix
     inputs.home-manager.nixosModules.default
     # inputs.hosts.nixosModules.default
   ];
@@ -62,32 +63,30 @@
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
 
+    xserver = {
+      enable = true;
+      xkb.layout = "us";
+      xkb.variant = "altgr-intl";
+      xkb.options = "caps:ctrl_modifier";
+
+      windowManager.qtile = {
+        enable = true;
+        package = pkgs.qtile;
+        extraPackages = p: with p; [ qtile-extras ];
+      };
+    };
+
     displayManager = {
       defaultSession = "qtile";
       autoLogin = {
         enable = true;
         user = "virgil";
       };
+
       sddm = {
         enable = true;
-        wayland.enable = true;
+        wayland.enable = false;
       };
-    };
-  };
-
-  services.xserver = {
-
-    # Enable the X11 windowing system.
-    enable = true;
-
-    xkb.layout = "us";
-    xkb.variant = "altgr-intl";
-    xkb.options = "caps:ctrl_modifier";
-
-    windowManager.qtile = {
-      enable = true;
-      package = pkgs.qtile;
-      extraPackages = p: with p; [ qtile-extras ];
     };
   };
 
@@ -132,15 +131,11 @@
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
-    # alsa.enable = true;
-    # alsa.support32Bit = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
 
 
@@ -159,10 +154,10 @@
   users.users.virgil = {
     isNormalUser = true;
     description = "Virgil Surin";
-    extraGroups = [ "networkmanager" "wheel" "video" "docker" ];
+    extraGroups = [ "audio" "networkmanager" "wheel" "video" "docker" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -181,15 +176,20 @@
     "jetbrains.pycharm-community"
     "discord"
     "slack"
+    "keymapp"
   ];
   # nixpkgs.config.allowUnfreePredicate = _: true;
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than +5";
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     discord
     jetbrains-toolbox
     jetbrains.pycharm-community
@@ -202,7 +202,7 @@
     home-manager
     vial
     via
-
+    keymapp
     spotify
 
     # qt5

@@ -24,7 +24,7 @@
 
         sort = true;
         idle_threshold = 120;
-        font = "JetbrainsMonoBold 10";
+        font = "JetbrainsMonoBold 12";
         line_height = 0;
         markup = "full";
         alignment = "left";

@@ -46,7 +46,7 @@ determine the exact padding."
   "A green theme with the everforest soft palette"
 
   ;; name        default   256       16
-  ((bg         '("#2f383e" nil       nil            ))
+  ((bg         '("#2b3339" nil       nil            ))
    (bg-alt     '("#323c41" nil       nil            ))
    (base0      '("#434f55" "black"   "black"        ))
    (base1      '("#3a464c" "#3a464c" "brightblack"  ))
@@ -60,7 +60,7 @@ determine the exact padding."
    (fg         '("#d3c6aa" "#d3c6aa" "white"        ))
    (fg-alt     '("#c6d3ab" "#c6d3ab" "brightwhite"  ))
 
-   (grey       '("#9099AB" "#9099AB" "grey"         ))
+   (grey       '("#859289" "#859289" "grey"         ))
    (red        '("#e67e80" "#e67e80" "red"          )) ;; Nord11
    (orange     '("#e69875" "#e69875" "brightred"    )) ;; Nord12
    (green      '("#a7c080" "#a7c080" "green"        )) ;; Nord14
@@ -80,15 +80,15 @@ determine the exact padding."
    (vertical-bar   (doom-darken base4 0.2))
    (selection      blue)
    (builtin        green)
-   (comments       base4)
+   (comments       grey)
    (doc-comments   green)
    (constants      violet)
    (functions      teal)
    (keywords       red)
    (methods        dark-cyan)
    (operators      yellow)
-   (type           aqua)
-   (strings        yellow)
+   (type           green)
+   (strings        aqua)
    (variables      blue)
    (numbers        magenta)
    (region         base4)
