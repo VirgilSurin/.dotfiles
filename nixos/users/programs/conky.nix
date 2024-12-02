@@ -3,11 +3,10 @@
 {
   services.conky = {
     enable = true;
-    extraConfig =
-      "
+    extraConfig = "
 --[[
 ###################################
-## everforest-02.conkyrc (Qtile) ##
+##  everforest.conkyrc (Qtile)   ##
 ###################################
 ]]
 
@@ -119,19 +118,12 @@ conky.text = [[
 \${color1}[S]+[SHIFT]+[1-9]\${alignr}\${color2}send window\${color}
 \${color1}[S]+[=]/[-]\${alignr}\${color2}shrink/expand\${color}
 \${color1}\${hr}\${color}
-\${color1}[S]+e, e\${alignr}\${color2}launch emacs\${color}
-\${color1}\${hr}\${color}
-\${color1}[S]+p, h\${alignr}\${color2}dm-hub\${color}
-\${color1}[S]+p, b\${alignr}\${color2}dm-setbg\${color}
-\${color1}[S]+p, m\${alignr}\${color2}dm-man\${color}
-\${color1}[S]+p, o\${alignr}\${color2}dm-bookman\${color}
-\${color1}[S]+p, s\${alignr}\${color2}dm-websearch\${color}
+\${color1}[S]+e\${alignr}\${color2}launch emacs\${color}
 \${color1}\${hr}\${color}
 \${color1}[S]+[CTRL]+z\${alignr}\${color2}Lock screen\${color}
 \${color1}[S]+[CTRL]+r\${alignr}\${color2}restart qtile\${color}
 \${color1}[S]+[CTRL]+q\${alignr}\${color2}quit qtile\${color}
 ]];
-
 ";
   };
 }

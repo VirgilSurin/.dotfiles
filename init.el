@@ -22,10 +22,10 @@
 
        :completion
        (company)           ; the ultimate code completion backend
-       ;;(corfu +icons +orderless +tng +dict)
+       ;; (corfu +icons +orderless)
        ;; (helm +childframe +fuzzy +icons)              ; the *other* search engine for love and life
        ;; ido               ; the other *other* search engine...
-       (ivy +icons)                 ;a search engine for love and life
+       (ivy +icons +fuzzy +prescient)                 ;a search engine for love and life
        ;; (vertico +icons)           ; the search engine of the future
 
        :ui

@@ -19,14 +19,12 @@
     ../programs/zathura.nix
     ../programs/autorandr.nix
     ../programs/emacs-theme.nix
-    # ../window_managers/qtile.nix
-    # ../modules/qtile.nix
   ];
 
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
-  colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  # colorScheme = inputs.nix-colors.colorSchemes.onedark;
+  # colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -53,7 +51,8 @@
     texlab
     signal-desktop
     vlc
-    pcmanfm
+    kdePackages.dolphin
+    kdePackages.qtsvg
     zathura
     evince
 
@@ -112,7 +111,6 @@
     biome
 
 
-    ollama
 
     nix-prefetch
     nix-prefetch-github

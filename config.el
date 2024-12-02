@@ -182,15 +182,15 @@
 ;;┏━━━━━━━━━━━┓
 ;;┃    Ivy    ┃
 ;;┗━━━━━━━━━━━┛
-;; (after! ivy
-;;   :config
-;;         (setq swiper-use-visual-line nil)
-;;         (setq ivy-height 15)
-;;         (setq ivy-count-format "")
-;;         (setq ivy-initial-inputs-alist nil)
-;;         (setq ivy-use-virtual-buffers 1)
-;;         (setq enable-recursive-minibuffers 1)
-;;   )
+(after! ivy
+  :config
+        (setq swiper-use-visual-line nil)
+        (setq ivy-height 15)
+        (setq ivy-count-format "")
+        (setq ivy-initial-inputs-alist nil)
+        (setq ivy-use-virtual-buffers 1)
+        (setq enable-recursive-minibuffers 1)
+  )
 ;; (map! "C-s"  'swiper)
 
 ;; tag
@@ -198,14 +198,14 @@
 ;;┃    Consult    ┃
 ;;┗━━━━━━━━━━━━━━━┛
 
-(after! consult
-  :config
-  (consult-customize
-   consult-buffer
-   consult-theme
-   :preview-key 'nil))
+;; (after! consult
+;;   :config
+;;   (consult-customize
+;;    consult-buffer
+;;    consult-theme
+;;    :preview-key 'nil))
 
-(advice-add 'consult-line :after #'recenter-top-bottom)
+;; (advice-add 'consult-line :after #'recenter-top-bottom)
 
 (map! :nm "M-y" #'consult-yank-pop)
 
@@ -320,28 +320,6 @@
   :config
   (lsp-ui-mode 1)
   )
-
-(use-package! ellama
-  :init
-  (setopt ellama-keymap-prefix "C-c e")  ;; keymap for all ellama functions
-  (setopt ellama-language "English")     ;; language ellama should translate to
-  (require 'llm-ollama)
-  (setopt ellama-provider
-          (make-llm-ollama
-           ;; this model should be pulled to use it
-           ;; value should be the same as you print in terminal during pull
-           :chat-model "llama3.1"
-           :embedding-model "nomic-embed-text"
-           :default-chat-non-standard-params '(("num_ctx" . 8192))))
-  ;; Predefined llm providers for interactive switching.
-  (setopt ellama-providers
-            ("llama3.1" . (make-llm-ollama
-                           :chat-model "llama3.1"
-                           :embedding-model "llama3.1"))
-  (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
-  :config
-  (setq ellama-sessions-directory "~/.config/emacs/ellama-sessions/"
-        ellama-sessions-auto-save t))
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━┓

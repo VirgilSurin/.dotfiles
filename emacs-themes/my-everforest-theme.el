@@ -46,7 +46,7 @@ determine the exact padding."
   "A green theme with the everforest soft palette"
 
   ;; name        default   256       16
-  ((bg         '("#2b3339" nil       nil            ))
+  ((bg         '("#2f383e" nil       nil            ))
    (bg-alt     '("#323c41" nil       nil            ))
    (base0      '("#434f55" "black"   "black"        ))
    (base1      '("#3a464c" "#3a464c" "brightblack"  ))
@@ -86,9 +86,9 @@ determine the exact padding."
    (functions      teal)
    (keywords       red)
    (methods        dark-cyan)
-   (operators      yellow)
+   (operators      orange)
    (type           green)
-   (strings        aqua)
+   (strings        yellow)
    (variables      blue)
    (numbers        magenta)
    (region         base4)

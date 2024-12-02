@@ -3,7 +3,6 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../services/ollama-service.nix
     inputs.home-manager.nixosModules.default
     # inputs.hosts.nixosModules.default
   ];
@@ -56,6 +55,7 @@
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "virgil" ];
 
+  services.hardware.bolt.enable = true;
 
   # Configure keymap in X11
 
@@ -68,6 +68,8 @@
       xkb.layout = "us";
       xkb.variant = "altgr-intl";
       xkb.options = "caps:ctrl_modifier";
+
+      # videoDrivers = [ "displaylink" "modesetting" ];
 
       windowManager.qtile = {
         enable = true;
@@ -151,14 +153,16 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;
-  users.users.virgil = {
-    isNormalUser = true;
-    description = "Virgil Surin";
-    extraGroups = [ "audio" "networkmanager" "wheel" "video" "docker" ];
-    packages = with pkgs; [
-      firefox
-      #  thunderbird
-    ];
+  users = {
+    users.virgil = {
+      isNormalUser = true;
+      description = "Virgil Surin";
+      extraGroups = [ "audio" "networkmanager" "wheel" "video" "docker" ];
+      packages = with pkgs; [
+        firefox
+        #  thunderbird
+      ];
+    };
   };
 
   home-manager = {
@@ -190,6 +194,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    bolt
     discord
     jetbrains-toolbox
     jetbrains.pycharm-community
@@ -214,7 +219,7 @@
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs-gtk;
+    package = pkgs.emacs30;
   };
   networking.stevenBlackHosts = {
     blockFakenews = false;
