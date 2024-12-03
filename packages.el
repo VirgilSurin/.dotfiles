@@ -70,5 +70,4 @@
 (package! cdlatex)
 (package! lsp-ltex)
 
-(package! lsp-pyright)
-(package! treesit-auto)
+(package! tree-sitter)

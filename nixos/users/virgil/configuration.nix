@@ -219,7 +219,7 @@
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs30;
+    package = pkgs.emacs;
   };
   networking.stevenBlackHosts = {
     blockFakenews = false;

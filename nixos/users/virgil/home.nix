@@ -140,6 +140,9 @@
     rustc
     cargo
     rust-analyzer
+    ruff-lsp
+    ruff
+    pyright
 
     slack-cli
     # (python311.withPackages(ps: with ps; [ pandas

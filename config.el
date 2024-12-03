@@ -56,8 +56,8 @@
 (setq auto-save-default 1)
 
 ;; Allow for a larger memory usage to read subprocess
-(setq gc-cons-threshold 100000000000000)
-(setq read-process-output-max (* 1 1024 1024)) ;; 1 MB
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 2 1024 1024)) ;; 1 MB
 
 ;; Some default starting size
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -126,7 +126,7 @@
 
 
 ;; -<< Theme >>-
-(setq! doom-theme 'my-everforest)
+(setq! doom-theme 'doom-one)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
@@ -176,7 +176,6 @@
 (after! treemacs
   :config
   (setf treemacs-position 'left))
-
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
@@ -310,13 +309,20 @@
   (direnv-mode))
 
 ;; -<< Tree-sitter >>-
-(use-package! treesit-auto
-  :demand t
+(use-package! tree-sitter
   :config
-  (global-treesit-auto-mode))
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(after! python
+  ;; Ensure we use python-mode rather than python-ts-mode for now
+  (setq auto-mode-alist (delete '("\\.py\\'" . python-ts-mode) auto-mode-alist))
+  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode)))
+
 
 ;; -<< LSP >>-
-(after! lsp
+(after! lsp-mode
   :config
   (lsp-ui-mode 1)
   )
@@ -329,8 +335,6 @@
 ;; (setq org-babel-python-command "python3.11")
 ;; (setq lsp-pyright-python-executable-cmd "python3.11")
 
-(add-hook 'python-ts-mode-hook 'python-mode)
-(add-hook 'python-mode-hook 'tree-sitter-hl-mode)
 (setq! python-indent-guess-indent-offset nil)
 (setq! python-indent-offset 4)
 

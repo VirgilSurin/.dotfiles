@@ -1,1 +1,1 @@
-/nix/store/8g59bi14nxv9pzdnnqzp2py2drx0ch85-home-manager-files/.dotfiles/emacs-themes/os-theme.el
+/nix/store/221mdn4c7wnkigx9lds4kj68m5vzmqvf-home-manager-files/.dotfiles/emacs-themes/os-theme.el
