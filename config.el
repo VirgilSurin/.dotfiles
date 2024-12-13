@@ -80,6 +80,7 @@
 (global-unset-key (kbd "M-c"))
 (map! :nm
       "L" #'nil
+      "<" #'counsel-switch-buffer
       )
 
 (map! :leader
@@ -175,7 +176,7 @@
 ;;; -<< Treemacs >>-
 (after! treemacs
   :config
-  (setf treemacs-position 'left))
+  (setf treemacs-position 'right))
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
@@ -206,7 +207,7 @@
 
 ;; (advice-add 'consult-line :after #'recenter-top-bottom)
 
-(map! :nm "M-y" #'consult-yank-pop)
+(map! :nm "M-y" #'counsel-yank-pop)
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
@@ -320,11 +321,32 @@
   (setq auto-mode-alist (delete '("\\.py\\'" . python-ts-mode) auto-mode-alist))
   (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode)))
 
+(flycheck-define-checker python-ruff
+  "A Python syntax and style checker using the ruff utility.
+See URL `https://github.com/astral-sh/ruff'."
+  :command ("ruff"
+            "check"
+            "--output-format=github"  ; or another supported format like "pylint"
+            source-inplace)
+  :error-patterns
+  ((warning line-start (file-name) ":" line ":" column ": " (id (one-or-more (not (any ":")))) ": " (message) line-end))
+  :modes python-mode)
+
+(add-to-list 'flycheck-checkers 'python-ruff)
 
 ;; -<< LSP >>-
 (after! lsp-mode
   :config
   (lsp-ui-mode 1)
+  )
+
+(use-package! eldoc-box
+  :config
+  (eldoc-box-hover-mode))
+
+(after! company
+  :config
+  (setq! company-backends '(company-capf))
   )
 
 ;; tag
