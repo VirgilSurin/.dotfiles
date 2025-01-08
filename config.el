@@ -340,6 +340,13 @@ See URL `https://github.com/astral-sh/ruff'."
   (lsp-ui-mode 1)
   )
 
+(after! lsp-pyright
+  (setq lsp-pyright-node-command "node"
+        lsp-pyright-langserver-command-args
+        `("--max-old-space-size=8192"
+          ,(executable-find "pyright-langserver")
+          "--stdio")))
+
 (use-package! eldoc-box
   :config
   (eldoc-box-hover-mode))

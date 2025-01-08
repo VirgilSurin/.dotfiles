@@ -35,6 +35,7 @@
         padding                     = 0;
       };
       "#window" = {
+        width = mkLiteral "30%";
         border = 2;
         padding = 5;
       };

@@ -69,8 +69,6 @@
       xkb.variant = "altgr-intl";
       xkb.options = "caps:ctrl_modifier";
 
-      # videoDrivers = [ "displaylink" "modesetting" ];
-
       windowManager.qtile = {
         enable = true;
         package = pkgs.qtile;

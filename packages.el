@@ -71,3 +71,5 @@
 (package! lsp-ltex)
 
 (package! tree-sitter)
+
+(package! eldoc-box)
