@@ -7,12 +7,6 @@
     # inputs.hosts.nixosModules.default
   ];
 
-
-  # stylix = {
-  #     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-  #     image = ./../../../wallpapers/star-wars-naboo-wallpapers.png;
-  # };
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true; 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -23,7 +17,7 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "VS-thinkpad"; # Define your hostname.
+  networking.hostName = "VS-chimaera";
 
   # Configure network proxy if necessary networking.proxy.default }= 
   # "http://user:password@proxy:port/"; networking.proxy.noProxy = 
@@ -158,7 +152,6 @@
       extraGroups = [ "audio" "networkmanager" "wheel" "video" "docker" ];
       packages = with pkgs; [
         firefox
-        #  thunderbird
       ];
     };
   };
@@ -219,6 +212,7 @@
     enable = true;
     package = pkgs.emacs;
   };
+
   networking.stevenBlackHosts = {
     blockFakenews = false;
     blockGambling = false;

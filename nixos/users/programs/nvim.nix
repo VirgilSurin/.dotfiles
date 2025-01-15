@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   programs.nvf = {
@@ -12,7 +12,7 @@
         };
 
         statusline.lualine.enable = true;
-        telescope.enasble = true;
+        telescope.enable = true;
         autocomplete.nvim-cmp.enable = true;
 
         languages = {

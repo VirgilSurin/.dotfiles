@@ -3,7 +3,6 @@
 {
 
   imports = [
-      inputs.nvf.homeManagerModules.default
       inputs.nix-colors.homeManagerModules.default
       # ../window_managers/hyprland.nix
       # ../window_managers/hyprlock.nix
@@ -17,10 +16,9 @@
       ../programs/conky.nix
       ../programs/fish.nix
       ../programs/bash.nix
-      ../programs/nvim.nix
       ../programs/zathura.nix
       ../programs/autorandr.nix
-      ../programs/emacs-theme.nix
+      # ../programs/emacs-theme.nix
   ];
 
 
@@ -146,6 +144,8 @@
     ruff
     pyright
 
+
+
     slack-cli
     # (python311.withPackages(ps: with ps; [ pandas
     #                                        numpy
@@ -157,6 +157,7 @@
     #                                        cairocffi
     #                                      ]))
   ];
+
 
   programs.home-manager.enable = true;
 
