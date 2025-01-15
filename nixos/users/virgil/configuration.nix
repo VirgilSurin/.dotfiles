@@ -142,8 +142,7 @@
 
   programs.steam.enable = false;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.fish.enable = true;
+  programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   users = {
     users.virgil = {
@@ -161,6 +160,7 @@
     users = {
       "virgil" = import ./home.nix;
     };
+    backupFileExtension = "backup";
   };
 
   # Allow unfree packages

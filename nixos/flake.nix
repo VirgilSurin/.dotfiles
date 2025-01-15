@@ -20,14 +20,13 @@
     hosts.url = "github:StevenBlack/hosts";
 
   };
-  outputs = { self, nixpkgs, nvf, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
       {
         nixosConfigurations = {
           virgil = nixpkgs.lib.nixosSystem {
             specialArgs = { inherit inputs; };
             modules = [
               ./users/virgil/configuration.nix
-              nvf.nixosModules.default
               inputs.home-manager.nixosModules.default
               inputs.hosts.nixosModule {
                 networking.stevenBlackHosts.enable = true;

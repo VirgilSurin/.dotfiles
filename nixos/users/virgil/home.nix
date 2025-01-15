@@ -163,7 +163,6 @@
   programs.home-manager.enable = true;
 
   home.sessionPath = [
-    # DO NOT FORGET TO SOURCE bashrc/config.fish
    "$HOME/.config/emacs/bin"
   ];
 

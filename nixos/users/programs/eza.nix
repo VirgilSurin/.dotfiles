@@ -9,6 +9,7 @@
     git = true;
     icons = true;
     extraOptions = [
+      "--icons"
       "--group-directories-first"
       "--header"
     ];
