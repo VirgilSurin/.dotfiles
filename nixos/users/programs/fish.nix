@@ -18,13 +18,6 @@
       rebuild="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
       update="nix flake update";
 
-      # Changing "ls" to "exa"
-      ls="eza -al --color=always --group-directories-first --icons"; # my preferred listing
-      la="eza -a --color=always --group-directories-first --icons";  # all files and dirs
-      ll="eza -l --color=always --group-directories-first --icons";  # long format
-      lt="eza -aT --color=always --group-directories-first --icons"; # tree listing
-
-      # Changing cd to zoxide
       grep="grep --color=auto";
 
       rr="curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash";
@@ -63,8 +56,7 @@ end
 ### END OF VI MODE ###
     '';
 
-    shellInitLast = ''zoxide init fish | source
-uv generate-shell-completion fish | source
+    shellInitLast = ''uv generate-shell-completion fish | source
 '';
   };
 }

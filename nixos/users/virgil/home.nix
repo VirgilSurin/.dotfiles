@@ -15,7 +15,10 @@
       ../programs/dunst.nix
       ../programs/conky.nix
       ../programs/fish.nix
+      ../programs/zsh.nix
       ../programs/bash.nix
+      ../programs/zoxide.nix
+      ../programs/eza.nix
       ../programs/zathura.nix
       ../programs/autorandr.nix
       # ../programs/emacs-theme.nix
@@ -81,8 +84,6 @@
     alsa-utils
     direnv
     nix-direnv
-    eza                       # the new ls !
-    zoxide                    # the better cd !
     fzf
     acpilight
     brightnessctl

@@ -144,7 +144,7 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   programs.fish.enable = true;
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.zsh;
   users = {
     users.virgil = {
       isNormalUser = true;
