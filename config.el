@@ -183,15 +183,16 @@
 ;;┃    Ivy    ┃
 ;;┗━━━━━━━━━━━┛
 (after! ivy
-  :config
-        (setq swiper-use-visual-line nil)
-        (setq ivy-height 15)
-        (setq ivy-count-format "")
-        (setq ivy-initial-inputs-alist nil)
-        (setq ivy-use-virtual-buffers 1)
-        (setq enable-recursive-minibuffers 1)
-  )
-;; (map! "C-s"  'swiper)
+  (all-the-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1)
+
+  (setq swiper-use-visual-line nil
+        ivy-height 15
+        ivy-count-format ""
+        ivy-initial-inputs-alist nil
+        ivy-use-virtual-buffers 1
+        enable-recursive-minibuffers 1
+        ivy-rich-path-style 'full))
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━━┓
@@ -274,7 +275,6 @@
   (kbd "; d") 'epa-dired-do-decrypt
   (kbd "; e") 'epa-dired-do-encrypt)
 ;; Get file icons in dired
-(add-hook 'dired-mode-hook 'nerd-icons-dired-mode)
 ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; For example, I set all .png files to open in 'sxiv' and all .mp4 files to open in 'mpv'
 ;; (setq dired-open-extensions '(("gif" . "sxiv")
@@ -292,17 +292,17 @@
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
-;; Make Vterm uses fish
-(setq vterm-shell "/run/current-system/sw/bin/fish")
+;; Make Vterm uses zsh
+(after! vterm
+  (setq shell-file-name (executable-find "zsh")
+        vterm-shell (executable-find "zsh")))
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━━━━┓
 ;;┃    Programming    ┃
 ;;┗━━━━━━━━━━━━━━━━━━━┛
 
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'prog-mode-hook 'rainbow-mode)
-(add-hook 'prog-mode-hook 'tree-sitter-hl-mode)
+(rainbow-delimiters-mode)
 
 ;; -<< Direnv >>-
 (use-package! direnv
@@ -382,14 +382,17 @@ See URL `https://github.com/astral-sh/ruff'."
 (setq lsp-tex-server 'texlab)
 (setq lsp-ltex-mother-tongue "fr")
 
-(after! tex
-  (map!
-   :map LaTeX-mode-map
-   :ei [C-return] #'LaTeX-insert-item
-   :map cdlatex-mode-map
-   :i "TAB" #'cdlatex-tab
-   )
-  )
+(after! latex
+  (add-to-list 'LaTeX-command-style '("" "%(PDF)%(latex) -shell-escape %S%(PDFout)")))
+
+;; (after! tex
+;;   (map!
+;;    :map LaTeX-mode-map
+;;    :ei [C-return] #'LaTeX-insert-item
+;;    :map cdlatex-mode-map
+;;    :i "TAB" #'cdlatex-tab
+;;    )
+;;   )
 
 (when EMACS28+
   (add-hook 'latex-mode-hook #'TeX-latex-mode))

@@ -73,3 +73,7 @@
 (package! tree-sitter)
 
 (package! eldoc-box)
+
+(package! all-the-icons)
+(package! all-the-icons-ivy-rich)
+(package! ivy-rich)
