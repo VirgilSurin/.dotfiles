@@ -10,6 +10,7 @@
       ../programs/waybar.nix
       ../programs/wofi.nix
       ../programs/rofi.nix
+      ../programs/gtk.nix
       ../programs/picom.nix
       ../programs/git.nix
       ../programs/dunst.nix
@@ -133,7 +134,6 @@
     wirelesstools
 
     # programming langages
-    python3
     uv
     libclang
     jdk
@@ -148,15 +148,10 @@
 
 
     slack-cli
-    # (python311.withPackages(ps: with ps; [ pandas
-    #                                        numpy
-    #                                        # needed for Qtile
-    #                                        qtile
-    #                                        qtile-extras
-    #                                        pulsectl-asyncio
-    #                                        xcffib
-    #                                        cairocffi
-    #                                      ]))
+    (python312.withPackages (ps: with ps; [
+      numpy
+      pygments
+    ]))
   ];
 
 
