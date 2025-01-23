@@ -10,7 +10,7 @@
       ../programs/waybar.nix
       ../programs/wofi.nix
       ../programs/rofi.nix
-      ../programs/gtk.nix
+      ../programs/kde.nix
       ../programs/picom.nix
       ../programs/git.nix
       ../programs/dunst.nix
