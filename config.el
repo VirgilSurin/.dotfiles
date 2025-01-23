@@ -301,7 +301,13 @@
 ;;┏━━━━━━━━━━━━━━━━━━━┓
 ;;┃    Programming    ┃
 ;;┗━━━━━━━━━━━━━━━━━━━┛
+;; Show matching parentheses
+(add-hook! 'prog-mode-hook
+  (show-paren-mode 1)
+  (setq show-paren-delay 0)
+  (setq show-paren-style 'parenthesis))
 
+(add-hook 'prog-mode-hook #'hl-line-mode)
 (rainbow-delimiters-mode)
 
 ;; -<< Direnv >>-
@@ -334,11 +340,26 @@ See URL `https://github.com/astral-sh/ruff'."
 
 (add-to-list 'flycheck-checkers 'python-ruff)
 
+;;  ┏━━━━━━━━━━━━━━━━┓
+;;; ┃    Flycheck    ┃
+;;  ┗━━━━━━━━━━━━━━━━┛
+(after! flycheck
+  (setq flycheck-check-syntax-automatically '(save mode-enabled)
+        flycheck-idle-change-delay 0.5))
+
 ;; -<< LSP >>-
 (after! lsp-mode
-  :config
-  (lsp-ui-mode 1)
-  )
+  (setq lsp-idle-delay 0.5
+        lsp-enable-symbol-highlighting t
+        lsp-enable-snippet t
+        lsp-headerline-breadcrumb-enable t
+        lsp-modeline-diagnostics-enable t
+        lsp-log-io nil
+        read-process-output-max (* 1024 1024)
+        lsp-completion-provider :capf
+        lsp-enable-file-watchers nil
+        lsp-enable-semantic-highlighting nil
+        gc-cons-threshold 100000000))
 
 (after! lsp-pyright
   (setq lsp-pyright-node-command "node"
@@ -352,9 +373,9 @@ See URL `https://github.com/astral-sh/ruff'."
   (eldoc-box-hover-mode))
 
 (after! company
-  :config
-  (setq! company-backends '(company-capf))
-  )
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1
+        company-show-quick-access t))
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━┓
@@ -364,8 +385,30 @@ See URL `https://github.com/astral-sh/ruff'."
 ;; (setq org-babel-python-command "python3.11")
 ;; (setq lsp-pyright-python-executable-cmd "python3.11")
 
-(setq! python-indent-guess-indent-offset nil)
-(setq! python-indent-offset 4)
+(after! python
+  ;; Use pyright for better type checking
+  (setq lsp-pyright-python-path (executable-find "python")
+        lsp-pyright-multi-root nil  ;; for better performance
+        lsp-pyright-typechecking-mode "basic"
+        ;; Ruff configuration
+        lsp-ruff-lsp-show-notifications "warn"
+        ;; Format on save with black
+        python-formatter 'black
+        python-format-on-save t))
+
+;;  ┏━━━━━━━━━━━━┓
+;;; ┃    Rust    ┃
+;;  ┗━━━━━━━━━━━━┛
+(after! rustic
+  (setq rustic-format-on-save t
+        rustic-format-display-method 'pop-to-buffer
+        ;; Use rust-analyzer
+        rustic-lsp-server 'rust-analyzer
+        ;; rust-analyzer configuration
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial"
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-closure-return-type-hints t))
 
 ;; tag
 ;;┏━━━━━━━━━━━┓
