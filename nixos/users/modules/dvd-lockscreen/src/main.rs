@@ -6,6 +6,9 @@ use std::time::Duration;
 use x11rb::connection::Connection;
 use x11rb::protocol::xproto::*;
 use x11rb::wrapper::ConnectionExt as _;
+use x11rb::NONE;
+use x11rb::protocol::Event;
+use x11rb::protocol::xproto::{Rectangle, ConnectionExt};
 
 const DVD_WIDTH: u16 = 100;
 const DVD_HEIGHT: u16 = 50;
@@ -138,7 +141,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let values = ChangeGCAux::new().foreground(dvd.color);
         conn.change_gc(gc, &values)?;
-        conn.fill_rectangle(win, gc, dvd.x, dvd.y, DVD_WIDTH, DVD_HEIGHT)?;
+
+        let rectangle = Rectangle {
+            x: dvd.x,
+            y: dvd.y,
+            width: DVD_WIDTH,
+            height: DVD_HEIGHT,
+        };
+        conn.poly_fill_rectangle(win, gc, &[rectangle])?;
 
         conn.flush()?;
         dvd.update(
