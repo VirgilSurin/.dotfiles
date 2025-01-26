@@ -17,14 +17,15 @@ in {
     package = mkOption {
       type = types.package;
       default = pkgs.writeScriptBin "monitor-switch" ''
-        #!${pkgs.bash}/bin/bash
-        options=$(printf '%s\n' "''${@}")
-        chosen=$(echo "$options" | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Select Monitor Layout")
+    #!${pkgs.bash}/bin/bash
+    # Pass the profiles from the config
+    options=$(printf '%s\n' ${builtins.toString cfg.profiles})
+    chosen=$(echo "$options" | ${pkgs.rofi}/bin/rofi -dmenu -i -p "Select Monitor Layout")
 
-        if [ -n "$chosen" ]; then
-          ${pkgs.autorandr}/bin/autorandr --load "$chosen"
-        fi
-      '';
+    if [ -n "$chosen" ]; then
+      ${pkgs.autorandr}/bin/autorandr --load "$chosen"
+    fi
+  '';
       description = "The monitor switcher script package";
     };
   };
@@ -36,18 +37,5 @@ in {
       pkgs.autorandr
     ];
 
-    services.xserver.windowManager.qtile.extraConfig = mkIf config.services.xserver.windowManager.qtile.enable ''
-      from libqtile.config import Key
-      from libqtile.lazy import lazy
-
-      keys.extend([
-          Key(
-              ["mod4", "shift"],
-              "m",
-              lazy.spawn("monitor-switch ${toString cfg.profiles}"),
-              desc="Monitor layout switcher"
-          ),
-      ])
-    '';
   };
 }
