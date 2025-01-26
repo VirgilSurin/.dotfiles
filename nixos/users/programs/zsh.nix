@@ -22,6 +22,7 @@
       # ll="eza -l --color=always --group-directories-first --icons";  # long format
       # lt="eza -aT --color=always --group-directories-first --icons"; # tree listing
       grep="grep --color=auto";
+
     };
 
     initExtra =  ''

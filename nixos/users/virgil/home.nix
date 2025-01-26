@@ -10,7 +10,6 @@
       ../programs/waybar.nix
       ../programs/wofi.nix
       ../programs/rofi.nix
-      ../programs/kde.nix
       ../programs/picom.nix
       ../programs/git.nix
       ../programs/dunst.nix
@@ -154,6 +153,10 @@
     ]))
   ];
 
+
+  gtk = {
+    theme.name = "Adwaita-dark";
+  };
 
   programs.home-manager.enable = true;
 

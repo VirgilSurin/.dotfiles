@@ -212,6 +212,11 @@
     libsForQt5.breeze-icons
   ];
 
+  qt = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
 
   services.emacs = {
     enable = true;
