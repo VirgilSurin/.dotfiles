@@ -4,6 +4,7 @@
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../modules/monitor_switcher.nix
+    ../modules/dvd-lockscreen
     inputs.home-manager.nixosModules.default
     # inputs.hosts.nixosModules.default
   ];
@@ -227,6 +228,11 @@
   services.emacs = {
     enable = true;
     package = pkgs.emacs;
+  };
+
+  services.dvd-lockscreen = {
+    enable = true;
+    speed = 3;
   };
 
   networking.stevenBlackHosts = {
