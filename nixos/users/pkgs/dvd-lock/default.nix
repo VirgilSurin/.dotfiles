@@ -1,55 +1,50 @@
-{ lib , stdenv , makeWrapper , bash , chromium , i3lock-color , scrot }:
+# default.nix
+{ lib
+, stdenv
+, fetchFromGitHub
+, python3
+, xrandr
+, i3lock
+, pkgs
+}:
 
-stdenv.mkDerivation {
-  pname = "dvd-lock";
+let
+  pythonEnv = python3.withPackages (ps: with ps; [ pygame ]);
+in
+stdenv.mkDerivation rec {
+  pname = "dvd-lock-screen";
   version = "0.1.0";
 
-  src = ./.;
+  src = fetchFromGitHub {
+    owner = "jmsiefer";
+    repo = "DVD_Screensaver";
+    rev = "70d3b5f28393e1068b7fde8096bdbe6ad422de70";
+    sha256 = "sha256-yT/TqOLq/rEqI6d41XMOrlZc9XU+7qIgECydaxyuDok=";
+  };
 
-  nativeBuildInputs = [ makeWrapper ];
-
-  dontUnpack = true;
+  nativeBuildInputs = [ pythonEnv ];
+  buildInputs = [ xrandr i3lock ];
 
   installPhase = ''
-    mkdir -p $out/bin
-    cat > $out/bin/dvd-lock << 'EOF'
-    #!${bash}/bin/bash
-
-    # Launch chromium in app mode
-    ${chromium}/bin/chromium \
-      --app=https://bouncingdvdlogo.com/ \
-      --start-fullscreen \
-      --no-default-browser-check \
-      --disable-features=TranslateUI \
-      --disable-sync &
-
-    BROWSER_PID=$!
-    sleep 2
-
-    ${scrot}/bin/scrot /tmp/screen_locked.png
-    kill $BROWSER_PID
-
-    ${i3lock-color}/bin/i3lock-color \
-      -i /tmp/screen_locked.png \
-      --inside-color=00000000 \
-      --ring-color=ffffffff \
-      --line-color=00000000 \
-      --keyhl-color=00ff00ff \
-      --ringver-color=00ff00ff \
-      --separator-color=00000000 \
-      --insidever-color=00000000 \
-      --ringwrong-color=ff0000ff \
-      --insidewrong-color=00000000 \
-      -n
+    mkdir -p $out/bin $out/share/dvd-lock-screen
+    install -Dm755 DVD.py $out/bin/DVD.py
+    cat > $out/bin/dvd-lock-screen << EOF
+    #!/bin/sh
+    cd $out/share/dvd-lock-screen
+    cp ${./dvd-video.png} $out/bin/DVD.png
+    cp ${./sonar.mp3} $out/bin/Fart.mp3
+    for monitor in \$(xrandr | grep " connected" | cut -d' ' -f1); do
+      ${pythonEnv}/bin/python $out/bin/DVD.py --monitor "\$monitor" &
+    done
+    ${i3lock}/bin/i3lock -n -c 000000
     EOF
-
-    chmod +x $out/bin/dvd-lock
+    chmod +x $out/bin/dvd-lock-screen
   '';
 
   meta = with lib; {
-    description = "DVD logo screensaver lock using i3lock-color";
+    description = "DVD Screensaver Lock Screen for X11";
+    homepage = "https://github.com/jmsiefer/DVD_Screensaver";
     license = licenses.mit;
     platforms = platforms.linux;
-    maintainers = [ ];
   };
-}}
+}
