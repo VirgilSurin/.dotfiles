@@ -3,6 +3,7 @@
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../modules/monitor_switcher.nix
     inputs.home-manager.nixosModules.default
     # inputs.hosts.nixosModules.default
   ];
@@ -68,6 +69,11 @@
         package = pkgs.qtile;
         extraPackages = p: with p; [ qtile-extras ];
       };
+    };
+
+    monitor-switcher = {
+      enable = true;
+      profiles = [ "laptop" "home" "common" ];
     };
 
     displayManager = {
