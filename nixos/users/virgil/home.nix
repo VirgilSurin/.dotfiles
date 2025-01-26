@@ -37,6 +37,7 @@
 
   home.packages = with pkgs; [
     (import ../shell_scripts/make-shell.nix {inherit pkgs; })
+    (callPackage ./dvd-lock {})
     base16-schemes
     texlive.combined.scheme-full
     alacritty
