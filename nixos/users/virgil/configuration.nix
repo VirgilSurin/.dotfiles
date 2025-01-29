@@ -60,9 +60,16 @@
 
     xserver = {
       enable = true;
-      xkb.layout = "us";
-      xkb.variant = "altgr-intl";
-      xkb.options = "caps:ctrl_modifier";
+      xkb = {
+        layout = "us";
+        variant = "altgr-intl";
+        options = "caps:ctrl_modifier";
+
+        extraLayouts.workman = {
+          description = "Workman layout";
+          languages = [ "eng" ];
+        };
+      };
 
       windowManager.qtile = {
         enable = true;
