@@ -340,6 +340,14 @@ See URL `https://github.com/astral-sh/ruff'."
 
 (add-to-list 'flycheck-checkers 'python-ruff)
 
+;;  ┏━━━━━━━━━━━━━━━━━━━━━┓
+;;; ┃    Magit and env    ┃
+;;  ┗━━━━━━━━━━━━━━━━━━━━━┛
+(after! magit
+  (setq-default magit-git-environment
+                (list (concat "PATH=" (getenv "PATH"))))
+(setq-default process-environment (list (concat "PATH=" (getenv "PATH"))))
+
 ;;  ┏━━━━━━━━━━━━━━━━┓
 ;;; ┃    Flycheck    ┃
 ;;  ┗━━━━━━━━━━━━━━━━┛
@@ -395,6 +403,10 @@ See URL `https://github.com/astral-sh/ruff'."
         ;; Format on save with black
         python-formatter 'black
         python-format-on-save t))
+
+;;; -<< Jupyter Notebook >>-
+(after! ein
+  (setq ein:output-area-inlined-images t))
 
 ;;  ┏━━━━━━━━━━━━┓
 ;;; ┃    Rust    ┃

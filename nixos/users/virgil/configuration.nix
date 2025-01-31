@@ -61,13 +61,14 @@
     xserver = {
       enable = true;
       xkb = {
-        layout = "us";
-        variant = "altgr-intl";
-        options = "caps:ctrl_modifier";
+        layout = "us,workman";
+        variant = "altgr-intl,";
+        options = "caps:ctrl_modifier,grp:alt_shift_toggle";
 
         extraLayouts.workman = {
           description = "Workman layout";
           languages = [ "eng" ];
+          symbolsFile = ./workman.xkb;
         };
       };
 

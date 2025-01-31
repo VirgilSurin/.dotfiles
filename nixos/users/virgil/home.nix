@@ -37,7 +37,6 @@
 
   home.packages = with pkgs; [
     (import ../shell_scripts/make-shell.nix {inherit pkgs; })
-    (callPackage ./dvd-lock {})
     base16-schemes
     texlive.combined.scheme-full
     alacritty
@@ -49,6 +48,7 @@
     mullvad-vpn
     libreoffice
     jetbrains-mono
+    vscodium-fhs
     emacs-all-the-icons-fonts
     neofetch
     tree-sitter
@@ -128,13 +128,13 @@
     # Arduino
     # arduino
 
-
+    # Audio
+    pavucontrol
     # wifi and bluetooth
     blueman
     wirelesstools
 
     # programming langages
-    uv
     libclang
     jdk
     nodejs_20
@@ -142,10 +142,8 @@
     cargo
     rust-analyzer
     ruff-lsp
-    ruff
     pyright
-
-
+    ruff
 
     slack-cli
     (python312.withPackages (ps: with ps; [
