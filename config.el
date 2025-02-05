@@ -78,10 +78,6 @@
 
 ;; I don't use them but I input them a lot by mistake so let's unbind
 (global-unset-key (kbd "M-c"))
-(map! :nm
-      "L" #'nil
-      "<" #'counsel-switch-buffer
-      )
 
 (map! :leader
       (:prefix ("f" . "file")
@@ -90,28 +86,47 @@
                ))
 ;; Unify moving between buffer and window (Qtile)
 (map! :map 'override
-      "M-h" #'evil-window-left
-      "M-j" #'evil-window-down
-      "M-k" #'evil-window-up
-      "M-l" #'evil-window-right
+      "M-n" #'evil-window-left
+      "M-e" #'evil-window-down
+      "M-i" #'evil-window-up
+      "M-o" #'evil-window-right
       "M-w" #'evil-window-delete
       "M-W" #'delete-other-windows)
 
 ;; Move by visual line
 (map! :nm
-      "j" #'evil-next-visual-line
+      "e" #'evil-next-visual-line
       :nm
-      "k" #'evil-previous-visual-line
+      "i" #'evil-previous-visual-line
       )
 
 ;; To do some small move in insert mode
 (map! :map 'evil-insert-state-map
-      "C-l" #'right-char
-      "C-h" #'left-char
-      "C-j" #'evil-next-visual-line
-      "C-k" #'evil-previous-visual-line
+      "C-o" #'right-char
+      "C-n" #'left-char
+      "C-e" #'evil-next-visual-line
+      "C-i" #'evil-previous-visual-line
       )
 
+(map! :leader
+      (:prefix ("w" . "window")
+               "n" #'evil-window-left
+               "e" #'evil-window-down
+               "i" #'evil-window-up
+               "o" #'evil-window-right
+      ))
+
+(map! :n "t" 'evil-insert
+      :n "T" 'evil-insert-line
+      :n "l" 'evil-open-below
+      :n "L" 'evil-open-above
+      :n "f" 'evil-ex-search-next
+      :n "F" 'evil-ex-search-previous
+      :nv "n" 'evil-backward-char
+      :nv "e" 'evil-next-line
+      :nv "i" 'evil-previous-line
+      :nv "o" 'evil-forward-char
+      )
 ;; Quickly type jk or kj to get back to normal mode ASAP
 (setq evil-escape-unordered-key-sequence t)
 
@@ -215,6 +230,7 @@
 ;;┃    Avy    ┃
 ;;┗━━━━━━━━━━━┛
 
+(setq avy-keys '(?a ?r ?s ?t ? ?n ?e ?i ?o))
 (map! :map 'evil-snipe-local-mode-map
       :nm
       "s" #'evil-avy-goto-word-1
@@ -310,10 +326,6 @@
 (add-hook 'prog-mode-hook #'hl-line-mode)
 (rainbow-delimiters-mode)
 
-;; -<< Direnv >>-
-(use-package! direnv
-  :config
-  (direnv-mode))
 
 ;; -<< Tree-sitter >>-
 (use-package! tree-sitter
@@ -345,7 +357,7 @@ See URL `https://github.com/astral-sh/ruff'."
 ;;  ┗━━━━━━━━━━━━━━━━━━━━━┛
 (after! magit
   (setq-default magit-git-environment
-                (list (concat "PATH=" (getenv "PATH"))))
+                (list (concat "PATH=" (getenv "PATH")))))
 (setq-default process-environment (list (concat "PATH=" (getenv "PATH"))))
 
 ;;  ┏━━━━━━━━━━━━━━━━┓
@@ -406,7 +418,7 @@ See URL `https://github.com/astral-sh/ruff'."
 
 ;;; -<< Jupyter Notebook >>-
 (after! ein
-  (setq ein:output-area-inlined-images t))
+  (setq! ein:output-area-inlined-images t))
 
 ;;  ┏━━━━━━━━━━━━┓
 ;;; ┃    Rust    ┃

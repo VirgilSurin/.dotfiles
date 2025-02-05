@@ -81,7 +81,7 @@
 
     monitor-switcher = {
       enable = true;
-      profiles = [ "laptop" "home" "common" ];
+      profiles = [ "laptop" "home" "mobile-portrait" "common" ];
     };
 
     displayManager = {

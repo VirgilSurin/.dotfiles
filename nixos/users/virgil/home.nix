@@ -38,6 +38,7 @@
 
   home.packages = with pkgs; [
     (import ../shell_scripts/make-shell.nix {inherit pkgs; })
+    (callPackage ../pkgs/custom-i3lock {})
     base16-schemes
     texlive.combined.scheme-full
     alacritty
@@ -149,7 +150,10 @@
     slack-cli
     (python312.withPackages (ps: with ps; [
       numpy
+      matplotlib
+      pandas
       pygments
+      jupyter
     ]))
   ];
 
