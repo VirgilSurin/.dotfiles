@@ -381,7 +381,7 @@ def create_widget():
     ]
 
 # Wallpaper
-wall = "~/.dotfiles/wallpapers/one-graph.png"
+wall = "~/.dotfiles/wallpapers/mountains-and-river-4k-wallpapers.jpg"
 
 # SCREENS
 screens = [
