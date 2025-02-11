@@ -161,7 +161,7 @@ for i in groups:
 
 # Layouts
 layout_theme = {"border_width": 3,
-                "margin": 0,
+                "margin": 4,
                 "border_focus": colors["blue"],
                 "border_normal": colors["black"]
                 }

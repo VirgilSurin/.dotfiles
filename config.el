@@ -350,7 +350,7 @@ See URL `https://github.com/astral-sh/ruff'."
   ((warning line-start (file-name) ":" line ":" column ": " (id (one-or-more (not (any ":")))) ": " (message) line-end))
   :modes python-mode)
 
-(add-to-list 'flycheck-checkers 'python-ruff)
+;; (add-to-list 'flycheck-checkers 'python-ruff)
 
 ;;  ┏━━━━━━━━━━━━━━━━━━━━━┓
 ;;; ┃    Magit and env    ┃

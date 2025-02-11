@@ -61,15 +61,9 @@
     xserver = {
       enable = true;
       xkb = {
-        layout = "us,workman";
+        layout = "us";
         variant = "altgr-intl,";
-        options = "caps:ctrl_modifier,grp:alt_shift_toggle";
-
-        extraLayouts.workman = {
-          description = "Workman layout";
-          languages = [ "eng" ];
-          symbolsFile = ./workman.xkb;
-        };
+        options = "caps:ctrl_modifier";
       };
 
       windowManager.qtile = {
@@ -77,6 +71,8 @@
         package = pkgs.qtile;
         extraPackages = p: with p; [ qtile-extras ];
       };
+
+      desktopManager.gnome.enable = true;
     };
 
     monitor-switcher = {
@@ -84,10 +80,10 @@
       profiles = [ "laptop" "home" "mobile-portrait" "common" ];
     };
 
-    displayManager = {
+    xserver.displayManager = {
       defaultSession = "qtile";
       autoLogin = {
-        enable = true;
+        enable = false;
         user = "virgil";
       };
 
