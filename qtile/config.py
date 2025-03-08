@@ -13,14 +13,14 @@ colors = themes.One
 
 mod = "mod4"
 terminal = "alacritty"
-browser = "firefox"
+browser = "brave"
 editor = "emacsclient -c -a 'emacs' "
 
 @hook.subscribe.startup_once
 def autostart():
     subprocess.run(['systemctl', '--user', 'start', 'dunst.service'])
     os.system("xset -dpms")
-    os.system("xset s off")
+    os.system("xset -dpms")
 
 directions = {
     'left': 'n',
@@ -107,6 +107,9 @@ keys = [
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "m", lazy.spawn("dolphin"), desc="Open file manager"),
     Key([], "Print", lazy.spawn("flameshot gui")),
+
+    Key(["mod4"], "space", lazy.spawn("setxkbmap -layout us -variant colemak_dh")),
+    Key(["mod4", "shift"], "space", lazy.spawn("setxkbmap -layout us")),
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -122,7 +125,7 @@ for vt in range(1, 8):
         )
     )
 
-
+group_labels = ["", "", "", "", "", "", "𝦝", "", "", "⛨"]
 # Groups
 groups = [
     Group(name='a', label=' '),
@@ -161,7 +164,7 @@ for i in groups:
 
 # Layouts
 layout_theme = {"border_width": 3,
-                "margin": 4,
+                "margin": 6,
                 "border_focus": colors["blue"],
                 "border_normal": colors["black"]
                 }
@@ -171,11 +174,20 @@ layouts = [
                    border_focus_stack = colors["magenta"],
                    border_normal_stack = colors["bg"]
                    ),
-    # layout.MonadTall(**layout_theme,
-    #                  ratio = 0.6,
-    #                  ),
+    layout.MonadTall(**layout_theme,
+                     ratio = 0.6,
+                     ),
+    layout.MonadWide(**layout_theme),
     layout.Max(**layout_theme),
 ]
+
+def widget_decoration(color):
+    return [
+        BorderDecoration(
+            colour = colors[color],
+            border_width = [0, 0, 2, 0],
+        )
+    ]
 
 widget_defaults = dict(
     font = "Ubuntu Bold",
@@ -231,15 +243,16 @@ def create_widget():
         widget.Spacer(length=4),
         widget.GroupBox(
             fontsize = 16,
-            margin_x = 10,
+            margin_x = 15,
             margin_y = 5,
-            borderwidht = 3,
-            padding_x = 2,
+            padding_x = 1,
+            padding_y = 0,
+            borderwidht = 2,
             active = colors["blue"],
             inactive = colors["fg"],
-            center_aligned=True,
+            # center_aligned=True,
             highlight_method = "line",
-            rounded = True,
+            rounded = False,
             highlight_color = ["#565c6400"], # if using "line" as  highlight method
             this_current_screen_border = colors["green"],
             other_current_screen_border = colors["magenta"],
@@ -249,9 +262,31 @@ def create_widget():
 
             foreground = colors["fg"],
             background = [colors["bg"]],
-            **decoration_group,
+            # **decoration_group,
         ),
-        widget.Spacer(length=10),
+        # widget.GroupBox(
+        #     fontsize = 16,
+        #     margin_x = 10,
+        #     margin_y = 5,
+        #     borderwidht = 3,
+        #     padding_x = 2,
+        #     active = colors["blue"],
+        #     inactive = colors["fg"],
+        #     center_aligned=True,
+        #     highlight_method = "line",
+        #     rounded = True,
+        #     highlight_color = ["#565c6400"], # if using "line" as  highlight method
+        #     this_current_screen_border = colors["green"],
+        #     other_current_screen_border = colors["magenta"],
+
+        #     this_screen_border = colors["magenta"],
+        #     other_screen_border = colors["magenta"],
+
+        #     foreground = colors["fg"],
+        #     background = [colors["bg"]],
+        #     **decoration_group,
+        # ),
+        sep_bar,
         widget.CurrentLayoutIcon(
             foreground = colors["fg"],
             background = colors["bg"],
@@ -262,34 +297,32 @@ def create_widget():
         widget.CurrentLayout(
             foreground = colors["fg"],
             background = colors["bg"],
-            font = "JetBrains Mono",
+            font = "Ubuntu",
             padding = 10,
             fontsize = 14,
         ),
         sep_bar,
         widget.WindowName(
-            fontsize = 16,
+            fontsize = 12,
             padding = 5,
             max_chars = 32,
-            font = "Ubuntu",
-            foreground = colors["fg"],
+            font = "Ubuntu Bold",
+            foreground = colors["blue"],
             background = colors["bg"],
         ),
         widget.Spacer(length = 8),
         widget.KeyboardLayout(
-            configured_keyboards = [ "us", "workman" ],
-            # mouse_callbacks = lazy.widget["keyboardlayout"].next_keyboard(),
+            configured_keyboards = [ "US", "COLEMAK" ],
+            mouse_callbacks = {
+                "Button1": lazy.widget["keyboardlayout"].next_keyboard(),
+                "Button2": lazy.widget["keyboardlayout"].previous_keyboard()
+            },
             foreground = colors["orange"],
             background = colors["bg"],
-            font = "JetBrains Mono SemiBold",
-            fontsize = 14,
+            fmt = "⌨ {}",
+            fontsize = 12,
             padding = 4,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["orange"],
-                    border_width = [0, 0, 3, 0],
-                )
-            ]
+            decorations = widget_decoration("orange")
         ),
         widget.Spacer(length = 8),
         widget.Net(
@@ -297,21 +330,15 @@ def create_widget():
             format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
             foreground = colors["red"],
             background = colors["bg"],
-            font = "JetBrains Mono SemiBold",
-            fontsize = 14,
+            fontsize = 12,
             padding = 4,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["red"],
-                    border_width = [0, 0, 3, 0],
-                )
-            ]
+            decorations = widget_decoration("red")
         ),
         widget.Spacer(length = 8),
         widget.UPowerWidget(
             foreground = colors["green"],
             background = colors["bg"],
-            fontsize = 14,
+            fontsize = 12,
             fill_charge = colors["green"],
             fill_critical = colors["red"],
             fill_low = colors["orange"],
@@ -319,56 +346,33 @@ def create_widget():
             border_colour = colors["green"],
             border_charge_colour = colors["green"],
             border_critical_colour = colors["green"],
-            decorations = [
-                BorderDecoration(
-                    colour = colors["green"],
-                    border_width = [0, 0, 3, 0],
-                )
-            ]
+            decorations = widget_decoration("green")
         ),
         widget.Battery(
             foreground = colors["green"],
             background = colors["bg"],
             padding = 0,
-            fontsize = 14,
-            font = "JetBrains Mono SemiBold",
+            fontsize = 12,
             format = "{percent:2.0%} ({hour:d}h{min:02d})",
-            decorations = [
-                BorderDecoration(
-                    colour = colors["green"],
-                    border_width = [0, 0, 3, 0],
-                )
-            ]
+            decorations = widget_decoration("green")
         ),
         widget.Spacer(length = 8),
         widget.Volume(
             foreground = colors["magenta"],
             background = colors["bg"],
-            fontsize = 14,
-            font = "JetBrains Mono SemiBold",
-            fmt = '  Vol: {} ',
+            fontsize = 12,
+            fmt = '   Vol: {} ',
             padding = 00,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["magenta"],
-                    border_width = [0, 0, 3, 0],
-                )
-            ]
-            ),
+            decorations = widget_decoration("magenta")
+        ),
         widget.Spacer(length = 8),
         widget.Clock(
-            fontsize = 14,
+            fontsize = 12,
             foreground = colors["blue"],
             background = colors["bg"],
-            font = "JetBrains Mono SemiBold",
             format = "⏱ %a, %d %b - %H:%M ",
             padding = 00,
-            decorations = [
-                BorderDecoration(
-                    colour = colors["blue"],
-                    border_width = [0, 0, 3, 0],
-                )
-            ]
+            decorations = widget_decoration("blue")
         ),
         #widget.Systray(
         #    padding = 3,
@@ -381,7 +385,7 @@ def create_widget():
     ]
 
 # Wallpaper
-wall = "~/.dotfiles/wallpapers/mountains-and-river-4k-wallpapers.jpg"
+wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
 
 # SCREENS
 screens = [
@@ -390,10 +394,10 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             create_widget(),
-            32,
+            26,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["black"]] * 4,  # Borders are magenta
-            margin = 0,
+            margin = [6, 8, 6, 8],
             background = colors["bg"] + "00"
         ),
     ),
@@ -402,10 +406,10 @@ screens = [
         wallpaper_mode="fill",
         top=bar.Bar(
             create_widget(),
-            32,
+            26,
             border_width=[0, 0, 0, 0],  # Draw top and bottom borders
             border_color=[colors["black"]] * 4,  # Borders are magenta
-            margin = [0, 0, 0, 0],
+            margin = [6, 8, 6, 8],
             background = colors["bg"] + "00"
         ),
     ),

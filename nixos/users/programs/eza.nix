@@ -7,7 +7,7 @@
     enableBashIntegration = true;
     enableZshIntegration  = true;
     git = true;
-    icons = true;
+    icons = "auto";
     extraOptions = [
       "--icons"
       "--group-directories-first"

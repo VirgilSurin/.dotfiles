@@ -2,7 +2,7 @@
 
 {
   programs.bash = {
-    enable = false;
+    enable = true;
     shellAliases = {
 
       # man="emacsclient -c -a 'emacs' --eval '(man \'$1\')'";

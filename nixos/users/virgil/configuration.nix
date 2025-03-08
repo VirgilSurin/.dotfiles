@@ -61,9 +61,14 @@
     xserver = {
       enable = true;
       xkb = {
-        layout = "us";
-        variant = "altgr-intl,";
-        options = "caps:ctrl_modifier";
+        layout = "us,us";
+        variant = "altgr-intl,colemak_dh";
+        options = "caps:ctrl_modifier,grp:alt_shift_toggle";
+      };
+
+      displayManager.gdm = {
+        enable = true;
+        wayland = true;
       };
 
       windowManager.qtile = {
@@ -72,7 +77,7 @@
         extraPackages = p: with p; [ qtile-extras ];
       };
 
-      desktopManager.gnome.enable = true;
+      desktopManager.gnome.enable = false;
     };
 
     monitor-switcher = {
@@ -80,7 +85,7 @@
       profiles = [ "laptop" "home" "mobile-portrait" "common" ];
     };
 
-    xserver.displayManager = {
+    displayManager = {
       defaultSession = "qtile";
       autoLogin = {
         enable = false;
@@ -88,19 +93,27 @@
       };
 
       sddm = {
-        enable = true;
-        wayland.enable = false;
+        enable = false;
+        wayland.enable = true;
       };
+
     };
   };
 
   programs.hyprland = {
-    enable = false;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    xwayland.enable = false;
+    enable = true;
   };
-  xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+    ];
+    wlr = {
+      enable = true;
+    };
+  };
   # Lock
   # programs.xss-lock = {
   #   enable = true;
@@ -131,15 +144,16 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = true;
+  nixpkgs.config.pulseaudio = true;
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    jack.enable = true;
+    enable = false;
+    # alsa.enable = true;
+    # alsa.support32Bit = true;
+    # pulse.enable = true;
+    # # If you want to use JACK applications, uncomment this
+    # jack.enable = true;
   };
 
 
@@ -213,6 +227,27 @@
     via
     keymapp
     spotify
+    xorg.xinit
+
+    libdrm
+    mesa
+    wayland
+    libxkbcommon
+    pixman
+    libinput
+    seatd
+    vulkan-loader
+    vulkan-tools
+    vulkan-validation-layers
+    wlroots
+    # Hyprland utilities
+    hyprpaper
+    hyprpicker
+    xwayland
+    qt6.qtwayland
+    grim
+    slurp
+    wl-clipboard
 
     # qt5
     libsForQt5.qt5.qtquickcontrols2
@@ -244,6 +279,15 @@
     vial
     via
   ];
+
+hardware.opengl = {
+  enable = true;
+  driSupport32Bit = true;
+  extraPackages = with pkgs; [
+    amdvlk
+  ];
+};
+
   # I now use a ZSA keyboard, I must enable some udev rules for it
   hardware.keyboard.zsa.enable = true;
   # Some programs need SUID wrappers, can be configured further or are

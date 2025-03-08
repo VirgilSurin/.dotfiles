@@ -8,16 +8,16 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 8;
-        margin-top = 4;
-        margin-bottom = 4;
-        margin-left = 6;
-        margin-right = 6;
+        height = 6;
+        margin-top = 0;
+        margin-bottom = 0;
+        margin-left = 0;
+        margin-right = 0;
         modules-left =  ["image" "hyprland/workspaces" "hyprland/window"];
 
         modules-center = [];
 
-        modules-right = ["cpu" "network" "battery" "pulseaudio" "clock"];
+        modules-right = ["hyprland/language" "cpu" "network" "battery" "pulseaudio" "clock"];
 
         "custom/spacer" = {
           format = " ";
@@ -43,12 +43,24 @@
             };
           "persistent-workspaces" = {
             "eDP-1" = [1 2 3 4 5 6];
+            "eDP-2" = [1 2 3 4 5 6];
+            "eDP-3" = [1 2 3 4 5 6];
+            "eDP-4" = [1 2 3 4 5 6];
+            "eDP-5" = [1 2 3 4 5 6];
+            "eDP-6" = [1 2 3 4 5 6];
+            "eDP-7" = [1 2 3 4 5 6];
             "HDMI-A-1" = [1 2 3 4 5 6];
           };
         };
         "hyprland/window" = {
           "max-length" = 200;
           "separate-outputs" = "true";
+        };
+        "hyprland/language" = {
+          "format" = "⌨ {}";
+          "format-en" = "US";
+          "format-colemak_dh" = "CDH";
+          "on-click" = "hyprctl switchxkblayout next";
         };
         "cpu"= {
           "interval"=10;
@@ -103,7 +115,7 @@
       }
 
       window#waybar {
-        border-radius: 10px 10px 10px 10px;
+        border-radius: 0px 0px 0px 0px;
         color: #${config.colorScheme.palette.base05};
         background: #${config.colorScheme.palette.base00};
       }
@@ -169,6 +181,16 @@
 
       window#waybar.empty #window {
           background-color: transparent;
+      }
+
+      #language {
+          color: #${config.colorScheme.palette.base0C};
+          border-bottom: 3px solid #${config.colorScheme.palette.base0C};
+          border-radius: 0px 0px 0px 0px;
+          padding-left: 2px;
+          padding-right: 2px;
+          margin-left: 4px;
+          margin-right: 4px;
       }
 
       #cpu {

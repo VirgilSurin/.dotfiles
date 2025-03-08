@@ -4,7 +4,7 @@
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
-      # ../window_managers/hyprland.nix
+      ../window_managers/hyprland.nix
       # ../window_managers/hyprlock.nix
       ../window_managers/qtile.nix
       ../programs/alacritty.nix
@@ -45,8 +45,7 @@
     alacritty
     btop
     firefox
-    qutebrowser
-    chromium                    # I need a chromium web browser sometimes
+    brave
     bitwarden
     mullvad-vpn
     libreoffice
@@ -62,11 +61,14 @@
     kdePackages.qtsvg
     zathura
     evince
-
+    feh
     # wayland related things
     wofi
     waybar
     swww
+    hyprlock
+    mpv
+    nwg-displays
 
     # unfree
     # discord
@@ -133,6 +135,7 @@
 
     # Audio
     pavucontrol
+    pulseaudio
     # wifi and bluetooth
     blueman
     wirelesstools
@@ -153,8 +156,11 @@
       numpy
       matplotlib
       pandas
+      seaborn
       pygments
       jupyter
+      graph-tool
+      tabulate
     ]))
   ];
 

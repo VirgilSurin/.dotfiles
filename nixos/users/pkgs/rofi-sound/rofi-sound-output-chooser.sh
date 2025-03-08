@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export DISPLAY=:0
+
 get_audio_outputs() {
     wpctl status | awk '/Sinks:/,/(Sink endpoints|Source endpoints)/' | grep -E "^\s*[0-9]+\.\s" | sed -E 's/^\s*[0-9]+\.\s//'
 }
@@ -21,10 +24,12 @@ set_default_sink() {
 main() {
     local outputs=$(get_audio_outputs)
     local current_sink=$(get_current_sink)
+
     local selected_sink=$(echo "$outputs" | rofi -dmenu -p "Select Audio Output" -selected-row $(echo "$outputs" | grep -n "$current_sink" | cut -d: -f1))
 
     if [[ -n "$selected_sink" ]]; then
         set_default_sink "$selected_sink"
     fi
 }
+
 main

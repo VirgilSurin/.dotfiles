@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
 import io
 import os
 import json
 import shlex
 import subprocess
+import sys
 
-os.environ["LC_NUMERIC"]="C"
+os.environ["LC_NUMERIC"] = "C"
 sinks = json.loads(subprocess.check_output(shlex.split("pactl -f json list sinks")))
 
 current = (
@@ -23,9 +25,4 @@ p = subprocess.Popen(
 )
 selected = p.communicate(input="\n".join(descriptions).encode("utf8"))[0].decode("utf8").strip()
 selected_name = [s["name"] for s in sinks if s["description"] == selected][0]
-try:
-    subprocess.check_call(shlex.split(f"pactl set-default-sink {selected_name}"))
-except subprocess.CalledProcessError:
-    subprocess.check_call(shlex.split(f'dunstify -t 2000 -r 2 -u low "Error activating: {selected}"'))
-    exit(1)
-subprocess.check_call(shlex.split(f'dunstify -t 2000 -r 2 -u low "Activated: {selected}"'))
+subprocess.check_call(shlex.split(f"pactl set-default-sink {selected_name}"))

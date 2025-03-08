@@ -91,14 +91,15 @@
       "M-i" #'evil-window-up
       "M-o" #'evil-window-right
       "M-w" #'evil-window-delete
-      "M-W" #'delete-other-windows)
-
-;; Move by visual line
-(map! :nm
-      "e" #'evil-next-visual-line
-      :nm
-      "i" #'evil-previous-visual-line
+      "M-W" #'delete-other-windows
+      :nmv "n" 'evil-backward-char
+      :nmv "e" 'evil-next-visual-line
+      :nmv "i" 'evil-previous-visual-line
+      :nmv "o" 'evil-forward-char
+      :nmv "f" 'evil-forward-word-end
+      :nmv "F" 'evil-forward-WORD-end
       )
+
 
 ;; To do some small move in insert mode
 (map! :map 'evil-insert-state-map
@@ -120,12 +121,12 @@
       :n "T" 'evil-insert-line
       :n "l" 'evil-open-below
       :n "L" 'evil-open-above
-      :n "f" 'evil-ex-search-next
-      :n "F" 'evil-ex-search-previous
-      :nv "n" 'evil-backward-char
-      :nv "e" 'evil-next-line
-      :nv "i" 'evil-previous-line
-      :nv "o" 'evil-forward-char
+      :nmv "n" 'evil-backward-char
+      :nmv "e" 'evil-next-visual-line
+      :nmv "i" 'evil-previous-visual-line
+      :nmv "o" 'evil-forward-char
+      :nmv "f" 'evil-forward-word-end
+      :nmv "F" 'evil-forward-WORD-end
       )
 ;; Quickly type jk or kj to get back to normal mode ASAP
 (setq evil-escape-unordered-key-sequence t)
@@ -148,8 +149,8 @@
         doom-themes-enable-italic 1))
 
 ;; -<< Transparency >>-
-(set-frame-parameter nil 'alpha-background 100)
-(add-to-list 'default-frame-alist '(alpha-background . 100))
+(set-frame-parameter nil 'alpha-background 95)
+(add-to-list 'default-frame-alist '(alpha-background . 95))
 
 ;; -<< Fonts >>-
 (custom-set-faces!
@@ -235,7 +236,7 @@
       :nm
       "s" #'evil-avy-goto-word-1
       :nm
-      "f" #'evil-avy-goto-char
+      "q" #'evil-avy-goto-char
       )
 
 ;; tag
@@ -323,9 +324,10 @@
   (setq show-paren-delay 0)
   (setq show-paren-style 'parenthesis))
 
-(add-hook 'prog-mode-hook #'hl-line-mode)
-(rainbow-delimiters-mode)
+(add-hook! 'prog-mode #'rainbow-delimiters-mode)
+(add-hook! 'prog-mode #'hl-line-mode)
 
+(setq! projectile-enable-caching nil)
 
 ;; -<< Tree-sitter >>-
 (use-package! tree-sitter
