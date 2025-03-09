@@ -65,7 +65,6 @@
 
 (package! org-mime)
 (package! org-auto-tangle)
-(package! jupyter)
 
 (package! direnv)
 

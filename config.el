@@ -502,15 +502,7 @@ See URL `https://github.com/astral-sh/ruff'."
            "MASTER(mm)"
            "EVENT(e)"
            "|"
-           "DONE(d)"
-           )))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-list . t)
-     (shell . t)
-     (python . t)
-     (jupyter . t)))
-  )
+           "DONE(d)"))))
 
 (defun vs/jupyter-refresh-kernelspecs ()
   "Refresh Jupyter kernelspecs"

@@ -1,0 +1,531 @@
+#+TITLE: Qtile Config
+#+AUTHOR: Virgil Surin
+#+PROPERTY: header-args :tangle new_config.py
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* Table of Contents :toc:
+- [[#imports][Imports]]
+- [[#variables][Variables]]
+- [[#autostart][Autostart]]
+- [[#keybindings][Keybindings]]
+- [[#groupsworkspaces][Groups/Workspaces]]
+- [[#themes][Themes]]
+- [[#default-settings-for-all-layouts][Default Settings For All Layouts]]
+- [[#layouts][Layouts]]
+- [[#default-settings-for-all-widgets][Default Settings For All Widgets]]
+- [[#widgets][Widgets]]
+- [[#wallpaper][Wallpaper]]
+- [[#screens][Screens]]
+- [[#floating-layout][Floating Layout]]
+- [[#window-rules][Window Rules]]
+
+* Imports
+These are the python modules that must be imported. Qtile-extras must be installed.
+
+#+begin_src python
+import os
+import subprocess
+from libqtile import bar, hook, layout, qtile, widget
+from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
+from libqtile.lazy import lazy
+from libqtile.utils import guess_terminal, send_notification
+from qtile_extras import widget
+from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
+from libqtile.command.client import InteractiveCommandClient
+
+#+end_src
+
+#+RESULTS:
+
+* Variables
+Some variables to make life easier.
+
+#+begin_src python
+mod = "mod4"
+terminal = "alacritty"
+browser = "brave"
+editor = "emacsclient -c -a 'emacs' "
+
+#+end_src
+
+Here I define the directional key. In case I want to switch layout (QWERTY, COLEMAK-DH, ...).
+
+#+begin_src python
+directions = {
+    'left': 'n',
+    'right': 'o',
+    'up': 'i',
+    'down': 'e'
+}
+#+end_src
+
+* Autostart
+
+#+begin_src python
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.run(['systemctl', '--user', 'start', 'dunst.service'])
+    os.system("xset -dpms")
+    os.system("xset -dpms")
+
+#+end_src
+
+* Keybindings
+
+#+begin_src python
+keys = [
+    *[
+        Key(
+            [mod],
+            directions[direction],
+            getattr(lazy.layout, direction)(),
+            desc=f"Move focus {direction}"
+        )
+        for direction in directions
+    ],
+    *[
+        Key(
+            [mod, "shift"],
+            directions[direction],
+            getattr(lazy.layout, f"shuffle_{direction}")(),
+            desc=f"Move window {direction}"
+        )
+        for direction in directions
+    ],
+    *[
+        Key(
+            [mod, "control"],
+            directions[direction],
+            getattr(lazy.layout, f"grow_{direction}")(),
+            desc=f"Grow window {direction}"
+        )
+        for direction in directions
+    ],
+
+    # Split and layout controls
+    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
+        desc="Toggle between split and unsplit sides of stack"),
+
+    # Grow/shrink windows left/right for specific layouts
+    Key([mod], "equal",
+        lazy.layout.grow_left().when(layout=["bsp", "columns"]),
+        lazy.layout.grow().when(layout=["monadtall", "monadwide"]),
+        desc="Grow window to the left"
+        ),
+    Key([mod], "minus",
+        lazy.layout.grow_right().when(layout=["bsp", "columns"]),
+        lazy.layout.shrink().when(layout=["monadtall", "monadwide"]),
+        desc="Grow window to the left"
+        ),
+
+    # Layout and window management
+    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+
+    # Screen management
+    Key([mod], "y", lazy.next_screen()),
+    Key([mod, "shift"], "y", lazy.prev_screen()),
+
+    # System controls
+    Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset Master 5%-"), desc="Lower Volume by 5%"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer sset Master 5%+"), desc="Raise Volume by 5%"),
+
+    # Brightness
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
+
+    # System commands
+    Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "control"], "z", lazy.spawn("custom-i3lock"), desc="Lock screen"),
+
+    # Application launchers
+    Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
+    Key([mod, "shift"], "p", lazy.spawn("rofi -show run"), desc="Run commands"),
+    Key([mod, "shift"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
+    Key([mod, "control"], "m", lazy.spawn("rofi -show calc -modi calc -no-show-match -no-sort"), desc="Launch calculator"),
+    Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
+    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    Key([mod], "x", lazy.spawn(editor), desc='Emacs Dashboard'),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "m", lazy.spawn("dolphin"), desc="Open file manager"),
+    Key([], "Print", lazy.spawn("flameshot gui")),
+
+    Key(["mod4"], "space", lazy.spawn("setxkbmap -layout us -variant colemak_dh")),
+    Key(["mod4", "shift"], "space", lazy.spawn("setxkbmap -layout us")),
+]
+
+# Add key bindings to switch VTs in Wayland.
+# We can't check qtile.core.name in default config as it is loaded before qtile is started
+# We therefore defer the check until the key binding is run by using .when(func=...)
+for vt in range(1, 8):
+    keys.append(
+        Key(
+            ["control", "mod1"],
+            f"f{vt}",
+            lazy.core.change_vt(vt).when(func=lambda: qtile.core.name == "wayland"),
+            desc=f"Switch to VT{vt}",
+        )
+    )
+
+#+end_src
+
+* Groups/Workspaces
+Definition of my groups. The name is the keybinding associated with the workspace.
+The philosophy is to use the left hand's home row and 2 keys above the right hand's home row for the less used workspace.
+
+#+begin_src python
+groups = [
+    Group(name='a', label=' '),
+    Group(name='r', label='󰖟'),
+    Group(name='s', label='󰈙'),
+    Group(name='t', label=''),
+    Group(name='l', label='󰍦', matches=[Match(wm_class="signal")], layout="columns"),
+    Group(name='u', label='󰓇', matches=[Match(wm_class="spotify")], layout="columns"),
+]
+
+for i in groups:
+    keys.extend(
+        [
+            # mod1 + letter of group = switch to group
+            Key(
+                [mod],
+                i.name,
+                lazy.group[i.name].toscreen(),
+                desc="Switch to group {}".format(i.name),
+            ),
+            # mod1 + shift + letter of group = switch to & move focused window to group
+            Key(
+                [mod, "shift"],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=True),
+                desc="Switch to & move focused window to group {}".format(i.name),
+            ),
+            Key(
+                [mod, "control"],
+                i.name,
+                lazy.window.togroup(i.name),
+                desc="Switch focused window to group {}".format(i.name),
+            ),
+        ]
+    )
+
+#+end_src
+
+* Themes
+
+Definition of the colors used to theme Qtile.
+
+#+begin_src python
+
+One = {
+    "bg":      "#282c34",
+    "fg":      "#bbc2cf",
+    "black":   "#1c1f24",
+    "white":   "#dfdfdf",
+    "red":     "#ff6c6b",
+    "green":   "#98be65",
+    "orange":  "#da8548",
+    "blue":    "#51afef",
+    "magenta": "#c678dd",
+    "cyan":    "#46d9ff",
+    "purple":  "#a9a1e1"
+}
+
+Everforest = {
+    "bg":      "#333c43",
+    "fg":      "#d3c6aa",
+    "black":   "#191C25",
+    "white":   "#dfdfdf",
+    "red":     "#e67e80",
+    "green":   "#a7c080",
+    "orange":  "#e69875",
+    "blue":    "#7fbbb3",
+    "magenta": "#d699b6",
+    "cyan":    "#88C0D0",
+    "purple":  "#d699b6"
+}
+#+end_src
+
+#+begin_src python
+colors = themes.One
+
+#+end_src
+
+* Default Settings For All Layouts
+
+Some default settings to ensure consistent theming among every layout used.
+
+#+begin_src python
+layout_theme = {
+    "border_width": 3,
+    "margin": 6,
+    "border_focus": colors["blue"],
+    "border_normal": colors["black"]
+}
+#+end_src
+
+* Layouts
+#+begin_src python
+layouts = [
+    layout.Columns(**layout_theme,
+                   border_on_single = True,
+                   border_focus_stack = colors["magenta"],
+                   border_normal_stack = colors["bg"],
+                   ),
+    layout.MonadTall(**layout_theme,
+                     ratio = 0.6,
+                     ),
+    layout.MonadWide(**layout_theme),
+    layout.Max(**layout_theme),
+]
+
+#+end_src
+
+* Default Settings For All Widgets
+
+Some function and default settings for the widgets.
+
+#+begin_src python
+widget_defaults = dict(
+    fontsize = 12,
+    padding = 4,
+    background = colors["bg"],
+)
+
+sep_bar = widget.TextBox(
+                    text = '|',
+                    background = colors["bg"],
+                    foreground = colors["fg"],
+                    padding = 4,
+                    fontsize = 14
+                )
+
+def widget_decoration(color):
+    return [
+        BorderDecoration(
+            colour = colors[color],
+            border_width = [0, 0, 2, 0],
+        )
+    ]
+
+#+end_src
+
+* Widgets
+This function creates the widgets used for the bar.
+
+#+begin_src python
+def create_widget():
+    return [
+        widget.TextBox(
+            text='󱄅',
+            fontsize=26,
+            foreground = colors["blue"],
+            padding=10,
+        ),
+        widget.Spacer(length=4),
+        widget.GroupBox(
+            fontsize = 16,
+            margin_x = 15,
+            margin_y = 5,
+            padding_x = 1,
+            padding_y = 0,
+            borderwidht = 2,
+            active = colors["blue"],
+            inactive = colors["fg"],
+            highlight_method = "line",
+            rounded = False,
+            highlight_color = ["#565c6400"], # if using "line" as  highlight method
+            this_current_screen_border = colors["green"],
+            other_current_screen_border = colors["magenta"],
+            this_screen_border = colors["magenta"],
+            other_screen_border = colors["magenta"],
+            foreground = colors["fg"],
+            background = [colors["bg"]],
+        ),
+        # widget.GroupBox(
+        #     fontsize = 16,
+        #     margin_x = 10,
+        #     margin_y = 5,
+        #     borderwidht = 3,
+        #     padding_x = 2,
+        #     active = colors["blue"],
+        #     inactive = colors["fg"],
+        #     center_aligned=True,
+        #     highlight_method = "line",
+        #     rounded = True,
+        #     highlight_color = ["#565c6400"], # if using "line" as  highlight method
+        #     this_current_screen_border = colors["green"],
+        #     other_current_screen_border = colors["magenta"],
+
+        #     this_screen_border = colors["magenta"],
+        #     other_screen_border = colors["magenta"],
+
+        #     foreground = colors["fg"],
+        #     background = [colors["bg"]],
+        #     **decoration_group,
+        # ),
+        sep_bar,
+        widget.CurrentLayoutIcon(
+            foreground = colors["fg"],
+            scale = 0.7,
+            use_mask = True,
+            **widget_defaults,
+        ),
+        widget.CurrentLayout(
+            foreground = colors["fg"],
+            font = "Ubuntu",
+            padding = 10,
+            fontsize = 14,
+        ),
+        sep_bar,
+        widget.WindowName(
+            padding = 5,
+            max_chars = 32,
+            foreground = colors["blue"],
+            **widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.Net(
+            interface = "wlp6s0",
+            format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
+            foreground = colors["red"],
+            **widget_defaults,
+        ),
+        widget.KeyboardLayout(
+            configured_keyboards = [ "US" ],
+            mouse_callbacks = {
+                "Button1": lazy.widget["keyboardlayout"].next_keyboard(),
+                "Button2": lazy.widget["keyboardlayout"].previous_keyboard()
+            },
+            foreground = colors["orange"],
+            background = colors["bg"],
+            fmt = "⌨ {}",
+            **widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.UPowerWidget(
+            foreground = colors["green"],
+            fill_charge = colors["green"],
+            fill_critical = colors["red"],
+            fill_low = colors["orange"],
+            fill_normal = colors["green"],
+            border_colour = colors["green"],
+            border_charge_colour = colors["green"],
+            border_critical_colour = colors["green"],
+            **widget_defaults,
+        ),
+        widget.Battery(
+            foreground = colors["green"],
+            format = "{percent:2.0%} ({hour:d}h{min:02d})",
+            **widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.Volume(
+            foreground = colors["magenta"],
+            fmt = '   Vol: {} ',
+            **widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.Clock(
+            foreground = colors["blue"],
+            format = "⏱ %a, %d %b - %H:%M ",
+            **widget_defaults,
+        ),
+        #widget.Systray(
+        #    padding = 3,
+        #    background = colors["bg"],
+        #    foreground = colors["blue"],
+        #    #**decoration_group,
+        #),
+        # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+        widget.Spacer(length = 8),
+    ]
+#+end_src
+
+* Wallpaper
+
+#+begin_src python
+wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
+
+#+end_src
+
+* Screens
+I mainly work with 2 monitors.
+#+begin_src python
+screens = [
+    Screen(
+        wallpaper=wall,
+        wallpaper_mode="fill",
+        top=bar.Bar(
+            create_widget(),
+            26,
+            border_width=[0, 0, 0, 0],
+            border_color=[colors["black"]] * 4,
+            margin = [6, 8, 6, 8],
+            background = colors["bg"] + "00"
+        ),
+    ),
+    Screen(
+        wallpaper=wall,
+        wallpaper_mode="fill",
+        top=bar.Bar(
+            create_widget(),
+            26,
+            border_width=[0, 0, 0, 0],
+            border_color=[colors["black"]] * 4,
+            margin = [6, 8, 6, 8],
+            background = colors["bg"] + "00"
+        ),
+    ),
+
+#+end_src
+
+
+* Floating Layout
+
+#+begin_src python
+mouse = [
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], "Button2", lazy.window.bring_to_front()),
+]
+
+#+end_src
+
+* Window Rules
+
+#+begin_src python
+dgroups_key_binder = None
+dgroups_app_rules = []  # type: list
+follow_mouse_focus = False
+bring_front_click = False
+floats_kept_above = True
+cursor_warp = False
+floating_layout = layout.Floating(
+    ,**layout_theme,
+    float_rules=[
+        # Run the utility of `xprop` to see the wm class and name of an X client.
+        ,*layout.Floating.default_float_rules,
+        Match(wm_class="confirmreset"),  # gitk
+        Match(wm_class="makebranch"),  # gitk
+        Match(wm_class="maketag"),  # gitk
+        Match(wm_class="ssh-askpass"),  # ssh-askpass
+        Match(title="branchdialog"),  # gitk
+        Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="crx_nngceckbapebfimnlniiiahkandclblb", title="Brave-browser")
+    ]
+)
+auto_fullscreen = True
+focus_on_window_activation = "smart"
+reconfigure_screens = True
+
+auto_minimize = True
+wl_input_rules = None
+wl_xcursor_theme = None
+wl_xcursor_size = 24
+wmname = "LG3D"
+
+#+end_src
