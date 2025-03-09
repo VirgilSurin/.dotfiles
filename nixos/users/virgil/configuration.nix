@@ -63,7 +63,7 @@
       xkb = {
         layout = "us,us";
         variant = "altgr-intl,colemak_dh";
-        options = "caps:ctrl_modifier,grp:alt_shift_toggle";
+        options = "caps:ctrl_modifier";
       };
 
       displayManager.gdm = {

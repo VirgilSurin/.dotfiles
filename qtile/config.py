@@ -310,9 +310,17 @@ def create_widget():
             foreground = colors["blue"],
             background = colors["bg"],
         ),
-        widget.Spacer(length = 8),
+        widget.Spacer(length = 12),
+        widget.Net(
+            interface = "wlp6s0",
+            format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
+            foreground = colors["red"],
+            background = colors["bg"],
+            fontsize = 12,
+            padding = 4,
+        ),
         widget.KeyboardLayout(
-            configured_keyboards = [ "US", "COLEMAK" ],
+            configured_keyboards = [ "US" ],
             mouse_callbacks = {
                 "Button1": lazy.widget["keyboardlayout"].next_keyboard(),
                 "Button2": lazy.widget["keyboardlayout"].previous_keyboard()
@@ -322,19 +330,8 @@ def create_widget():
             fmt = "⌨ {}",
             fontsize = 12,
             padding = 4,
-            decorations = widget_decoration("orange")
         ),
-        widget.Spacer(length = 8),
-        widget.Net(
-            interface = "wlp6s0",
-            format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
-            foreground = colors["red"],
-            background = colors["bg"],
-            fontsize = 12,
-            padding = 4,
-            decorations = widget_decoration("red")
-        ),
-        widget.Spacer(length = 8),
+        widget.Spacer(length = 12),
         widget.UPowerWidget(
             foreground = colors["green"],
             background = colors["bg"],
@@ -346,7 +343,6 @@ def create_widget():
             border_colour = colors["green"],
             border_charge_colour = colors["green"],
             border_critical_colour = colors["green"],
-            decorations = widget_decoration("green")
         ),
         widget.Battery(
             foreground = colors["green"],
@@ -354,25 +350,22 @@ def create_widget():
             padding = 0,
             fontsize = 12,
             format = "{percent:2.0%} ({hour:d}h{min:02d})",
-            decorations = widget_decoration("green")
         ),
-        widget.Spacer(length = 8),
+        widget.Spacer(length = 12),
         widget.Volume(
             foreground = colors["magenta"],
             background = colors["bg"],
             fontsize = 12,
             fmt = '   Vol: {} ',
             padding = 00,
-            decorations = widget_decoration("magenta")
         ),
-        widget.Spacer(length = 8),
+        widget.Spacer(length = 12),
         widget.Clock(
             fontsize = 12,
             foreground = colors["blue"],
             background = colors["bg"],
             format = "⏱ %a, %d %b - %H:%M ",
             padding = 00,
-            decorations = widget_decoration("blue")
         ),
         #widget.Systray(
         #    padding = 3,

@@ -403,9 +403,6 @@ See URL `https://github.com/astral-sh/ruff'."
 ;;┏━━━━━━━━━━━━━━┓
 ;;┃    Python    ┃
 ;;┗━━━━━━━━━━━━━━┛
-;; (setq python-shell-interpreter "python3.11")
-;; (setq org-babel-python-command "python3.11")
-;; (setq lsp-pyright-python-executable-cmd "python3.11")
 
 (after! python
   ;; Use pyright for better type checking
@@ -472,14 +469,6 @@ See URL `https://github.com/astral-sh/ruff'."
 ;;┗━━━━━━━━━━━━━━━━┛
 
 (after! org
-  (setq org-babel-default-header-args '((:session . "none")
-                                       (:results . "replace")
-                                       (:exports . "code")
-                                       (:cache . "no")
-                                       (:noweb . "no")
-                                       (:hlines . "no")
-                                       (:tangle . "yes")))
-
   (setq
    org-auto-align-tags t
    org-tags-column -0
@@ -515,8 +504,22 @@ See URL `https://github.com/astral-sh/ruff'."
            "|"
            "DONE(d)"
            )))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-list . t)
+     (shell . t)
+     (python . t)
+     (jupyter . t)))
   )
 
+(defun vs/jupyter-refresh-kernelspecs ()
+  "Refresh Jupyter kernelspecs"
+  (interactive)
+  (jupyter-available-kernelspecs t))
+
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode))
 ;; ;; -<< Org-modern >>-
 ;; (after! org-modern
 ;;   :config
@@ -526,24 +529,8 @@ See URL `https://github.com/astral-sh/ruff'."
 ;;   )
 ;; (with-eval-after-load 'org (global-org-modern-mode))
 
-;; -<< Org-capture >>-
-(defun gkh/project-current-name ()
-"Get the name of the current project by returning the project name for DIR."
-(if (string-match "/\\([^/]+\\)/\\'" (project-root (project-current t)))
-    (match-string 1 (project-root (project-current t)))
-  (project-root (project-current t))))
 
 
-(after! org
-  (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
-           "* TODO %?\n")
-          ("p" "Project todo" entry (file+headline "~/org/todo.org" "Projects")
-           "* TODO %? :%(gkh/project-current-name):\n%a")
-          ("b" "Bugs" entry (file+headline "~/org/todo.org" "Bugs")
-           "* BUG %? :%(gkh/project-current-name):\n%a")
-          ))
-  )
 
 ;; tag
 ;;┏━━━━━━━━━━━━━━━━━━┓
