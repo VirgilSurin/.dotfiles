@@ -1,6 +1,6 @@
 #+TITLE: Qtile Config
 #+AUTHOR: Virgil Surin
-#+PROPERTY: header-args :tangle new_config.py
+#+PROPERTY: header-args :tangle ~/.config/qtile/config.py
 #+auto_tangle: t
 #+STARTUP: showeverything
 
@@ -382,7 +382,6 @@ def create_widget():
         ),
         sep_bar,
         widget.WindowName(
-            padding = 5,
             max_chars = 32,
             foreground = colors["blue"],
             **widget_defaults,
@@ -401,7 +400,6 @@ def create_widget():
                 "Button2": lazy.widget["keyboardlayout"].previous_keyboard()
             },
             foreground = colors["orange"],
-            background = colors["bg"],
             fmt = "⌨ {}",
             **widget_defaults,
         ),
@@ -480,8 +478,9 @@ screens = [
             background = colors["bg"] + "00"
         ),
     ),
+]
 
-#+end_src
+    #+end_src
 
 
 * Floating Layout
