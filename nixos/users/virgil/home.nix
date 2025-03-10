@@ -1,5 +1,19 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
+let
+
+  my-python = pkgs.python312.withPackages (ps: with ps; [
+      numpy
+      matplotlib
+      pandas
+      seaborn
+      pygments
+      jupyter
+      graph-tool
+      tabulate
+      python-dateutil
+    ]);
+in
 {
 
   imports = [
@@ -22,6 +36,7 @@
       ../programs/eza.nix
       ../programs/zathura.nix
       ../programs/autorandr.nix
+      ../programs/xscreensaver.nix
       # ../programs/emacs-theme.nix
   ];
 
@@ -104,8 +119,10 @@
     grim
     slurp
     wl-clipboard
-
     nerdfonts
+    #nerd-fonts.ubuntu
+    #nerd-fonts.fira-code
+    #nerd-fonts.jetbrains-mono
     zip
     unzip
     xclip
@@ -152,16 +169,7 @@
     ruff
 
     slack-cli
-    (python312.withPackages (ps: with ps; [
-      numpy
-      matplotlib
-      pandas
-      seaborn
-      pygments
-      jupyter
-      graph-tool
-      tabulate
-    ]))
+    my-python
   ];
 
 
@@ -172,6 +180,7 @@
   programs.home-manager.enable = true;
 
   home.sessionPath = [
+   "${my-python}/bin"
    "$HOME/.config/emacs/bin"
   ];
 

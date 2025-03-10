@@ -8,6 +8,7 @@
 - [[#imports][Imports]]
 - [[#variables][Variables]]
 - [[#autostart][Autostart]]
+- [[#xscreensaver][Xscreensaver]]
 - [[#keybindings][Keybindings]]
 - [[#groupsworkspaces][Groups/Workspaces]]
 - [[#themes][Themes]]
@@ -71,11 +72,26 @@ def autostart():
 
 #+end_src
 
+* Xscreensaver
+Run a new instance of xscreensaver.
+
+#+begin_src python
+def start_xscreensaver():
+    home = os.path.expanduser('~')
+    try:
+        subprocess.run(['pkill', 'xscreensaver'], check=False)
+        subprocess.Popen(['xscreensaver', '-no-splash'])
+    except Exception as e:
+        print(f"Error starting XScreenSaver: {e}")
+
+start_xscreensaver()
+#+end_src
+
 * Keybindings
 
 #+begin_src python
 keys = [
-    *[
+    ,*[
         Key(
             [mod],
             directions[direction],
@@ -84,7 +100,7 @@ keys = [
         )
         for direction in directions
     ],
-    *[
+    ,*[
         Key(
             [mod, "shift"],
             directions[direction],
@@ -93,7 +109,7 @@ keys = [
         )
         for direction in directions
     ],
-    *[
+    ,*[
         Key(
             [mod, "control"],
             directions[direction],
@@ -139,7 +155,9 @@ keys = [
     # System commands
     Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod, "control"], "z", lazy.spawn("custom-i3lock"), desc="Lock screen"),
+    Key([mod, "control"], "z", lazy.spawn("xscreensaver-command -lock"), desc="Lock screen with XScreenSaver"),
+    Key([mod, "shift"], "z", lazy.spawn("xscreensaver-command -activate"), desc="Activate XScreenSaver without locking"),
+    Key([mod, "control", "shift"], "z", lazy.spawn("xscreensaver-demo"), desc="Configure XScreenSaver"),
 
     # Application launchers
     Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
@@ -250,7 +268,7 @@ Everforest = {
 #+end_src
 
 #+begin_src python
-colors = themes.One
+colors = One
 
 #+end_src
 
@@ -393,6 +411,7 @@ def create_widget():
             foreground = colors["red"],
             **widget_defaults,
         ),
+        widget.Spacer(length = 12),
         widget.KeyboardLayout(
             configured_keyboards = [ "US" ],
             mouse_callbacks = {
@@ -418,12 +437,12 @@ def create_widget():
         widget.Battery(
             foreground = colors["green"],
             format = "{percent:2.0%} ({hour:d}h{min:02d})",
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.Volume(
             foreground = colors["magenta"],
-            fmt = '   Vol: {} ',
+            fmt = '   Vol: {} ',
             **widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -514,7 +533,8 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-        Match(wm_class="crx_nngceckbapebfimnlniiiahkandclblb", title="Brave-browser")
+        Match(title="Bitwarden"),  # GPG key password entry
+        Match(wm_class="crx_nngceckbapebfimnlniiiahkandclblb", title="Bitwarden"),
     ]
 )
 auto_fullscreen = True
@@ -528,3 +548,5 @@ wl_xcursor_size = 24
 wmname = "LG3D"
 
 #+end_src
+
+#+RESULTS:
