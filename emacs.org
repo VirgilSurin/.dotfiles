@@ -1,0 +1,778 @@
+#+title: Doom Emacs Config
+#+AUTHOR: Virgil Surin
+#+PROPERTY: header-args :tangle ~/.config/doom/config.el
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* Table of Content :toc:
+- [[#initel][init.el]]
+- [[#packageel][package.el]]
+- [[#general-config][General config]]
+  - [[#line-numbers][Line numbers]]
+- [[#theming][Theming]]
+- [[#keybinding][Keybinding]]
+  - [[#colemak][Colemak]]
+  - [[#dired][Dired]]
+- [[#which-key][Which-key]]
+- [[#evil][Evil]]
+- [[#treemacs][Treemacs]]
+- [[#vterm][Vterm]]
+- [[#ivy][Ivy]]
+- [[#company][Company]]
+- [[#avy][Avy]]
+- [[#programming][Programming]]
+  - [[#lsp][LSP]]
+  - [[#tree-sitter][Tree sitter]]
+  - [[#python][Python]]
+  - [[#jupyter][Jupyter]]
+  - [[#rust][Rust]]
+  - [[#latex][LaTeX]]
+- [[#pdf][PDF]]
+- [[#org-mode][Org mode]]
+
+* init.el
+This code block represents the `init.el` file needed for doom emacs. It specifies which modules are enabled.
+
+#+begin_src emacs-lisp :tangle ~/.config/doom/init.el
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
+
+       :completion
+       (company)           ; the ultimate code completion backend
+       ;; (corfu +icons +orderless)
+       ;; (helm +childframe +fuzzy +icons)              ; the *other* search engine for love and life
+       ;; ido               ; the other *other* search engine...
+       (ivy +icons +prescient)                 ;a search engine for love and life
+       ;; (vertico +icons)           ; the search engine of the future
+
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;;(emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       hydra
+       indent-guides     ; highlighted indent columns
+       ligatures         ; ligatures and symbols to make your code pretty again
+       ;;minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       nav-flash         ; blink cursor line after big motions
+       ;; neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       ;;tabs              ; a tab bar for Emacs
+       (treemacs +lsp)          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
+
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       ;;(format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       word-wrap         ; soft wrapping with language-aware indent
+
+       :emacs
+       (dired +icons)             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       (ibuffer +icons)         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       ;;eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
+
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       ;;(spell +flyspell) ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
+
+       :tools
+       ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
+       ;; (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       direnv
+       docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       ;;gist              ; interacting with github gists
+       lookup              ; navigate your code and its documentation
+       (lsp +peek)               ; M-x vscode
+       magit             ; a git porcelain for Emacs
+       make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       (:if IS-MAC macos)  ; improve compatibility with macOS
+       ;;tty               ; improve the terminal Emacs experience
+
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       (cc +lsp)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       json              ; At least it ain't XML
+       (java +lsp)       ; the poster child for carpal tunnel syndrome
+       (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       (latex +latexmk +lsp +fold)             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       nix               ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       (org +pretty +jupyter) ; organize your plain life in plain text
+       php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       (python +lsp +pyright)            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       (rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       ;;web               ; the tubes
+       yaml              ; JSON, but readable
+       ;;zig               ; C, but simpler
+
+       :email
+       (mu4e +org +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+       :app
+       ;;calendar
+       ;;emms
+       everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
+
+       :config
+       ;; literate
+       (default +bindings +smartparens))
+#+end_src
+
+* package.el
+This code block represents the `package.el` file needed for doom emacs. It specifies which packages I need to install (for those who are not in a module).
+
+#+begin_src emacs-lisp :tangle ~/.config/doom/packages.el
+(package! exec-path-from-shell)
+
+(package! nord-theme)
+(package! one-themes)
+(package! atom-one-dark-theme)
+(package! gruvbox-theme)
+
+(package! smooth-scrolling)
+
+(package! ivy-posframe)
+(package! all-the-icons-ivy)
+(package! all-the-icons-dired)
+
+(package! org-mime)
+(package! org-auto-tangle)
+
+(package! direnv)
+
+(package! cdlatex)
+(package! lsp-ltex)
+
+(package! tree-sitter)
+
+(package! eldoc-box)
+
+(package! all-the-icons)
+(package! all-the-icons-ivy-rich)
+(package! ivy-rich)
+#+end_src
+
+* General config
+
+#+begin_src emacs-lisp
+(setq user-full-name "Virgil Surin"
+      user-mail-address "virgl.surin@student.umons.ac.be")
+#+end_src
+
+Here are some sane default settings.
+
+#+begin_src emacs-lisp
+(fset 'yes-or-no-p 'y-or-n-p)
+(setq confirm-kill-emacs 'y-or-n-p)
+
+(setq auto-save-default 1)
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+(display-battery-mode 1)
+#+end_src
+
+** Line numbers
+
+#+begin_src emacs-lisp
+(setq display-line-numbers-mode t)
+(setq display-line-numbers-type 'relative)
+;; Disable line numbers for some modes
+(dolist (mode '(term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                pdf-view-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+* Theming
+Some theme configurations.
+#+begin_src emacs-lisp
+(setq! doom-theme 'doom-one)
+(after! doom-themes
+  (setq doom-themes-enable-bold 1
+        doom-themes-enable-italic 1))
+#+end_src
+
+Here are the font related stuff:
+
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-function-name-face :slant italic)
+  '(font-lock-keyword-face :weight normal)
+  `(tree-sitter-hl-face:function.call :foreground ,(doom-color 'green) :weight normal)
+  `(tree-sitter-hl-face:function :foreground ,(doom-color 'greend) :weight normal :slant italic)
+  `(tree-sitter-hl-face:method.call :foreground ,(doom-color 'green) :weight normal :slant italic)
+  `(tree-sitter-hl-face:type.builtin :foreground ,(doom-color 'green) :weight normal :slant italic)
+  `(tree-sitter-hl-face:function.builtin :foreground ,(doom-color 'dark-cyan) :weight normal :slant italic)
+  `(tree-sitter-hl-face:variable.builtin :foreground ,(doom-color 'dark-blue) :weight normal :slant italic)
+  `(tree-sitter-hl-face:constant :foreground ,(doom-color 'yellow) :weight bold)
+  `(tree-sitter-hl-face:number :foreground ,(doom-color 'magenta) :weight bold)
+  `(tree-sitter-hl-face:embedded :foreground ,(doom-color 'red) :weight bold)
+  `(vertical-border :foreground ,(doom-color 'base3))
+  '(whitespace-tab-regexp :background nil :foreground nil)
+  '(whitespace-tab :background nil :foreground nil)
+  )
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal))
+
+#+end_src
+
+I am not sure if this is needed so I let it commented out just in case.
+
+#+begin_src emacs-lisp
+(setq evil-normal-state-cursor '("#c6d3ab" box)
+      evil-emacs-state-cursor '("#c6d3ab" bar)
+      evil-insert-state-cursor '("#c6d3ab" bar)
+      evil-visual-state-cursor '("#c6d3ab" hollow)
+      evil-replace-state-cursor '("#c6d3ab" hbar)
+      )
+#+end_src
+
+* Keybinding
+
+I unbind this key because I do not use it but type it by mistake quite often.
+#+begin_src emacs-lisp
+(global-unset-key (kbd "M-c"))
+#+end_src
+
+Yank pop!
+#+begin_src emacs-lisp
+(map! :nm "M-y" #'counsel-yank-pop)
+#+end_src
+
+** Colemak
+I use the Colemak-dh layout and thus need to adapt the keybindings to reflect that
+
+#+begin_src emacs-lisp
+(map! :map 'override
+      "M-n" #'evil-window-left
+      "M-e" #'evil-window-down
+      "M-i" #'evil-window-up
+      "M-o" #'evil-window-right
+      "M-w" #'evil-window-delete
+      "M-W" #'delete-other-windows
+      :nmv "n" 'evil-backward-char
+      :nmv "e" 'evil-next-visual-line
+      :nmv "i" 'evil-previous-visual-line
+      :nmv "o" 'evil-forward-char
+      :nmv "f" 'evil-forward-word-end
+      :nmv "F" 'evil-forward-WORD-end
+      )
+
+;; To do some small move in insert mode
+(map! :map 'evil-insert-state-map
+      "C-o" #'right-char
+      "C-n" #'left-char
+      "C-e" #'evil-next-visual-line
+      "C-i" #'evil-previous-visual-line
+      )
+
+(map! :leader
+      (:prefix ("w" . "window")
+               "n" #'evil-window-left
+               "e" #'evil-window-down
+               "i" #'evil-window-up
+               "o" #'evil-window-right
+      ))
+
+(map! :n "t" 'evil-insert
+      :n "T" 'evil-insert-line
+      :n "l" 'evil-open-below
+      :n "L" 'evil-open-above
+      :nmv "n" 'evil-backward-char
+      :nmv "e" 'evil-next-visual-line
+      :nmv "i" 'evil-previous-visual-line
+      :nmv "o" 'evil-forward-char
+      :nmv "f" 'evil-forward-word-end
+      :nmv "F" 'evil-forward-WORD-end
+      )
+#+end_src
+
+
+** Dired
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "e" #'dired-jump)
+      (:after dired
+       (:map dired-mode-map
+        :desc "Peep-dired image previews" "d p" #'peep-dired
+        :desc "Dired view file"           "d v" #'dired-view-file)))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "n") 'dired-up-directory
+  (kbd "o") 'dired-find-file ; use dired-find-file instead of dired-open.
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "w") 'wdired-change-to-wdired-mode
+  (kbd "f") 'wdired-finish-edit
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "Z") 'dired-do-compress
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-do-kill-lines
+  (kbd "% l") 'dired-downcase
+  (kbd "% m") 'dired-mark-files-regexp
+  (kbd "% u") 'dired-upcase
+  (kbd "* %") 'dired-mark-files-regexp
+  (kbd "* .") 'dired-mark-extension
+  (kbd "* /") 'dired-mark-directories
+  (kbd "; d") 'epa-dired-do-decrypt
+  (kbd "; e") 'epa-dired-do-encrypt)
+#+end_src
+
+* Which-key
+
+#+begin_src emacs-lisp
+(after! which-key
+  :config
+  (setq which-key-idle-delay 0.5)
+  )
+#+end_src
+
+* Evil
+
+#+begin_src emacs-lisp
+(setq evil-want-fine-undo t)
+#+end_src
+
+* Treemacs
+I don't use it very often but I loke to be able to summon it when I need it.
+Also, position on the right is way more comfy
+
+#+begin_src emacs-lisp
+(after! treemacs
+  :config
+  (setf treemacs-position 'right))
+#+end_src
+
+* Vterm
+Vterm is awesome!
+
+#+begin_src emacs-lisp
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
+;; Make Vterm uses zsh
+(after! vterm
+  (setq shell-file-name (executable-find "zsh")
+        vterm-shell (executable-find "zsh")))
+#+end_src
+
+* Ivy
+
+#+begin_src emacs-lisp
+(after! ivy
+  (all-the-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1)
+
+  (setq swiper-use-visual-line nil
+        ivy-height 15
+        ivy-count-format ""
+        ivy-initial-inputs-alist nil
+        ivy-use-virtual-buffers 1
+        enable-recursive-minibuffers 1
+        ivy-rich-path-style 'full))
+#+end_src
+
+* Company
+The ultimate completion backend.
+
+#+begin_src emacs-lisp
+(after! company
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1
+        company-show-quick-access t))
+#+end_src
+
+* Avy
+Avy is good for teleporting in the buffer! (commented out for now as I try something else)
+
+#+begin_src emacs-lisp
+(setq avy-keys '(?a ?r ?s ?t ? ?n ?e ?i ?o))
+(map! :map 'evil-snipe-local-mode-map
+      :nm
+      "s" #'evil-avy-goto-word-1
+      :nm
+      "q" #'evil-avy-goto-char
+      )
+#+end_src
+
+#+RESULTS:
+
+* Programming
+This section covers general programming config.
+
+#+begin_src emacs-lisp
+(add-hook! 'prog-mode-hook
+  (show-paren-mode 1)
+  (setq show-paren-delay 0)
+  (setq show-paren-style 'parenthesis)
+  (rainbow-delimiters-mode 1)
+  (hl-line-mode 1))
+#+end_src
+
+Doc in a top box instead of minibuffer.
+
+#+begin_src emacs-lisp
+(use-package! eldoc-box
+  :config
+  (eldoc-box-hover-mode))
+#+end_src
+** LSP
+
+#+begin_src emacs-lisp
+(after! lsp-mode
+  (setq lsp-idle-delay 0.5
+        lsp-enable-symbol-highlighting t
+        lsp-enable-snippet t
+        lsp-headerline-breadcrumb-enable t
+        lsp-modeline-diagnostics-enable t
+        lsp-log-io nil
+        read-process-output-max (* 1024 1024)
+        lsp-completion-provider :capf
+        lsp-enable-file-watchers nil
+        lsp-enable-semantic-highlighting nil
+        gc-cons-threshold 100000000))
+#+end_src
+
+** Tree sitter
+
+#+begin_src emacs-lisp
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
+
+** Python
+
+#+begin_src emacs-lisp
+(after! (lsp-pyright python)
+  (setq lsp-pyright-node-command "node"
+        lsp-pyright-langserver-command-args
+        `("--max-old-space-size=8192"
+          ,(executable-find "pyright-langserver")
+          "--stdio")
+
+        lsp-pyright-python-path (executable-find "python")
+        lsp-pyright-multi-root nil  ;; for better performance
+        lsp-pyright-typechecking-mode "basic"
+
+        python-formatter 'black
+        python-format-on-save t))
+#+end_src
+
+** Jupyter
+Jupyter notebook are a thing that exists. I don't really like them (because they are a bit wacky in emacs). Anyway I still have `ein` to handle them just in case.
+
+#+begin_src emacs-lisp
+(after! ein
+  (setq! ein:output-area-inlined-images t))
+#+end_src
+
+What's better tho, is turning an org file into a jupyter notebook!
+For this, we use the jupyter package and write some config.
+
+#+begin_src emacs-lisp
+(after! jupyter
+  ;; Tell Jupyter to use the jupyter command to start kernels
+  (setq jupyter-runtime-directory "~/.local/share/jupyter/runtime")
+  (setq jupyter-use-jupyter-command-to-start-kernels t))
+
+(defun vs/start-jupyter-kernel-via-command ()
+  "Start the Jupyter kernel using the jupyter command line tool."
+  (interactive)
+  (let ((default-directory (projectile-project-root)))
+    (start-process "jupyter-kernel" nil "jupyter" "notebook" "--no-browser")
+    (message "Jupyter notebook server started...")))
+
+(defun vs/refresh-jupyter-kernels ()
+  "Refresh Jupyter kernels."
+  (interactive)
+  (jupyter-available-kernelspecs t))
+
+#+end_src
+
+Keybindings:
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("j" . "jupyter")
+       :desc "Start notebook server" "n" #'vs/start-jupyter-kernel-via-command
+       :desc "Refresh kernels" "r" #'vs/refresh-jupyter-kernels))
+#+end_src
+
+Don't forget to use `org-mode-restart` in the buffer after launching the kernel for it to work. Also, the command `jupyter-run-repl` may be usefull if it does not work.
+
+To turn an org file into a jupyter notebook, put this line at the beginning:
+#+begin_src text :tangle no
+#+PROPERTY: header-args:jupyter-python :kernel nix-python :session memoire :async yes :results output
+#+end_src
+
+As I use NixOs I recommand setting up a dev flake to have your kernel project.
+Here is an inspiration:
+
+#+begin_src nix :tangle no
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
+  outputs = inputs @ { self, nixpkgs, flake-utils, ...}:
+    flake-utils.lib.eachDefaultSystem (system:
+    let
+      pkgs = import nixpkgs {
+        inherit system;
+        config = { allowBroken = true; };
+      };
+
+      pythonEnv = pkgs.python312.withPackages (ps: with ps; [
+        pip ipython virtualenv
+        numpy pandas matplotlib seaborn
+        tabulate python-dateutil graph-tool
+        jupyter notebook ipykernel
+      ]);
+
+      setupScript = pkgs.writeShellScript "setup-jupyter-env.sh" ''
+        mkdir -p ~/.local/share/jupyter/kernels/nix-python
+        cat > ~/.local/share/jupyter/kernels/nix-python/kernel.json << EOF
+        {
+          "argv": [
+            "${pythonEnv}/bin/python",
+            "-m",
+            "ipykernel",
+            "-f",
+            "{connection_file}"
+          ],
+          "display_name": "Python (Nix Direct)",
+          "language": "python"
+        }
+        EOF
+
+        echo "Nix Python kernel set up. Use :kernel nix-python in org blocks."
+      '';
+    in
+    {
+      devShell = pkgs.mkShell {
+        buildInputs = [
+          pythonEnv
+          pkgs.ruff
+          pkgs.pre-commit
+        ];
+
+        shellHook = ''
+          ${setupScript}
+
+          # Create/update .envrc for direnv
+          if [ ! -f .envrc ] || ! grep -q "use flake" .envrc; then
+            echo "use flake" > .envrc
+            echo "Created .envrc file. Run 'direnv allow' to enable it."
+          fi
+
+          echo "Run 'jupyter notebook' to start an external server, or use the nix-python kernel directly in Emacs."
+
+          if command -v zsh &>/dev/null; then
+            exec zsh -i
+          fi
+        '';
+      };
+    });
+}
+#+end_src
+
+** Rust
+
+#+begin_src emacs-lisp
+(after! rustic
+  (setq rustic-format-on-save t
+        rustic-format-display-method 'pop-to-buffer
+        rustic-lsp-server 'rust-analyzer
+        lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial"
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-closure-return-type-hints t))
+#+end_src
+
+** LaTeX
+#+begin_src emacs-lisp
+(setq +latex-viewers '(pdf-tools evince))
+(setq lsp-tex-server 'texlab)
+(setq lsp-ltex-mother-tongue "fr")
+
+(when EMACS28+
+  (add-hook 'latex-mode-hook #'TeX-latex-mode))
+#+end_src
+
+If needed:
+#+begin_src emacs-lisp
+;; (after! latex
+;;  (add-to-list 'LaTeX-command-style '("" "%(PDF)%(latex) -shell-escape %S%(PDFout)")))
+#+end_src
+
+* PDF
+#+begin_src emacs-lisp
+(after! pdf-tools
+  :ensure t)
+#+end_src
+
+* Org mode
+
+Org mode is my savior! Literate config, notebooks and much more to explore (looking at you todo list and org-roam, but you will have to wait)
+
+#+begin_src emacs-lisp
+(after! org
+  (setq
+   org-auto-align-tags t
+   org-tags-column -0
+   org-catch-invisible-edits 'show-and-error
+   org-special-ctrl-a/e t
+   org-insert-heading-respect-content t
+
+   ;; Org styling, hide markup etc.
+   org-hide-emphasis-markers t
+   org-pretty-entities t
+   org-ellipsis "…"
+   )
+
+  (setq org-agenda-start-on-weekday 1)
+  (setq org-agenda-start-with-log-mode 0)
+  (setq org-agenda-current-time-string  "◀── now ────────────────────")
+  (setq org-log-done 'day)
+  (setq org-log-into-drawer 0)
+  (setq org-agenda-prefix-format '((agenda . "%i %-12:c%?-12t% s")
+                                   (todo . "%l %i %-12:c")
+                                   (tags . "%i %-12:c")
+                                   (search . "%i %-12:c"))
+        )
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"
+           "BUG(b)"
+           "UNI(u)"
+           "LIFE(l)"
+           "MASTER(mm)"
+           "EVENT(e)"
+           "|"
+           "DONE(d)"))))
+#+end_src
+
+You can even auto-tangle your literate config in a file on save!
+
+#+begin_src emacs-lisp
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode))
+#+end_src
