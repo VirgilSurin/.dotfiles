@@ -311,7 +311,7 @@ Here are the font related stuff:
   '(whitespace-tab-regexp :background nil :foreground nil)
   '(whitespace-tab :background nil :foreground nil)
   )
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 16 :weight 'normal)
+(setq doom-font (font-spec :family "JetBrains Mono Nerd Font Mono" :size 16 :weight 'normal)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal))
 
