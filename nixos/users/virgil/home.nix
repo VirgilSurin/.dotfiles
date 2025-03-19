@@ -28,7 +28,6 @@ in
       ../programs/picom.nix
       ../programs/git.nix
       ../programs/dunst.nix
-      ../programs/conky.nix
       ../programs/fish.nix
       ../programs/zsh.nix
       ../programs/bash.nix
@@ -59,7 +58,6 @@ in
     texlive.combined.scheme-full
     alacritty
     btop
-    firefox
     brave
     bitwarden
     mullvad-vpn
@@ -72,18 +70,14 @@ in
     texlab
     signal-desktop
     vlc
+    pcmanfm
     kdePackages.dolphin
     kdePackages.qtsvg
     zathura
     evince
     feh
     # wayland related things
-    wofi
-    waybar
-    swww
-    hyprlock
     mpv
-    nwg-displays
 
     # unfree
     # discord
@@ -119,10 +113,14 @@ in
     grim
     slurp
     wl-clipboard
-    nerdfonts
-    #nerd-fonts.ubuntu
-    #nerd-fonts.fira-code
-    #nerd-fonts.jetbrains-mono
+    # nerdfonts
+    nerd-fonts.ubuntu
+    nerd-fonts.ubuntu-sans
+    nerd-fonts.ubuntu-mono
+    nerd-fonts.fira-code
+    nerd-fonts.fira-mono
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
     zip
     unzip
     xclip
@@ -132,23 +130,12 @@ in
     glxinfo
     arandr
     flameshot
-    biome
 
 
 
     nix-prefetch
     nix-prefetch-github
     nil # nix lsp
-
-    # jetbrains-toolbox
-
-    nodejs
-    nodePackages.npm
-    nodePackages.yarn
-    awscli2
-    nodePackages.aws-cdk
-    # Arduino
-    # arduino
 
     # Audio
     pavucontrol
@@ -167,14 +154,17 @@ in
     ruff-lsp
     pyright
     ruff
-
-    slack-cli
-    my-python
   ];
 
 
   gtk = {
-    theme.name = "Adwaita-dark";
+    theme = {
+      name = "Breeze-Dark";
+      package = pkgs.libsForQt5.breeze-gtk;
+    };
+    gtk3 = {
+      extraConfig.gtk-application-prefer-dark-theme = true;
+    };
   };
 
   programs.home-manager.enable = true;

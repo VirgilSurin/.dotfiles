@@ -5,7 +5,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font.size = 12;
+      font.size = 10;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
         opacity = 1.0;
