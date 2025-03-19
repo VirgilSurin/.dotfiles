@@ -168,7 +168,7 @@ keys = [
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mod], "x", lazy.spawn(editor), desc='Emacs Dashboard'),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "m", lazy.spawn("dolphin"), desc="Open file manager"),
+    Key([mod], "m", lazy.spawn("pcmanfm"), desc="Open file manager"),
     Key([], "Print", lazy.spawn("flameshot gui")),
 
     Key(["mod4"], "space", lazy.spawn("setxkbmap -layout us -variant colemak_dh")),
