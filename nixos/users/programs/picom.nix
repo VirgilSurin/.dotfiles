@@ -32,7 +32,7 @@
       "100:class_g    = 'Thunderbird'"
     ];
 
-    shadow = true;
+    shadow = false;
     shadowOffsets = [ (-3) (-3) ];
     shadowOpacity = 0.6;
     shadowExclude = [

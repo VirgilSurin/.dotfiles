@@ -355,7 +355,7 @@ def create_widget():
             inactive = colors["fg"],
             highlight_method = "line",
             rounded = False,
-            highlight_color = ["#565c6400"], # if using "line" as  highlight method
+            highlight_color = [colors["bg"]], # if using "line" as  highlight method
             this_current_screen_border = colors["green"],
             other_current_screen_border = colors["magenta"],
             this_screen_border = colors["magenta"],
@@ -482,7 +482,7 @@ screens = [
             border_width=[0, 0, 0, 0],
             border_color=[colors["black"]] * 4,
             margin = [6, 8, 6, 8],
-            background = colors["bg"] + "00"
+            background = colors["bg"]
         ),
     ),
     Screen(
@@ -494,7 +494,7 @@ screens = [
             border_width=[0, 0, 0, 0],
             border_color=[colors["black"]] * 4,
             margin = [6, 8, 6, 8],
-            background = colors["bg"] + "00"
+            background = colors["bg"]
         ),
     ),
 ]
