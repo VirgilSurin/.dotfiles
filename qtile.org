@@ -8,6 +8,7 @@
 - [[#imports][Imports]]
 - [[#variables][Variables]]
 - [[#autostart][Autostart]]
+- [[#hooks][Hooks]]
 - [[#xscreensaver][Xscreensaver]]
 - [[#keybindings][Keybindings]]
 - [[#groupsworkspaces][Groups/Workspaces]]
@@ -70,6 +71,18 @@ def autostart():
     os.system("xset -dpms")
     os.system("xset -dpms")
 
+#+end_src
+
+* Hooks
+
+The following hook is used to reload the monitor config when there is a change in my connected monitor (i.e I go laptop mode, or plug it in my desktop and so on). This runs ~autorandr~.
+
+#+begin_src python
+reconfigure_screens = True
+
+@hook.subscribe.screen_change
+def set_screens(event):
+    subprocess.run(["autorandr", "--change"])
 #+end_src
 
 * Xscreensaver
@@ -189,6 +202,8 @@ for vt in range(1, 8):
     )
 
 #+end_src
+
+#+RESULTS:
 
 * Groups/Workspaces
 Definition of my groups. The name is the keybinding associated with the workspace.
