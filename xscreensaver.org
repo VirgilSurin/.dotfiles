@@ -1,0 +1,55 @@
+#+title: Xscreensaver
+#+AUTHOR: Virgil Surin
+#+PROPERTY: header-args :tangle ~/.xscreensaver
+#+auto_tangle: t
+
+* Xscreensaver
+
+I use Xscreensaver as well, a screensaver but also as a lock screen. So I can have the DVD animation logo floating around !!
+
+#+begin_src text
+timeout:00:10:00
+lock:True
+lockTimeout:00:00:30
+passwdTimeout:00:00:30
+fade:False
+unfade:False
+fadeSeconds:00:00:03
+fadeTicks:20
+splash:False
+dpmsEnabled:False
+mode:one
+selected:0
+
+programs:bash -c "mpv --really-quiet --no-audio --fs --loop=inf --no-stop-screensaver --start=$(shuf -i 0-300 -n 1) --wid=$XSCREENSAVER_WINDOW $HOME/.config/hypr/dvd.webm"
+#+end_src
+
+Below is the customization of the unlock box using doom one color.
+
+
+#+begin_src text :tangle ~/.Xresources
+xscreensaver.splash: false
+
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #bbc2cf
+xscreensaver.Dialog.background:         #282c34
+xscreensaver.Dialog.topShadowColor:     #282c34
+xscreensaver.Dialog.bottomShadowColor:  #1c1f24
+xscreensaver.Dialog.Button.foreground:  #dfdfdf
+xscreensaver.Dialog.Button.background:  #1c1f24
+
+!username/password input box and date text colour
+xscreensaver.Dialog.text.foreground:    #bbc2cf
+xscreensaver.Dialog.text.background:    #1c1f24
+xscreensaver.Dialog.internalBorderWidth:24
+xscreensaver.Dialog.borderWidth:        20
+xscreensaver.Dialog.shadowThickness:    2
+
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #51afef
+xscreensaver.passwd.thermometer.background:  #1c1f24
+xscreensaver.passwd.thermometer.width:       8
+
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %I:%M%P %a %b %d, %Y
+#+end_src
