@@ -26,6 +26,7 @@ in
       ../programs/wofi.nix
       ../programs/rofi.nix
       ../programs/picom.nix
+      ../programs/btop.nix
       ../programs/git.nix
       ../programs/dunst.nix
       ../programs/fish.nix
@@ -130,6 +131,7 @@ in
     glxinfo
     arandr
     flameshot
+    conky
 
 
 

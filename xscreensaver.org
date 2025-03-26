@@ -21,7 +21,7 @@ dpmsEnabled:False
 mode:one
 selected:0
 
-programs:bash -c "mpv --really-quiet --no-audio --fs --loop=inf --no-stop-screensaver --start=$(shuf -i 0-300 -n 1) --wid=$XSCREENSAVER_WINDOW $HOME/.config/hypr/dvd.webm"
+programs:bash -c "mpv --really-quiet --no-audio --fs --loop=inf --no-stop-screensaver --start=$(shuf -i 0-300 -n 1) --wid=$XSCREENSAVER_WINDOW $HOME/.dotfiles/media/dvd.webm"
 #+end_src
 
 Below is the customization of the unlock box using doom one color.

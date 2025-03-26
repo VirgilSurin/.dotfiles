@@ -55,10 +55,10 @@ Here I define the directional key. In case I want to switch layout (QWERTY, COLE
 
 #+begin_src python
 directions = {
-    'left': 'n',
-    'right': 'o',
-    'up': 'i',
-    'down': 'e'
+    "left": "n",
+    "right": "o",
+    "up": "i",
+    "down": "e"
 }
 #+end_src
 
@@ -67,7 +67,8 @@ directions = {
 #+begin_src python
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.run(['systemctl', '--user', 'start', 'dunst.service'])
+    subprocess.run(["systemctl", "--user", "start", "dunst.service"])
+    subprocess.run(["conky"])
     os.system("xset -dpms")
     os.system("xset -dpms")
 
@@ -90,10 +91,10 @@ Run a new instance of xscreensaver.
 
 #+begin_src python
 def start_xscreensaver():
-    home = os.path.expanduser('~')
+    home = os.path.expanduser("~")
     try:
-        subprocess.run(['pkill', 'xscreensaver'], check=False)
-        subprocess.Popen(['xscreensaver', '-no-splash'])
+        subprocess.run(["pkill", "xscreensaver"], check=False)
+        subprocess.Popen(["xscreensaver", "-no-splash"])
     except Exception as e:
         print(f"Error starting XScreenSaver: {e}")
 
@@ -150,7 +151,7 @@ keys = [
 
     # Layout and window management
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod], "v", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
 
     # Screen management
     Key([mod], "y", lazy.next_screen()),
@@ -169,8 +170,6 @@ keys = [
     Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod, "control"], "z", lazy.spawn("xscreensaver-command -lock"), desc="Lock screen with XScreenSaver"),
-    Key([mod, "shift"], "z", lazy.spawn("xscreensaver-command -activate"), desc="Activate XScreenSaver without locking"),
-    Key([mod, "control", "shift"], "z", lazy.spawn("xscreensaver-demo"), desc="Configure XScreenSaver"),
 
     # Application launchers
     Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
@@ -480,7 +479,7 @@ def create_widget():
 * Wallpaper
 
 #+begin_src python
-wall = "~/.dotfiles/wallpapers/star-wars-naboo-wallpapers.png"
+wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
 
 #+end_src
 
@@ -490,7 +489,7 @@ I mainly work with 2 monitors.
 screens = [
     Screen(
         wallpaper=wall,
-        wallpaper_mode="fill",
+        wallpaper_mode="stretch",
         top=bar.Bar(
             create_widget(),
             26,

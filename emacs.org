@@ -169,7 +169,7 @@ This code block represents the `init.el` file needed for doom emacs. It specifie
        (latex +latexmk +lsp +fold)             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
-       ;;lua               ; one-based indices? one-based indices
+       (lua +lsp +tree-sitter)               ; one-based indices? one-based indices
        markdown          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
@@ -500,7 +500,7 @@ The ultimate completion backend.
 Avy is good for teleporting in the buffer! (commented out for now as I try something else)
 
 #+begin_src emacs-lisp
-(setq avy-keys '(?a ?r ?s ?t ? ?n ?e ?i ?o))
+(setq avy-keys '(?a ?r ?s ?t ?g ?n ?e ?i ?o))
 (map! :map 'evil-snipe-local-mode-map
       :nm
       "s" #'evil-avy-goto-word-1
