@@ -184,7 +184,7 @@
     users = {
       "virgil" = import ./home.nix;
     };
-    backupFileExtension = "backup";
+  backupFileExtension = "backup-$(date +%Y%m%d)";
   };
 
   # Allow unfree packages
@@ -214,17 +214,12 @@
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     bolt
     discord
-    jetbrains-toolbox
-    jetbrains.pycharm-community
-    jetbrains.idea-ultimate
     slack
     wget
     git
     neovim
     tlp
     home-manager
-    vial
-    via
     keymapp
     spotify
     xorg.xinit
@@ -236,9 +231,6 @@
     pixman
     libinput
     seatd
-    vulkan-loader
-    vulkan-tools
-    vulkan-validation-layers
     wlroots
     # Hyprland utilities
     hyprpaper
@@ -259,7 +251,6 @@
 
   qt = {
     enable = true;
-    platformTheme = "gnome";
     style = "adwaita-dark";
   };
 
@@ -280,13 +271,6 @@
     via
   ];
 
-hardware.opengl = {
-  enable = true;
-  driSupport32Bit = true;
-  extraPackages = with pkgs; [
-    amdvlk
-  ];
-};
 
   # I now use a ZSA keyboard, I must enable some udev rules for it
   hardware.keyboard.zsa.enable = true;

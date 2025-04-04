@@ -37,6 +37,7 @@ in
       ../programs/zathura.nix
       ../programs/autorandr.nix
       ../programs/xscreensaver.nix
+      ../programs/sioyek.nix
       # ../programs/emacs-theme.nix
   ];
 
@@ -72,18 +73,19 @@ in
     signal-desktop
     vlc
     pcmanfm
+    lxqt.pcmanfm-qt
     kdePackages.dolphin
     kdePackages.qtsvg
     zathura
     evince
     feh
-    # wayland related things
     mpv
-
+    gruvbox-gtk-theme
     # unfree
     # discord
 
     # linux utilities
+    qimgv
     shutter
     gtk3
     webkitgtk
@@ -161,12 +163,17 @@ in
 
   gtk = {
     theme = {
-      name = "Breeze-Dark";
-      package = pkgs.libsForQt5.breeze-gtk;
+      name = "Gruvbox-Dark";
+      package = pkgs.gruvbox-gtk-theme;
     };
     gtk3 = {
       extraConfig.gtk-application-prefer-dark-theme = true;
     };
+  };
+
+  qt = {
+    enable = true;
+    style.name = "adwaita-dark";
   };
 
   programs.home-manager.enable = true;
