@@ -144,7 +144,7 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = true;
+  services.pulseaudio.enable = true;
   nixpkgs.config.pulseaudio = true;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -251,7 +251,7 @@
 
   qt = {
     enable = true;
-    style = "adwaita-dark";
+    style = "adwaita-highcontrast";
   };
 
   services.emacs = {
