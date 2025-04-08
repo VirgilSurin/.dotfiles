@@ -1,3 +1,0 @@
-default xkb_types "complete" {
-    include "complete"
-};

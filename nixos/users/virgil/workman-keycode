@@ -1,3 +1,0 @@
-default xkb_keycodes "workman" {
-    include "evdev(evdev)"
-};
