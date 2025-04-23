@@ -1,18 +1,9 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 let
-
-  my-python = pkgs.python312.withPackages (ps: with ps; [
-      numpy
-      matplotlib
-      pandas
-      seaborn
-      pygments
-      jupyter
-      graph-tool
-      tabulate
-      python-dateutil
-    ]);
+  inherit
+  (inputs.nix-colors.lib-contrib {inherit pkgs;})
+    gtkThemeFromScheme;
 in
 {
 
@@ -43,8 +34,8 @@ in
 
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
-  # colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  colorScheme = inputs.nix-colors.colorSchemes.onedark;
+  colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  # colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -73,14 +64,9 @@ in
     signal-desktop
     vlc
     pcmanfm
-    lxqt.pcmanfm-qt
-    kdePackages.dolphin
-    kdePackages.qtsvg
-    zathura
-    evince
-    feh
     mpv
     gruvbox-gtk-theme
+    protonmail-desktop
     # unfree
     # discord
 
@@ -112,11 +98,6 @@ in
     mediainfo
     poppler
     i3lock-color                # lock screen
-    # for screenshot
-    grim
-    slurp
-    wl-clipboard
-    # nerdfonts
     nerd-fonts.ubuntu
     nerd-fonts.ubuntu-sans
     nerd-fonts.ubuntu-mono
@@ -160,26 +141,40 @@ in
     ruff
   ];
 
+  xdg.mimeApps.defaultApplications = {
+    "application/pdf" = [ "sioyek.desktop" "emacs.desktop" ];
 
-  gtk = {
-    theme = {
-      name = "Gruvbox-Dark";
-      package = pkgs.gruvbox-gtk-theme;
-    };
-    gtk3 = {
-      extraConfig.gtk-application-prefer-dark-theme = true;
-    };
+    "image/png" = [ "qimgv.desktop" ];
+    "image/jpeg" = [ "qimgv.desktop" ];
+    "image/gif" = [ "qimgv.desktop" ];
+
+    "vidio/mp4" = [ "vlc.desktop" ];
+    "vidio/webm" = [ "vlc.desktop" ];
+    "vidio/mkv" = [ "vlc.desktop" ];
+
+    "x-sheme-handler/mailto" = [ "proton-mail.desktop" ];
+
+    "text/plain" = [ "emacs.desktop" ];
+
   };
 
-  qt = {
+  gtk = {
     enable = true;
-    style.name = "adwaita-dark";
+    theme = {
+      name = "${config.colorScheme.slug}";
+      package = gtkThemeFromScheme {scheme = config.colorScheme;};
+      # name = "Gruvbox-Dark";
+      # package = pkgs.gruvbox-gtk-theme;
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
   };
 
   programs.home-manager.enable = true;
 
   home.sessionPath = [
-   "${my-python}/bin"
    "$HOME/.config/emacs/bin"
   ];
 

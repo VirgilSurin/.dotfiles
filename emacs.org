@@ -285,7 +285,7 @@ Here are some sane default settings.
 * Theming
 Some theme configurations.
 #+begin_src emacs-lisp
-(setq! doom-theme 'doom-one)
+(setq! doom-theme 'my-everforest)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
@@ -603,8 +603,10 @@ For this, we use the jupyter package and write some config.
   "Refresh Jupyter kernels."
   (interactive)
   (jupyter-available-kernelspecs t))
-
 #+end_src
+
+#+RESULTS:
+| my/org-lsp-setup | jupyter-org-interaction-mode | er/add-org-mode-expansions | #[(&rest _) ((progn (let ((tail '(after-change-major-mode-hook))) (while tail (let ((hook (car tail))) (let ((tail (list #'(lambda (&rest _) (if (derived-mode-p 'org-mode) (progn (setq tab-width 8))))))) (while tail (let ((func (car tail))) (add-hook hook func nil t) (setq tail (cdr tail))))) (setq tail (cdr tail)))))) (add-hook 'save-place-after-find-file-hook #'+org-make-last-point-visible-h nil t)) (t)] | +lookup--init-org-mode-handlers-h | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-auto-tangle-mode | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | org-appear-mode | org-fancy-priorities-mode | org-superstar-mode | evil-org-mode | org-eldoc-load | toc-org-enable | embrace-org-mode-hook | org-babel-jupyter-make-local-aliases |
 
 Keybindings:
 
@@ -727,6 +729,7 @@ If needed:
 (after! pdf-tools
   :ensure t)
 #+end_src
+
 
 * Org mode
 

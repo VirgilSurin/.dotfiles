@@ -5,6 +5,7 @@
   services.picom = {
 
     enable = true;
+    package = pkgs.picom-pijulius;
     backend = "xrender";
 
     fade = true;

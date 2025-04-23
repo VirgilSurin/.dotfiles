@@ -194,6 +194,7 @@ determine the exact padding."
    ;; org-mode
    (org-hide :foreground hidden)
    (org-block :background bg-alt)
+   (org-link :foreground yellow)
    (solaire-org-hide-face :foreground hidden))
 
 

@@ -72,7 +72,6 @@ directions = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.run(["systemctl", "--user", "start", "dunst.service"])
-    subprocess.run(["conky"])
     os.system("xset -dpms")
     os.system("xset -dpms")
 
@@ -286,7 +285,7 @@ Everforest = {
 #+end_src
 
 #+begin_src python
-colors = One
+colors = Everforest
 
 #+end_src
 
@@ -671,6 +670,9 @@ def create_widget():
         widget.Volume(
             foreground = colors["magenta"],
             fmt = '   Vol: {} ',
+            mouse_callbacks={
+                'Button1': lazy.spawn("pavucontrol")
+            },
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -761,8 +763,8 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-        Match(title="Bitwarden"),  # GPG key password entry
-        Match(wm_class="crx_nngceckbapebfimnlniiiahkandclblb", title="Bitwarden"),
+        Match(wm_class="pavucontrol"),  # sound
+        Match(wm_class="crx_nngceckbapebfimnlniiiahkandclblb")
     ]
 )
 auto_fullscreen = True
