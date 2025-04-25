@@ -21,6 +21,7 @@
 - [[#company][Company]]
 - [[#avy][Avy]]
 - [[#programming][Programming]]
+  - [[#direnv][Direnv]]
   - [[#lsp][LSP]]
   - [[#tree-sitter][Tree sitter]]
   - [[#python][Python]]
@@ -29,6 +30,11 @@
   - [[#latex][LaTeX]]
 - [[#pdf][PDF]]
 - [[#org-mode][Org mode]]
+- [[#org-roam][Org-roam]]
+  - [[#general-config-1][General config]]
+  - [[#org-roam-ui][Org-roam-ui]]
+  - [[#keybindings][Keybindings]]
+  - [[#practical-guide][Practical guide]]
 
 * init.el
 This code block represents the `init.el` file needed for doom emacs. It specifies which modules are enabled.
@@ -136,9 +142,9 @@ This code block represents the `init.el` file needed for doom emacs. It specifie
        :lang
        ;;agda              ; types of types of types of types...
        ;;beancount         ; mind the GAAP
-       (cc +lsp)         ; C > C++ == 1
+       (cc +lsp)           ; C > C++ == 1
        ;;clojure           ; java with a lisp
-       common-lisp       ; if you've seen one lisp, you've seen them all
+       common-lisp         ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
@@ -174,7 +180,7 @@ This code block represents the `init.el` file needed for doom emacs. It specifie
        ;;nim               ; python + lisp at the speed of c
        nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +pretty +jupyter) ; organize your plain life in plain text
+       (org +pretty +jupyter +roam2) ; organize your plain life in plain text
        php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
@@ -232,10 +238,11 @@ This code block represents the `package.el` file needed for doom emacs. It speci
 (package! all-the-icons-ivy)
 (package! all-the-icons-dired)
 
+(package! direnv)
+
 (package! org-mime)
 (package! org-auto-tangle)
-
-(package! direnv)
+(package! org-roam-ui)
 
 (package! cdlatex)
 (package! lsp-ltex)
@@ -285,7 +292,7 @@ Here are some sane default settings.
 * Theming
 Some theme configurations.
 #+begin_src emacs-lisp
-(setq! doom-theme 'my-everforest)
+(setq! doom-theme 'doom-one)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
@@ -530,6 +537,13 @@ Doc in a top box instead of minibuffer.
   :config
   (eldoc-box-hover-mode))
 #+end_src
+
+** Direnv
+
+#+begin_src emacs-lisp
+(after! direnv
+  (direnv-mode))
+#+end_src
 ** LSP
 
 #+begin_src emacs-lisp
@@ -546,7 +560,6 @@ Doc in a top box instead of minibuffer.
         lsp-enable-semantic-highlighting nil
         gc-cons-threshold 100000000))
 #+end_src
-
 ** Tree sitter
 
 #+begin_src emacs-lisp
@@ -606,7 +619,7 @@ For this, we use the jupyter package and write some config.
 #+end_src
 
 #+RESULTS:
-| my/org-lsp-setup | jupyter-org-interaction-mode | er/add-org-mode-expansions | #[(&rest _) ((progn (let ((tail '(after-change-major-mode-hook))) (while tail (let ((hook (car tail))) (let ((tail (list #'(lambda (&rest _) (if (derived-mode-p 'org-mode) (progn (setq tab-width 8))))))) (while tail (let ((func (car tail))) (add-hook hook func nil t) (setq tail (cdr tail))))) (setq tail (cdr tail)))))) (add-hook 'save-place-after-find-file-hook #'+org-make-last-point-visible-h nil t)) (t)] | +lookup--init-org-mode-handlers-h | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-fold-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-auto-tangle-mode | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | org-appear-mode | org-fancy-priorities-mode | org-superstar-mode | evil-org-mode | org-eldoc-load | toc-org-enable | embrace-org-mode-hook | org-babel-jupyter-make-local-aliases |
+: vs/refresh-jupyter-kernels
 
 Keybindings:
 
@@ -749,27 +762,19 @@ Org mode is my savior! Literate config, notebooks and much more to explore (look
    org-pretty-entities t
    org-ellipsis "…"
    )
-
+  (setq org-tag-alist '((:startgroup . nil)
+                        ("@work" . ?w)
+                        ("@personal" . ?p)
+                        ("@urgent" . ?u)
+                        (:endgroup . nil)
+                        ("project" . ?P)
+                        ("reference" . ?r)
+                        ("note" . ?n)))
   (setq org-agenda-start-on-weekday 1)
   (setq org-agenda-start-with-log-mode 0)
   (setq org-agenda-current-time-string  "◀── now ────────────────────")
   (setq org-log-done 'day)
-  (setq org-log-into-drawer 0)
-  (setq org-agenda-prefix-format '((agenda . "%i %-12:c%?-12t% s")
-                                   (todo . "%l %i %-12:c")
-                                   (tags . "%i %-12:c")
-                                   (search . "%i %-12:c"))
-        )
-  (setq org-todo-keywords
-        '((sequence
-           "TODO(t)"
-           "BUG(b)"
-           "UNI(u)"
-           "LIFE(l)"
-           "MASTER(mm)"
-           "EVENT(e)"
-           "|"
-           "DONE(d)"))))
+  (setq org-log-into-drawer 0))
 #+end_src
 
 You can even auto-tangle your literate config in a file on save!
@@ -779,3 +784,290 @@ You can even auto-tangle your literate config in a file on save!
   :defer t
   :hook (org-mode . org-auto-tangle-mode))
 #+end_src
+
+* Org-roam
+
+** General config
+#+begin_src emacs-lisp
+(after! org-roam
+  (setq org-roam-directory "~/org/roam/")
+  (setq org-roam-completion-everywhere t)
+  (setq org-roam-buffer-display-dedicated t)
+  (setq org-roam-mode-sections
+        '((org-roam-backlinks-section :unique t)
+          (org-roam-reflinks-section)
+          org-roam-unlinked-references-section))
+  (setq org-roam-db-gc-threshold most-positive-fixnum)
+  (setq org-roam-db-location (concat org-roam-directory "org-roam.db"))
+
+  ;; Define capture templates for different note types
+  (setq org-roam-capture-templates
+        '(("d" "default" plain "%?"
+           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+           :unnarrowed t)
+
+          ("p" "project" plain "* Overview\n\n%?\n\n* Tasks\n\n* Notes\n\n* Resources\n\n"
+           :target (file+head "projects/${slug}.org" "#+title: ${title}\n#+filetags: :project:\n")
+           :unnarrowed t)
+
+          ("t" "todo" plain "* TODO %?\n%U\n%a\n%i"
+           :target (file+head "todos/${slug}.org" "#+title: ${title}\n#+filetags: :todo:\n")
+           :unnarrowed t)))
+
+  ;; Daily notes
+  (setq org-roam-dailies-directory "daily/")
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry "* %<%H:%M> %?\n\n"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))
+
+          ("j" "journal" entry "* %<%H:%M> %?\n\n"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))
+
+          ("t" "todo" entry "* TODO %?\n%U\n"
+           :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
+
+  ;; Make org-roam files available to agenda
+  ;; Option 1: Include all org-roam files
+  (setq org-agenda-files (append org-agenda-files (directory-files-recursively org-roam-directory "\.org$")))
+
+  ;; Option 2: Only include todo files (uncomment if you prefer this option)
+  ;; (setq org-agenda-files
+  ;;      (append org-agenda-files
+  ;;              (directory-files-recursively
+  ;;               (expand-file-name "todos" org-roam-directory)
+  ;;               "\.org$")))
+
+  (setq org-agenda-custom-commands
+        '(("p" "Project TODOs"
+           ((tags-todo "+project")))
+          ("r" "Roam TODOs"
+           ((tags-todo "+CATEGORY=\"roam\"")))
+          ("d" "Daily tasks"
+           ((agenda "" ((org-agenda-span 1)))
+            (tags-todo "+PRIORITY=\"A\"")
+            (tags-todo "+project+TODO=\"NEXT\"")))))
+
+  (defun my/org-roam-project-notes (project)
+    "Find all notes related to PROJECT."
+    (interactive "sProject tag: ")
+    (org-roam-node-find
+     nil nil
+     (lambda (node)
+       (member project (org-roam-node-tags node)))))
+
+  (defun vs/org-roam-capture-project-todo ()
+    "Capture a TODO item linked to a specific project."
+    (interactive)
+    (let* ((project-nodes (org-roam-db-query [:select [id file title] :from nodes
+                                              :where (like tags $s1)]
+                                             "%project%"))
+           (titles (mapcar (lambda (node) (nth 2 node)) project-nodes))
+           (project-title (completing-read "Project: " titles nil t))
+           (project-node (seq-find (lambda (node) (string= (nth 2 node) project-title))
+                                   project-nodes))
+           (project-id (nth 0 project-node))
+           (project-file (nth 1 project-node)))
+      (org-roam-capture- :node (org-roam-node-create :title "Task"
+                                                     :id project-id)
+                         :props '(:immediate-finish nil)
+                         :templates '(("t" "project task" entry
+                                       "* TODO %?\n%U\n"
+                                       :target (file+olp project-file "TASKS"))))))
+
+  (defun my/create-project-note (project-name)
+    "Create a new org-roam note for PROJECT-NAME."
+    (interactive "sProject name: ")
+    (let ((slug (downcase (replace-regexp-in-string "[^a-zA-Z0-9]" "-" project-name))))
+      (org-roam-capture nil
+                        (list "p"
+                              :node (org-roam-node-create :title project-name)
+                              :props '(:project slug)))))
+
+  (defun my/org-roam-capture-todo ()
+    "Capture a TODO item."
+    (interactive)
+    (org-roam-capture nil "t")))
+
+(defun vs/org-roam-create-note-from-region (&optional beg end)
+  "Create a new note from the current region and insert a link to it."
+  (interactive "r")
+  (unless (region-active-p)
+    (user-error "No region selected"))
+
+  (let* ((region-text (buffer-substring-no-properties beg end))
+         (title (read-string "Note title: "))
+         (node (org-roam-node-create :title title))
+         (source-node (org-roam-node-at-point))
+         (source-title (if source-node (org-roam-node-title source-node) (buffer-name))))
+
+    (org-roam-capture-
+     :node node
+     :props '(:immediate-finish t)
+     :templates `(("d" "default" plain
+                   ,(concat "* Content\n\n" region-text
+                            "\n\n* Source\n\nExcerpted from [[id:"
+                            (when source-node (org-roam-node-id source-node))
+                            "][" source-title "]]")
+                   :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                                      "#+title: ${title}\n#+filetags: :excerpt:\n")
+                   :unnarrowed t)))
+    (delete-region beg end)
+    (insert (format "[[id:%s][%s]]" (org-roam-node-id node) title))))
+
+;; Function to display all content related to a project
+(defun vs/org-roam-project-dashboard (project)
+  "Display a dashboard of all content related to PROJECT."
+  (interactive
+   (list (completing-read "Project: "
+                          (seq-uniq
+                           (mapcar #'car
+                                   (org-roam-db-query
+                                    [:select [tags] :from nodes
+                                     :where (like tags $s1)]
+                                    "%project%")))
+                          nil t)))
+
+  (let* ((project-nodes (org-roam-db-query
+                         [:select [id file title tags] :from nodes
+                          :where (like tags $s1)]
+                         (concat "%" project "%")))
+         (linked-nodes (org-roam-db-query
+                        [:select :distinct [n.id n.file n.title n.tags]
+                         :from links :as l
+                         :inner :join nodes :as n :on (= l.source n.id)
+                         :inner :join nodes :as target :on (= l.target target.id)
+                         :where (like target.tags $s1)]
+                        (concat "%" project "%"))))
+
+    ;; Create a dashboard buffer
+    (let ((buf (get-buffer-create (format "*Org-Roam Project: %s*" project))))
+      (with-current-buffer buf
+        (erase-buffer)
+        (org-mode)
+        (insert (format "#+TITLE: Project Dashboard: %s\n\n" project))
+
+        ;; Project nodes section
+        (insert "* Project Notes\n\n")
+        (dolist (node project-nodes)
+          (let ((id (nth 0 node))
+                (file (nth 1 node))
+                (title (nth 2 node))
+                (tags (nth 3 node)))
+            (insert (format "+ [[id:%s][%s]] %s\n" id title tags))))
+
+        ;; Related nodes section
+        (insert "\n* Related Notes\n\n")
+        (dolist (node linked-nodes)
+          (unless (member node project-nodes)
+            (let ((id (nth 0 node))
+                  (file (nth 1 node))
+                  (title (nth 2 node))
+                  (tags (nth 3 node)))
+              (insert (format "+ [[id:%s][%s]] %s\n" id title tags)))))
+
+        ;; Project TODOs section
+        (insert "\n* TODOs\n\n")
+        (dolist (node project-nodes)
+          (let* ((file (nth 1 node))
+                 (todos (with-temp-buffer
+                          (insert-file-contents file)
+                          (org-mode)
+                          (org-element-map (org-element-parse-buffer) 'headline
+                            (lambda (headline)
+                              (when (member (org-element-property :todo-type headline) '(todo))
+                                (buffer-substring-no-properties
+                                 (org-element-property :begin headline)
+                                 (org-element-property :end headline))))
+                            nil t))))
+            (when todos
+              (dolist (todo todos)
+                (insert (format "%s\n" todo)))))))
+
+      ;; Display the dashboard
+      (switch-to-buffer buf)
+      (org-overview)
+      (outline-show-all))))
+
+#+end_src
+
+** Org-roam-ui
+
+#+begin_src emacs-lisp
+(use-package! org-roam-ui
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+#+end_src
+** Keybindings
+Here are the keybindings.
+
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("n" . "notes")
+       (:prefix ("r" . "roam")
+        :desc "Find node" "f" #'org-roam-node-find
+        :desc "Insert node" "i" #'org-roam-node-insert
+        :desc "Capture to node" "c" #'org-roam-capture
+        :desc "Toggle buffer" "b" #'org-roam-buffer-toggle
+        :desc "Find project notes" "p" #'my/org-roam-project-notes
+        :desc "Create project note" "P" #'my/create-project-note
+        :desc "Capture TODO" "t" #'my/org-roam-capture-todo
+        :desc "Project Dashboard" "d" #'vs/org-roam-project-dashboard
+        :desc "Create note from region" "e" #'vs/org-roam-create-note-from-region
+        :desc "Project TODO" "T" #'vs/org-roam-capture-project-todo
+        :desc "Open graph visualization" "g" #'org-roam-ui-open
+        (:prefix ("d" . "dailies")
+         :desc "Today" "t" #'org-roam-dailies-goto-today
+         :desc "Yesterday" "y" #'org-roam-dailies-goto-yesterday
+         :desc "Date" "d" #'org-roam-dailies-goto-date
+         :desc "Capture today" "c" #'org-roam-dailies-capture-today))))
+#+end_src
+
+** Practical guide
+*** 1: Set up your project structure
+
+- Create a new project using =SPC n r P= (your existing binding for creating a project note)
+- This creates a structured project note with sections for overview, tasks, meeting notes, references, and resources
+
+*** 2: Managing project TODOs
+
+**** When you're in any buffer and want to create a task for a project:
+- Press =SPC n r T= to run =vs/org-roam-capture-project-todo=
+- Select the project from the completion menu
+- Enter your task details
+- The task will be filed under the "TASKS" section of that project note
+**** To mark tasks as "NEXT" or "IN-PROGRESS":
+- Navigate to the task in the project file
+- Press =SPC m t= to access the TODO state cycling menu
+- Choose the appropriate state
+
+*** 3: Creating linked notes with references
+
+**** When reading content and you want to excerpt and reference it:
+  - Select the region you want to extract
+  - Press =SPC n r e= to run =vs/org-roam-create-note-from-region=
+  - Enter a title for the new note
+  - The selected text becomes a new note with a backlink to the source
+  - The selected region is replaced with a link to the new note
+
+**** For creating reference notes from external sources:
+  - Press =SPC n r c= to access capture templates
+  - Choose the '=r=' option for reference notes
+  - Fill in the prompted fields for Author and Year
+  - Complete the note with summary, key points, quotes, etc.
+
+*** 4: Visualizing project content
+
+**** To see all content related to a project:
+- Press =SPC n r d= to run =vs/org-roam-project-dashboard=
+- Select the project from the completion menu
+- A dashboard buffer will open showing:
+  - All project notes
+  - Related notes that link to the project
+  - All TODOs from project notes
+**** For a graphical visualization:
+- Press =SPC n r g= to open org-roam-ui in your browser
+- Navigate the graph to see relationships between notes
+- Filter by tags to focus on specific project notes
