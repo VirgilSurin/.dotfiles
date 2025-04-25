@@ -155,6 +155,7 @@ keys = [
     # Layout and window management
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "v", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod, "shift"], "v", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen on the focused window"),
 
     # Screen management
     Key([mod], "y", lazy.next_screen()),
@@ -285,8 +286,7 @@ Everforest = {
 #+end_src
 
 #+begin_src python
-colors = Everforest
-
+colors = One
 #+end_src
 
 * Default Settings For All Layouts
