@@ -34,8 +34,8 @@ in
 
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
-  colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  # colorScheme = inputs.nix-colors.colorSchemes.onedark;
+  # colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -86,8 +86,6 @@ in
     libtool
     libvterm
     alsa-utils
-    direnv
-    nix-direnv
     fzf
     acpilight
     brightnessctl
@@ -173,6 +171,12 @@ in
   };
 
   programs.home-manager.enable = true;
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableZshIntegration = true;
+  };
 
   home.sessionPath = [
    "$HOME/.config/emacs/bin"
