@@ -44,9 +44,6 @@ in
 
 
   home.packages = with pkgs; [
-    (import ../shell_scripts/make-shell.nix {inherit pkgs; })
-    (callPackage ../pkgs/custom-i3lock {})
-    (callPackage ../pkgs/rofi-sound {})
     base16-schemes
     texlive.combined.scheme-full
     alacritty
@@ -54,10 +51,8 @@ in
     brave
     bitwarden
     mullvad-vpn
-    jetbrains-mono
     emacs-all-the-icons-fonts
     tree-sitter
-    texlab
     signal-desktop
     vlc
     pcmanfm
