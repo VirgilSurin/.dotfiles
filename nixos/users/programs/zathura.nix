@@ -3,7 +3,7 @@
 {
 
   programs.zathura = {
-    enable = true;
+    enable = false;
     options = {
       default-bg = "#${config.colorScheme.palette.base00}";
       default-fg = "#${config.colorScheme.palette.base05}";
