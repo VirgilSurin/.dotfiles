@@ -297,7 +297,7 @@ Some default settings to ensure consistent theming among every layout used.
 layout_theme = {
     "border_width": 3,
     "margin": 6,
-    "border_focus": colors["blue"],
+    "border_focus": colors["cyan"],
     "border_normal": colors["black"]
 }
 #+end_src
