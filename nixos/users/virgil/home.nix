@@ -54,48 +54,28 @@ in
     brave
     bitwarden
     mullvad-vpn
-    libreoffice
     jetbrains-mono
-    vscodium-fhs
     emacs-all-the-icons-fonts
-    neofetch
     tree-sitter
     texlab
     signal-desktop
     vlc
     pcmanfm
     mpv
-    gruvbox-gtk-theme
     protonmail-desktop
-    # unfree
-    # discord
 
     # linux utilities
-    qimgv
-    shutter
     gtk3
-    webkitgtk
-    libusb1
     ripgrep
-    coreutils
     fd
-    clang
     dmenu
-    gnumake
-    cmake
     libtool
     libvterm
-    alsa-utils
     fzf
-    acpilight
     brightnessctl
     fd
     imagemagick
     scrot
-    ffmpegthumbnailer
-    mediainfo
-    poppler
-    i3lock-color                # lock screen
     nerd-fonts.ubuntu
     nerd-fonts.ubuntu-sans
     nerd-fonts.ubuntu-mono
@@ -109,7 +89,6 @@ in
     xdotool
     xorg.xprop
     xorg.xwininfo
-    glxinfo
     arandr
     flameshot
     conky
