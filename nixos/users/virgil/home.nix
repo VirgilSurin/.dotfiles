@@ -118,7 +118,7 @@ in
 
     nix-prefetch
     nix-prefetch-github
-    nil # nix lsp
+    nil
 
     # Audio
     pavucontrol
@@ -126,17 +126,8 @@ in
     # wifi and bluetooth
     blueman
     wirelesstools
+    rofi-network-manager
 
-    # programming langages
-    libclang
-    jdk
-    nodejs_20
-    rustc
-    cargo
-    rust-analyzer
-    ruff-lsp
-    pyright
-    ruff
   ];
 
   xdg.mimeApps.defaultApplications = {
