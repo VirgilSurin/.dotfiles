@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, lib, fetchFromGitHub, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -73,7 +73,15 @@
 
       windowManager.qtile = {
         enable = true;
-        package = pkgs.qtile;
+        package = pkgs.python313Packages.qtile.overrideAttrs (oldAttrs: rec {
+          version = "0.31.0";
+          src = fetchFromGitHub {
+            owner = "qtile";
+            repo = "qtile";
+            tag = "v${version}";
+            hash = "sha256-EqrvBXigMjevPERTcz3EXSRaZP2xSEsOxjuiJ/5QOz0=";
+          };
+        });
         extraPackages = p: with p; [ qtile-extras ];
       };
 
