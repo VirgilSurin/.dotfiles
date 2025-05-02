@@ -60,7 +60,8 @@ in
     protonmail-desktop
 
     # linux utilities
-    gtk3
+    qimgv # for images
+    alsa-utils # for audio
     ripgrep
     fd
     dmenu
@@ -88,11 +89,12 @@ in
     flameshot
     conky
 
-
-
     nix-prefetch
     nix-prefetch-github
     nil
+    nodejs_23
+    pyright
+    emacsPackages.lsp-pyright
 
     # Audio
     pavucontrol
@@ -126,12 +128,18 @@ in
     theme = {
       name = "${config.colorScheme.slug}";
       package = gtkThemeFromScheme {scheme = config.colorScheme;};
-      # name = "Gruvbox-Dark";
-      # package = pkgs.gruvbox-gtk-theme;
     };
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
+    };
+  };
+
+  qt = {
+    enable = true;
+    style = {
+      name = "Dracula";
+      package = pkgs.dracula-qt5-theme;
     };
   };
 
@@ -154,6 +162,5 @@ in
   };
 
   xsession.enable = true;
-
 
 }

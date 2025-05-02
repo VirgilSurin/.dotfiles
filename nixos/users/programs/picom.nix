@@ -5,7 +5,7 @@
   services.picom = {
 
     enable = true;
-    package = pkgs.picom-pijulius;
+    package = pkgs.picom;
     backend = "xrender";
 
     fade = true;
@@ -33,7 +33,7 @@
       "100:class_g    = 'Thunderbird'"
     ];
 
-    shadow = false;
+    shadow = true;
     shadowOffsets = [ (-3) (-3) ];
     shadowOpacity = 0.6;
     shadowExclude = [

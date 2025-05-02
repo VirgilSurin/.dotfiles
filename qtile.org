@@ -105,6 +105,8 @@ start_xscreensaver()
 
 * Keybindings
 
+Note about reloading the config: it is better to use ~lazy.restart()~ than ~lazy.reload_config()~ (thus use ~Super Shift f~ instead of ~Super Ctrl f~).
+
 #+begin_src python
 keys = [
     ,*[
@@ -171,6 +173,7 @@ keys = [
 
     # System commands
     Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "shift"], "f", lazy.restart(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod, "control"], "z", lazy.spawn("xscreensaver-command -lock"), desc="Lock screen with XScreenSaver"),
 
