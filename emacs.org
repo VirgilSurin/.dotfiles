@@ -35,7 +35,6 @@
   - [[#general-config-1][General config]]
   - [[#org-roam-ui][Org-roam-ui]]
   - [[#keybindings][Keybindings]]
-  - [[#practical-guide][Practical guide]]
 
 * init.el
 This code block represents the `init.el` file needed for doom emacs. It specifies which modules are enabled.
@@ -377,8 +376,8 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       "M-o" #'evil-window-right
       "M-w" #'evil-window-delete
       "M-W" #'delete-other-windows
-      :n "I" 'evil-ex-search-previous
-      :n "E" 'evil-ex-search-next
+      :nv "I" 'evil-ex-search-previous
+      :nv "E" 'evil-ex-search-next
       :nmv "n" 'evil-backward-char
       :nmv "e" 'evil-next-visual-line
       :nmv "i" 'evil-previous-visual-line
@@ -410,10 +409,10 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       :n "O" 'evil-ex-search-next
       :n "h" 'helpful-at-point
       :n "m" 'evil-mc-make-cursor-here
-      :n "k" 'sp-mark-sexp
-      :n "j" 'sp-forward-sexp
-      :n "J" 'sp-backward-sexp
-      :n "." 'evil-snipe-repeat
+      :nv "k" 'sp-mark-sexp
+      :nv "j" 'sp-forward-sexp
+      :nv "J" 'sp-backward-sexp
+      :nv "." 'evil-snipe-repeat
       :nm ";" 'comment-line
       :nmv "n" 'evil-backward-char
       :nmv "e" 'evil-next-visual-line
@@ -462,7 +461,7 @@ _r_: remove last cursor       _0_: remove all  _q_: quit/exit
   ("0" evil-mc-undo-all-cursors)
   ("q" evil-mc-undo-all-cursors :exit t))
 
-(map! :n "m" #'hydra-multiple-cursors/body)
+(map! :nmv "m" #'hydra-multiple-cursors/body)
 #+end_src
 
 #+RESULTS:
@@ -835,20 +834,17 @@ Org mode is my savior! Literate config, notebooks and much more to explore (look
    org-pretty-entities t
    org-ellipsis "…"
    )
-  (setq org-tag-alist '((:startgroup . nil)
-                        ("@work" . ?w)
-                        ("@personal" . ?p)
-                        ("@urgent" . ?u)
-                        (:endgroup . nil)
-                        ("project" . ?P)
-                        ("reference" . ?r)
-                        ("note" . ?n)))
+  (setq org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
   (setq org-agenda-start-on-weekday 1)
   (setq org-agenda-start-with-log-mode 0)
   (setq org-agenda-current-time-string  "◀── now ────────────────────")
   (setq org-log-done 'day)
   (setq org-log-into-drawer 0))
+
 #+end_src
+
+#+RESULTS:
+: 0
 
 You can even auto-tangle your literate config in a file on save!
 
@@ -874,6 +870,11 @@ You can even auto-tangle your literate config in a file on save!
           org-roam-unlinked-references-section))
   (setq org-roam-db-gc-threshold most-positive-fixnum)
   (setq org-roam-db-location (concat org-roam-directory "org-roam.db"))
+  (setq org-agenda-files (list org-roam-directory))
+  (setq org-agenda-custom-commands
+        '(("r" "Roam TODOs" todo ""
+           ((org-agenda-files (directory-files-recursively org-roam-directory "\\.org$"))
+            (org-agenda-sorting-strategy '(priority-down))))))
 
   ;; Define capture templates for different note types
   (setq org-roam-capture-templates
@@ -889,6 +890,10 @@ You can even auto-tangle your literate config in a file on save!
            :target (file+head "todos/${slug}.org" "#+title: ${title}\n#+filetags: :todo:\n")
            :unnarrowed t))))
 #+end_src
+
+#+RESULTS:
+| d | default | plain | %? | :target | (file+head %<%Y%m%d%H%M%S>-${slug}.org #+title: ${title} |
+
 
 ** Org-roam-ui
 
@@ -911,7 +916,10 @@ Here are the keybindings.
         :desc "Insert node" "i" #'org-roam-node-insert
         :desc "Capture to node" "c" #'org-roam-capture
         :desc "Toggle buffer" "b" #'org-roam-buffer-toggle
+        :desc "View TODOs" "t" #'(lambda () (interactive) (org-agenda nil "r"))
         )))
 #+end_src
 
-** TODO Practical guide
+#+RESULTS:
+: #[nil ((org-agenda nil "r")) nil nil nil nil]
+
