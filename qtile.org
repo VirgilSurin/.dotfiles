@@ -71,7 +71,7 @@ directions = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.run(["systemctl", "--user", "start", "dunst.service"])
-    os.system("xset -dpms")
+    os.system("waypaper --restore")
     os.system("xset -dpms")
 
 #+end_src
@@ -184,6 +184,8 @@ keys = [
     Key([mod, "control"], "m", lazy.spawn("rofi -show calc -modi calc -no-show-match -no-sort"), desc="Launch calculator"),
     Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    Key([mod, "control"], "b", lazy.spawn("zsh -c 'rofi -dmenu -p \"Search DuckDuckGo:\" -lines 0 | xargs -I{} brave \"https://www.duckduckgo.com/?q={}\"'"),
+        desc="Search DuckDuckGo with Rofi"),
     Key([mod], "x", lazy.spawn(editor), desc='Emacs Dashboard'),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod], "m", lazy.spawn(filemanager), desc="Open file manager"),
@@ -369,6 +371,7 @@ Some function and default settings for the widgets.
 
 #+begin_src python
 widget_defaults = dict(
+    font = "Ubuntu Bold",
     fontsize = 12,
     padding = 4,
     background = colors["bg"],
@@ -409,7 +412,7 @@ def create_widget():
         ),
         widget.Spacer(length=4),
         widget.GroupBox(
-            fontsize = 16,
+            fontsize = 12,
             margin_x = 15,
             margin_y = 5,
             padding_x = 1,
@@ -458,7 +461,7 @@ def create_widget():
         ),
         widget.CurrentLayout(
             foreground = colors["fg"],
-            font = "Ubuntu",
+            font = "Ubuntu Bold",
             padding = 10,
             fontsize = 14,
         ),
@@ -466,25 +469,6 @@ def create_widget():
         widget.WindowName(
             max_chars = 32,
             foreground = colors["blue"],
-            ,**widget_defaults,
-        ),
-        widget.Spacer(length = 12),
-        widget.TextBox(
-            text='󰖩',
-            fontsize=16,
-            foreground=colors["red"],
-            padding=5,
-            mouse_callbacks={
-                'Button1': lazy.spawn("rofi-network-manager")
-            },
-        ),
-        widget.Net(
-            interface = "wlp6s0",
-            format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
-            foreground = colors["red"],
-            mouse_callbacks={
-                'Button1': lazy.spawn("rofi-network-manager")
-            },
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -499,26 +483,31 @@ def create_widget():
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
-        widget.UPowerWidget(
-            foreground = colors["green"],
-            fill_charge = colors["green"],
-            fill_critical = colors["red"],
-            fill_low = colors["orange"],
-            fill_normal = colors["green"],
-            border_colour = colors["green"],
-            border_charge_colour = colors["green"],
-            border_critical_colour = colors["green"],
+        widget.WiFiIcon(
+            active_colour = colors["red"],
+            disconnected_colour = colors["fg"],
+            inactive_colour = colors["black"],
+            foreground = colors["red"],
+            interface = "wlp6s0",
+            show_ssid = False,
+            mouse_callbacks={
+            "Button1": lazy.spawn("rofi-network-manager")
+            },
             ,**widget_defaults,
         ),
-        widget.Battery(
-            foreground = colors["green"],
-            format = "{percent:2.0%} ({hour:d}h{min:02d})",
-            ,**widget_defaults,
-        ),
+        # widget.Net(
+        #     interface = "wlp6s0",
+        #     format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
+        #     foreground = colors["red"],
+        #     mouse_callbacks={
+        #         'Button1': lazy.spawn("rofi-network-manager")
+        #     },
+        #     **widget_defaults,
+        # ),
         widget.Spacer(length = 12),
         widget.Volume(
             foreground = colors["magenta"],
-            fmt = '   Vol: {} ',
+            fmt = '    {}',
             mouse_callbacks={
                 'Button1': lazy.spawn("pavucontrol")
             },
@@ -528,6 +517,23 @@ def create_widget():
         widget.Clock(
             foreground = colors["blue"],
             format = "⏱ %a, %d %b - %H:%M ",
+            ,**widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.UPowerWidget(
+            # foreground = colors["green"],
+            # fill_charge = colors["green"],
+            # fill_critical = colors["red"],
+            # fill_low = colors["orange"],
+            # fill_normal = colors["green"],
+            # border_colour = colors["green"],
+            # border_charge_colour = colors["green"],
+            # border_critical_colour = colors["green"],
+            # **widget_defaults,
+        ),
+        widget.Battery(
+            foreground = colors["green"],
+            format = "   {percent:2.0%}",
             ,**widget_defaults,
         ),
         #widget.Systray(
@@ -545,8 +551,12 @@ def create_widget():
 
 #+begin_src python
 wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
+# wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
 
 #+end_src
+
+#+RESULTS:
+: None
 
 * Screens
 I mainly work with 2 monitors.

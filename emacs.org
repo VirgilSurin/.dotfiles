@@ -296,7 +296,17 @@ Some theme configurations.
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
+
+(set-frame-parameter nil 'alpha-background 94)
+
+(defun vs/set-transparency (value)
+  (interactive "nTransparency value 0 - 100: ")
+  (set-frame-parameter (selected-frame) 'alpha-background value))
+
 #+end_src
+
+#+RESULTS:
+: vs/set-transparency
 
 Here are the font related stuff:
 
@@ -462,6 +472,7 @@ _r_: remove last cursor       _0_: remove all  _q_: quit/exit
   ("q" evil-mc-undo-all-cursors :exit t))
 
 (map! :nmv "m" #'hydra-multiple-cursors/body)
+
 #+end_src
 
 #+RESULTS:

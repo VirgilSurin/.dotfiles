@@ -8,7 +8,7 @@
     package = pkgs.picom;
     backend = "xrender";
 
-    fade = true;
+    fade = false;
     fadeSteps = [ 0.03 0.03 ];
     fadeExclude = [
       "class_g = 'slop'"
@@ -58,7 +58,7 @@
     };
 
     settings = {
-      corner-radius = 8;
+      corner-radius = 0;
     };
 
   };

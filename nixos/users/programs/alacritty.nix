@@ -5,10 +5,10 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font.size = 10;
+      font.size = 8;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
-        opacity = 1.0;
+        opacity = 0.9;
       };
       colors = {
          primary = {

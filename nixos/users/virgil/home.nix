@@ -60,6 +60,10 @@ in
     protonmail-desktop
 
     # linux utilities
+
+    # wallpaper
+    feh
+    waypaper
     qimgv # for images
     alsa-utils # for audio
     ripgrep

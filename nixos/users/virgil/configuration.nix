@@ -5,9 +5,11 @@
     ./hardware-configuration.nix
     ../modules/monitor_switcher.nix
     inputs.home-manager.nixosModules.default
+    inputs.nix-colors.homeManagerModules.default
     # inputs.hosts.nixosModules.default
   ];
 
+  colorScheme = inputs.nix-colors.colorSchemes.onedark;
   # Bootloader.
   boot.loader.systemd-boot.enable = true; 
   boot.loader.efi.canTouchEfiVariables = true;
@@ -67,7 +69,7 @@
       };
 
       displayManager.gdm = {
-        enable = true;
+        enable = false;
         wayland = true;
       };
 
@@ -82,7 +84,7 @@
             hash = "sha256-EqrvBXigMjevPERTcz3EXSRaZP2xSEsOxjuiJ/5QOz0=";
           };
         });
-        extraPackages = p: with p; [ qtile-extras ];
+        extraPackages = p: with p; [ qtile-extras iwlib dbus-fast ];
       };
 
       desktopManager.gnome.enable = false;
@@ -101,8 +103,9 @@
       };
 
       sddm = {
-        enable = false;
+        enable = true;
         wayland.enable = true;
+        theme = "where_is_my_sddm_theme";
       };
 
     };
@@ -164,6 +167,9 @@
     # jack.enable = true;
   };
 
+  # usb
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
 
   # fingerprint auth !
   services.fprintd = {
@@ -240,6 +246,26 @@
     libinput
     seatd
     wlroots
+
+    # for usb
+    usbutils
+    udiskie
+    udisks
+
+    (where-is-my-sddm-theme.override {
+      themeConfig.General = {
+       passwordCharacter = "*";
+       passwodInputBackground = "#${config.colorScheme.palette.base01}";
+       passwodCursorColor = "#${config.colorScheme.palette.base05}";
+       passwodTextColor = "#${config.colorScheme.palette.base05}";
+
+       showSessionBuDefault = true;
+
+       backgroundFill = "#${config.colorScheme.palette.base00}";
+       basicTextColor = "#${config.colorScheme.palette.base05}";
+      };
+    })
+
     # Hyprland utilities
     hyprpaper
     hyprpicker
@@ -264,7 +290,7 @@
 
   services.emacs = {
     enable = true;
-    package = pkgs.emacs;
+    package = pkgs.emacs-gtk;
   };
 
   networking.stevenBlackHosts = {
