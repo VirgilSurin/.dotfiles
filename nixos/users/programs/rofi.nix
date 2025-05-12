@@ -19,11 +19,11 @@
     in {
       "*" = {
         background-color            = mkLiteral "#${config.colorScheme.palette.base00}";
-        border-color                = mkLiteral "#${config.colorScheme.palette.base0C}";
+        border-color                = mkLiteral "#${config.colorScheme.palette.base08}";
         text-color                  = mkLiteral "#${config.colorScheme.palette.base05}";
         font                        = "FiraCodeNerdFontMono-Medium 12";
         prompt-font                 = "FiraCodeNerdFontMono-Medium 12";
-        prompt-background           = mkLiteral "#${config.colorScheme.palette.base0C}";
+        prompt-background           = mkLiteral "#${config.colorScheme.palette.base08}";
         prompt-foreground           = mkLiteral "#${config.colorScheme.palette.base00}";
         prompt-padding              = mkLiteral "4px";
         alternate-normal-background = mkLiteral "#${config.colorScheme.palette.base01}";

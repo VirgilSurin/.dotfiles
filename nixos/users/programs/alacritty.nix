@@ -5,10 +5,12 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      font.size = 8;
+      font.size = 10;
       colors.draw_bold_text_with_bright_colors = true;
       window = {
-        opacity = 0.9;
+        opacity = 1.0;
+        padding.x = 6;
+        padding.y = 6;
       };
       colors = {
          primary = {
@@ -16,7 +18,7 @@
            foreground= "#${config.colorScheme.palette.base05}";
          };
          normal = {
-           black  = "#${config.colorScheme.palette.base00}";
+           black  = "#${config.colorScheme.palette.base03}";
            red    = "#${config.colorScheme.palette.base0E}";
            green  = "#${config.colorScheme.palette.base0D}";
            yellow = "#${config.colorScheme.palette.base0A}";
@@ -26,7 +28,7 @@
            white  = "#${config.colorScheme.palette.base06}";
          };
          bright = {
-           black  = "#${config.colorScheme.palette.base00}";
+           black  = "#${config.colorScheme.palette.base03}";
            red    = "#${config.colorScheme.palette.base0E}";
            green  = "#${config.colorScheme.palette.base0D}";
            yellow = "#${config.colorScheme.palette.base0A}";

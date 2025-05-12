@@ -5,12 +5,13 @@
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
+    autosuggestion.highlight = "fg=#${config.colorScheme.palette.base03}";
     syntaxHighlighting.enable = true;
 
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" ];
-      theme = "eastwood";
+      theme = "intheloop";
     };
 
     shellAliases = {

@@ -329,10 +329,7 @@ Using qtile-extra we can create popup menu !
 #+begin_src python
 def create_menu():
     menu_items = [
-        ("Terminal", lazy.spawn(terminal)),
-        ("Browser", lazy.spawn(browser)),
-        ("Editor", lazy.spawn(editor)),
-        ("File Manager", lazy.spawn(filemanager)),
+        ("Shutdown now", lazy.spawn("shutdown now")),
         ("Screenshot", lazy.spawn("flameshot gui")),
         ("Lock", lazy.spawn("xscreensaver-command -lock")),
     ]
@@ -371,7 +368,7 @@ Some function and default settings for the widgets.
 
 #+begin_src python
 widget_defaults = dict(
-    font = "Ubuntu Bold",
+    font = "JetBrainsMono Nerd Font Bold",
     fontsize = 12,
     padding = 4,
     background = colors["bg"],
@@ -382,7 +379,7 @@ sep_bar = widget.TextBox(
                     background = colors["bg"],
                     foreground = colors["fg"],
                     padding = 4,
-                    fontsize = 14
+                    fontsize = 10
                 )
 
 def widget_decoration(color):
@@ -411,6 +408,7 @@ def create_widget():
             },
         ),
         widget.Spacer(length=4),
+        sep_bar,
         widget.GroupBox(
             fontsize = 12,
             margin_x = 15,
@@ -454,21 +452,27 @@ def create_widget():
         # ),
         sep_bar,
         widget.CurrentLayoutIcon(
-            foreground = colors["fg"],
-            scale = 0.7,
+            foreground = colors["orange"],
+            scale = 0.5,
             use_mask = True,
             ,**widget_defaults,
         ),
         widget.CurrentLayout(
-            foreground = colors["fg"],
-            font = "Ubuntu Bold",
-            padding = 10,
-            fontsize = 14,
+            foreground = colors["orange"],
+            ,**widget_defaults,
         ),
         sep_bar,
         widget.WindowName(
             max_chars = 32,
             foreground = colors["blue"],
+            ,**widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.UnitStatus(
+            bus_name = "system",
+            foreground = colors["cyan"],
+            label = " emacs",
+            unit_name = "emacs.service",
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -489,12 +493,18 @@ def create_widget():
             inactive_colour = colors["black"],
             foreground = colors["red"],
             interface = "wlp6s0",
-            show_ssid = False,
+            show_ssid = True,
             mouse_callbacks={
-            "Button1": lazy.spawn("rofi-network-manager")
+                "Button1": lazy.spawn("rofi-network-manager")
             },
             ,**widget_defaults,
         ),
+        # widget.Wlan(
+        #     disconnected_message = "disconnected",
+        #     interface = "wlp6s0",
+        #     foreground = colors["red"],
+        #     format = "{percent:2.0%}",
+        # ),
         # widget.Net(
         #     interface = "wlp6s0",
         #     format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
@@ -507,16 +517,10 @@ def create_widget():
         widget.Spacer(length = 12),
         widget.Volume(
             foreground = colors["magenta"],
-            fmt = '    {}',
+            fmt = '  {}',
             mouse_callbacks={
                 'Button1': lazy.spawn("pavucontrol")
             },
-            ,**widget_defaults,
-        ),
-        widget.Spacer(length = 12),
-        widget.Clock(
-            foreground = colors["blue"],
-            format = "⏱ %a, %d %b - %H:%M ",
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -533,7 +537,13 @@ def create_widget():
         ),
         widget.Battery(
             foreground = colors["green"],
-            format = "   {percent:2.0%}",
+            format = "  {percent:2.0%}",
+            ,**widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.Clock(
+            foreground = colors["blue"],
+            format = "⏱ %a, %d %b - %H:%M ",
             ,**widget_defaults,
         ),
         #widget.Systray(
