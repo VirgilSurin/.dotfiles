@@ -1,0 +1,461 @@
+#+title: Hyprland
+#+AUTHOR: Virgil Surin
+#+PROPERTY: header-args :tangle ~/.config/hypr/hyprland.conf
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+
+* Monitor config
+#+begin_src conf
+source = ~/.config/hypr/monitors.conf
+#+end_src
+
+* Autostart
+#+begin_src conf
+exec-once = waybar
+exec-once = hyprpaper
+exec-once = waypaper --restore
+exec-once = dunst
+exec-once = swayidle -w timeout 300 'swaylock -f' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+#+end_src
+
+*  Env var
+
+#+begin_src conf
+env = XCURSOR_THEME,Breeze_Dark
+env = XCURSOR_SIZE,14
+env = HYPRCURSOR_THEME,Breeze_Dark
+env = HYPRCURSOR_SIZE,14
+#+end_src
+
+* Xwayland - fix scaling issue
+#+begin_src conf
+xwayland {
+    force_zero_scaling = true
+}
+#+end_src
+
+* Theme
+#+begin_src conf
+$bg = 0xff282c34
+$fg = 0xffbbc2cf
+$black = 0xff1c1f24
+$white = 0xffdfdfdf
+$red = 0xffff6c6b
+$green = 0xff98be65
+$orange = 0xffda8548
+$blue = 0xff51afef
+$magenta = 0xffc678dd
+$cyan = 0xff46d9ff
+$purple = 0xffa9a1e1
+#+end_src
+
+* Input config
+#+begin_src conf
+input {
+    kb_layout = us
+    kb_variant =
+    kb_options = ctrl:nocaps
+
+    follow_mouse = 0
+    sensitivity = 0
+
+    touchpad {
+        natural_scroll = true
+        disable_while_typing = true
+    }
+}
+#+end_src
+
+* General settings
+#+begin_src conf
+general {
+    gaps_in = 4
+    gaps_out = 8
+    border_size = 2
+    col.active_border = $cyan
+    col.inactive_border = $black
+
+    allow_tearing = false
+
+    layout = dwindle
+}
+#+end_src
+
+* Layout
+Dwindle layout
+#+begin_src conf
+dwindle {
+    pseudotile = true
+    preserve_split = true
+}
+#+end_src
+
+* Group
+#+begin_src conf
+group {
+    col.border_inactive = $black
+    col.border_active = $magenta
+    groupbar {
+        enabled = false
+    }
+}
+
+#+end_src
+
+* Decoration settings
+#+begin_src conf
+decoration {
+    rounding = 0
+    active_opacity = 1.0
+    inactive_opacity = 1.0
+    fullscreen_opacity = 1.0
+
+    shadow {
+        enabled = true
+        range = 4
+        render_power = 3
+        color = rgba(1a1a1aee)
+    }
+
+    blur {
+        enabled = true
+        size = 3
+        passes = 1
+        vibrancy = 0.1696
+    }
+}
+#+end_src
+
+* Animations
+#+begin_src conf
+animations {
+    enabled = true
+
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}
+#+end_src
+* Windor rules
+#+begin_src conf
+windowrule = float, title:^(Volume Control)$
+windowrule = float, class:.blueman-manager-wrapped
+#+end_src
+
+* Keybindings
+#+begin_src conf
+$mainMod = SUPER
+#+end_src
+
+** Shortcuts
+#+begin_src conf
+bind = $mainMod, Return, exec, alacritty
+bind = $mainMod, b, exec, brave
+bind = $mainMod, x, exec, emacsclient -c -a "emacs"
+bind = $mainMod, m, exec, pcmanfm
+bind = $mainMod, p, exec, wofi --show drun
+bind = $mainMod SHIFT, p, exec, wofi --show run
+bind = $mainMod CTRL, m, exec, wofi --show calc -modi calc -no-show-match -no-sort
+bind = $mainMod, q, killactive
+bind = $mainMod, v, togglefloating
+bind = $mainMod SHIFT, v, fullscreen
+bind = $mainMod, Tab, cyclenext
+bind = $mainMod CTRL, q, exit
+
+bind = $mainMod CTRL, z, exec, swaylock
+
+bind = $mainMod SHIFT, m, exec, nwg-displays
+bind = , PrntScrn, exec, flameshot gui
+
+#+end_src
+** Moving
+#+begin_src conf
+bind = $mainMod, n, movefocus, l
+bind = $mainMod, o, movefocus, r
+bind = $mainMod, i, changegroupactive, b
+bind = $mainMod, i, movefocus, u
+bind = $mainMod, e, changegroupactive, f
+bind = $mainMod, e, movefocus, d
+
+bind = $mainMod SHIFT, n, movewindoworgroup, l
+bind = $mainMod SHIFT, o, movewindoworgroup, r
+bind = $mainMod SHIFT, i, movewindoworgroup, u
+bind = $mainMod SHIFT, e, movewindoworgroup, d
+
+binde = $mainMod CTRL, n, resizeactive, -60 0
+binde = $mainMod CTRL, o, resizeactive, 60 0
+binde = $mainMod CTRL, i, resizeactive, 0 -60
+binde = $mainMod CTRL, e, resizeactive, 0 60
+
+bind = $mainMod SHIFT, Return, togglegroup
+
+#+end_src
+
+** Workspace
+#+begin_src conf
+bind = $mainMod, a, focusworkspaceoncurrentmonitor, 1
+bind = $mainMod, r, focusworkspaceoncurrentmonitor, 2
+bind = $mainMod, s, focusworkspaceoncurrentmonitor, 3
+bind = $mainMod, t, focusworkspaceoncurrentmonitor, 4
+bind = $mainMod, l, focusworkspaceoncurrentmonitor, 5
+bind = $mainMod, u, focusworkspaceoncurrentmonitor, 6
+
+bind = $mainMod SHIFT, a, movetoworkspace, 1
+bind = $mainMod SHIFT, r, movetoworkspace, 2
+bind = $mainMod SHIFT, s, movetoworkspace, 3
+bind = $mainMod SHIFT, t, movetoworkspace, 4
+bind = $mainMod SHIFT, l, movetoworkspace, 5
+bind = $mainMod SHIFT, u, movetoworkspace, 6
+
+bind = $mainMod CTRL, a, movetoworkspacesilent, 1
+bind = $mainMod CTRL, r, movetoworkspacesilent, 2
+bind = $mainMod CTRL, s, movetoworkspacesilent, 3
+bind = $mainMod CTRL, t, movetoworkspacesilent, 4
+bind = $mainMod CTRL, l, movetoworkspacesilent, 5
+bind = $mainMod CTRL, u, movetoworkspacesilent, 6
+#+end_src
+
+** Screens management
+#+begin_src conf
+bind = $mainMod, y, focusmonitor, +1
+bind = $mainMod SHIFT, y, focusmonitor, -1
+#+end_src
+
+** System control (volume, brightness)
+#+begin_src conf
+bind = , XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle
+bind = , XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%
+bind = , XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%
+bind = , XF86MonBrightnessUp, exec, brightnessctl set +10%
+bind = , XF86MonBrightnessDown, exec, brightnessctl set 10%-
+#+end_src
+
+** Mouse
+#+begin_src conf
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+#+end_src
+
+* Waybar
+
+** Config
+#+begin_src json :tangle ~/.config/waybar/config
+{
+    "layer": "top",
+    "position": "top",
+    "height": 4,
+    "margin-top": 4,
+    "margin-left": 8,
+    "margin-right": 8,
+    "spacing": 0,
+    "modules-left": [
+        "custom/menu",
+        "hyprland/workspaces",
+        "custom/sep",
+        "hyprland/window"
+    ],
+    "modules-center": [],
+    "modules-right": [
+        "keyboard-state",
+        "bluetooth",
+        "network",
+        "pulseaudio",
+        "battery",
+        "clock",
+        "tray"
+    ],
+    "custom/menu": {
+        "format": "󱄅",
+        "tooltip": false,
+        "on-click": "wofi --show drun"
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "active-only": false,
+        "all-outputs": true,
+        "on-click": "activate",
+        "format-icons": {
+            "1": "",
+            "2": "󰖟",
+            "3": "󰈙",
+            "4": "",
+            "5": "󰍦",
+            "6": "󰓇",
+            "default": "",
+        },
+        "persistent-workspaces": {
+            "eDP-1": [1, 2, 3, 4, 5, 6],
+            "DP-1": [1, 2, 3, 4, 5, 6],
+            "DP-2": [1, 2, 3, 4, 5, 6],
+            "DP-3": [1, 2, 3, 4, 5, 6],
+            "DP-4": [1, 2, 3, 4, 5, 6],
+            "DP-5": [1, 2, 3, 4, 5, 6],
+            "DP-6": [1, 2, 3, 4, 5, 6],
+            "DP-7": [1, 2, 3, 4, 5, 6],
+            "HDMI-A-1": [1, 2, 3, 4, 5, 6],
+        }
+    },
+    "custom/sep": {
+        "format": "|",
+    },
+    "hyprland/window": {
+        "max-length": 32,
+        "separate-outputs": true,
+    },
+    "keyboard-state": {
+        "format": "⌨ {variant}",
+        "format-variant": "us"
+    },
+    "bluetooth": {
+        "format": "{status}",
+        "format-on": "󰂯",
+        "format-off": "󰂲",
+        "format-connected": "󰂯 {device_alias}",
+        "on-click": "blueman-manager"
+    },
+    "network": {
+        "format-icons": ["󰤟","󰤢","󰤥","󰤨"],
+        "format-wifi": "{icon} {essid} ({signalStrength}%)",
+        "format-ethernet": "󰈀",
+        "format-disconnected": "󰤭",
+        "on-click": "rofi-network-manager"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰖁",
+        "format-icons": ["󰕾"],
+        "on-click": "pavucontrol"
+    },
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": ["󰁺","󰁻","󰁼","󰁽","󰁾","󰁿","󰂀","󰂁","󰁹"],
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        }
+    },
+    "clock": {
+        "format": "⏱ {:%a, %d %b - %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "tray": {
+        "spacing": 10
+    }
+}
+#+end_src
+
+
+** Style.css
+#+begin_src css :tangle ~/.config/waybar/style.css
+,* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 10px;
+    min-height: 1px;
+}
+
+window#waybar {
+    background: #282c34;
+    color: #bbc2cf;
+}
+
+#custom-menu {
+    color: #51afef;
+    font-size: 14px;
+    padding: 0 10px;
+}
+
+#workspaces {
+    background-color: transparent;
+    padding: 0px;
+}
+
+#workspaces button.empty {
+    transition: none;
+    color: #bbc2cf;
+    background: transparent;
+    border-bottom: 2px solid transparent;
+    margin-left: 4px;
+    margin-right: 4px;
+    padding: 0px;
+}
+
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+#workspaces button {
+    padding-left: 1px;
+    padding-right: 1px;
+    color: #51afef;
+    background: transparent;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-bottom: 2px solid transparent;
+    padding: 0px;
+}
+
+#workspaces button.active {
+    padding: 0px;
+    border-bottom: 2px solid #98be65;
+}
+
+/* Focused button but on inactive monitor */
+#workspaces button.visible:not(.active) {
+    padding: 0px;
+    border-bottom: 2px solid #51afef;
+}
+
+#custom-sep {
+    color: #bbc2cf;
+    font-size: 10px;
+    padding: 0 0px;
+}
+
+#window {
+    color: #51afef;
+    padding-left: 10px;
+}
+
+#keyboard-state {
+    color: #da8548;
+    padding: 0 6px;
+}
+
+#bluetooth {
+    color: #46d9ff;
+    font-size: 12px;
+    padding: 0 6px;
+}
+#network {
+    font-family: "JetBrainsMono Nerd Font";
+    color: #ff6c6b;
+    padding: 0 6px;
+}
+
+#pulseaudio {
+    color: #c678dd;
+    padding: 0 6px;
+}
+
+#battery {
+    color: #98be65;
+    padding: 0 6px;
+}
+
+#clock {
+    color: #51afef;
+    padding: 0 6px;
+}
+
+#tray {
+    padding: 0 6px;
+}
+
+#+end_src

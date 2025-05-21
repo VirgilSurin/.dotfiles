@@ -305,6 +305,9 @@
     via
   ];
 
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
 
   # I now use a ZSA keyboard, I must enable some udev rules for it
   hardware.keyboard.zsa.enable = true;

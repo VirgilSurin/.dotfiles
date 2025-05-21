@@ -32,11 +32,11 @@ in
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
-      ../window_managers/hyprland.nix
+      # ../window_managers/hyprland.nix
       # ../window_managers/hyprlock.nix
       ../window_managers/qtile.nix
       ../programs/alacritty.nix
-      ../programs/waybar.nix
+      # ../programs/waybar.nix
       ../programs/wofi.nix
       ../programs/rofi.nix
       ../programs/picom.nix
@@ -127,9 +127,21 @@ in
     pavucontrol
     pulseaudio
     # wifi and bluetooth
-    blueman
+    rofi-bluetooth
     wirelesstools
     rofi-network-manager
+
+    # Hyprland
+    networkmanagerapplet
+    hyprland
+    hyprpaper
+    waybar
+    wofi
+    swaylock
+    swaybg
+    swayidle
+    wl-clipboard
+    nwg-displays
 
   ];
 

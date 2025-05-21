@@ -19,7 +19,7 @@
                 text_icon_padding = 0;
                 frame_width = 2;
 
-                frame_color = "#${config.colorScheme.palette.base0C}";
+                frame_color = "#${config.colorScheme.palette.base08}";
                 separator_color = "frame";
 
                 sort = true;

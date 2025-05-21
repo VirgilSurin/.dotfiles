@@ -2,12 +2,6 @@
 
 {
 
-  wayland.windowManager.hyprland = {
-    settings = {
-      bindr = [ "$mainMod, p, exec, wofi" ];
-    };
-  };
-
   programs.wofi = {
     enable = true;
 
@@ -31,7 +25,7 @@
 
     style = ''
       * {
-        font-family:  JetBrains Mono SemiBold;
+        font-family:  JetBrainsMono Nerd Font Bold;
         font-size: 16px;
         font-weight: 400;
         outline-style: none;
