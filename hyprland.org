@@ -90,6 +90,15 @@ dwindle {
     preserve_split = true
 }
 #+end_src
+hy3 layout (note, plugin must be installed)
+
+#+begin_src conf
+# plugin {
+#     hy3 {
+#         no_gaps_when_only = 0
+#   }
+# }
+#+end_src
 
 * Group
 #+begin_src conf
@@ -100,7 +109,6 @@ group {
         enabled = false
     }
 }
-
 #+end_src
 
 * Decoration settings
@@ -176,9 +184,7 @@ bind = , PrntScrn, exec, flameshot gui
 #+begin_src conf
 bind = $mainMod, n, movefocus, l
 bind = $mainMod, o, movefocus, r
-bind = $mainMod, i, changegroupactive, b
 bind = $mainMod, i, movefocus, u
-bind = $mainMod, e, changegroupactive, f
 bind = $mainMod, e, movefocus, d
 
 bind = $mainMod SHIFT, n, movewindoworgroup, l
@@ -260,7 +266,7 @@ bindm = $mainMod, mouse:273, resizewindow
     ],
     "modules-center": [],
     "modules-right": [
-        "keyboard-state",
+        "hyprland/language",
         "bluetooth",
         "network",
         "pulseaudio",
@@ -306,14 +312,16 @@ bindm = $mainMod, mouse:273, resizewindow
         "max-length": 32,
         "separate-outputs": true,
     },
-    "keyboard-state": {
-        "format": "⌨ {variant}",
-        "format-variant": "us"
+    "hyprland/language": {
+        "format": "⌨ {}",
+        "on-click": "hyprctl switchxkblayout main next"
+
     },
     "bluetooth": {
         "format": "{status}",
         "format-on": "󰂯",
         "format-off": "󰂲",
+        "format-disabled": "󰂲",
         "format-connected": "󰂯 {device_alias}",
         "on-click": "blueman-manager"
     },
@@ -423,7 +431,7 @@ window#waybar {
     padding-left: 10px;
 }
 
-#keyboard-state {
+#language {
     color: #da8548;
     padding: 0 6px;
 }
