@@ -35,7 +35,7 @@
 
     shadow = true;
     shadowOffsets = [ (-3) (-3) ];
-    shadowOpacity = 0.7;
+    shadowOpacity = 0.3;
     shadowExclude = [
       "name = 'Notification'"
       "class_g = 'Conky'"

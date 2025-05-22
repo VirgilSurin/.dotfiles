@@ -40,6 +40,7 @@ vterm_printf() {
         printf "\e]%s\e\\" "$1"
     fi
 }
+colorscript random
 '';
   };
 }

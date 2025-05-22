@@ -56,9 +56,9 @@ in
   ];
 
 
-  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-soft;
+  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  colorScheme = myOne;
+  # colorScheme = myOne;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -81,6 +81,7 @@ in
     pcmanfm
     mpv
     protonmail-desktop
+    dwt1-shell-color-scripts
 
     # linux utilities
 
@@ -133,7 +134,6 @@ in
 
     # Hyprland
     networkmanagerapplet
-    hyprland
     hyprpaper
     waybar
     wofi
@@ -142,6 +142,7 @@ in
     swayidle
     wl-clipboard
     nwg-displays
+    nwg-panel
 
   ];
 
