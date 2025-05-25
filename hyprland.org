@@ -38,7 +38,7 @@ xwayland {
 * Theme
 Managed via ~theme-switcher~.
 #+begin_src conf
-source = ~/.config/theme-switcher/hyprland/one.conf
+source = ~/.config/theme-switcher/hyprland/gruvbox.conf
 #+end_src
 
 * Input config
@@ -159,7 +159,7 @@ bind = $mainMod, m, exec, pcmanfm
 bind = $mainMod, p, exec, wofi --show drun
 bind = $mainMod SHIFT, p, exec, wofi --show run
 bind = $mainMod CTRL, m, exec, wofi --show calc -modi calc -no-show-match -no-sort
-bind = $mainMod SHIFT, m, exec, theme-switcher
+bind = $mainMod SHIFT, m, exec, unified-theme-switcher
 bind = $mainMod, q, killactive
 bind = $mainMod, v, togglefloating
 bind = $mainMod SHIFT, v, fullscreen

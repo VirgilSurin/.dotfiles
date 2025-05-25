@@ -1,11 +1,6 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 let
-  theme-switcher = pkgs.callPackage ../pkgs/theme-switcher/theme-switcher.nix {};
-  enhanced-theme-switcher = pkgs.writeScriptBin "theme-switcher" ''
-    #!${pkgs.bash}/bin/bash
-    ${builtins.readFile ../shell_scripts/enhanced-theme-switcher.sh}
-  '';
   myOne = {
     slug = "myOne";
     name = "myOne";
@@ -37,15 +32,9 @@ in
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
-      ../modules/theme-variants.nix
-      # ../window_managers/hyprland.nix
-      # ../window_managers/hyprlock.nix
+      ../modules/unified-theme.nix
+
       ../window_managers/qtile.nix
-      # ../programs/alacritty.nix
-      # ../programs/waybar.nix
-      # ../programs/wofi.nix
-      # ../programs/rofi.nix
-      # ../programs/dunst.nix
       ../programs/picom.nix
       ../programs/btop.nix
       ../programs/git.nix
@@ -58,7 +47,6 @@ in
       ../programs/autorandr.nix
       ../programs/xscreensaver.nix
       ../programs/sioyek.nix
-      # ../programs/emacs-theme.nix
   ];
 
 
@@ -139,7 +127,6 @@ in
     rofi-network-manager
 
     # Hyprland
-    theme-switcher
     networkmanagerapplet
     hyprpaper
     waybar
@@ -152,13 +139,6 @@ in
     nwg-panel
 
   ];
-
-  xdg.configFile = {
-    "theme-switcher/hyprland/one.conf".source = ../pkgs/theme-switcher/hyprland/one.conf;
-    "theme-switcher/hyprland/gruvbox.conf".source = ../pkgs/theme-switcher/hyprland/gruvbox.conf;
-    "theme-switcher/waybar/one.css".source = ../pkgs/theme-switcher/waybar/one.css;
-    "theme-switcher/waybar/gruvbox.css".source = ../pkgs/theme-switcher/waybar/gruvbox.css;
-  };
 
   xdg.mimeApps.defaultApplications = {
     "application/pdf" = [ "sioyek.desktop" "emacs.desktop" ];
