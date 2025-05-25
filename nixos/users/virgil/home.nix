@@ -1,6 +1,7 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 let
+  theme-switcher = pkgs.callPackage ./users/pkgs/theme-switcher/theme-switcher.nix {};
   myOne = {
     slug = "myOne";
     name = "myOne";
@@ -32,9 +33,14 @@ in
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
-      ../modules/unified-themes.nix
+
+      ../programs/alacritty.nix
+      ../programs/rofi.nix
+      ../programs/wofi.nix
+      ../programs/dunst.nix
 
       ../window_managers/qtile.nix
+
       ../programs/picom.nix
       ../programs/btop.nix
       ../programs/git.nix
@@ -139,6 +145,13 @@ in
     nwg-panel
 
   ];
+
+  xdg.configFile = {
+    "theme-switcher/hyprland/one.conf".source = ./pkgs/theme-switcher/hyprland/one.conf;
+    "theme-switcher/hyprland/gruvbox.conf".source = ./pkgs/theme-switcher/hyprland/gruvbox.conf;
+    "theme-switcher/waybar/one.css".source = ./pkgs/theme-switcher/waybar/one.css;
+    "theme-switcher/waybar/gruvbox.css".source = ./pkgs/theme-switcher/waybar/gruvbox.css;
+  };
 
   xdg.mimeApps.defaultApplications = {
     "application/pdf" = [ "sioyek.desktop" "emacs.desktop" ];
