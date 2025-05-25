@@ -180,8 +180,8 @@ keys = [
     # Application launchers
     Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
     Key([mod, "shift"], "p", lazy.spawn("rofi -show run"), desc="Run commands"),
-    Key([mod, "shift"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
-    Key([mod, "control"], "m", lazy.spawn("rofi -show calc -modi calc -no-show-match -no-sort"), desc="Launch calculator"),
+    Key([mod, "control"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
+    Key([mod, "shift"], "m", lazy.spawn("theme-switcher"), desc="Open theme switcher"),
     Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mod, "control"], "b", lazy.spawn("zsh -c 'rofi -dmenu -p \"Search DuckDuckGo:\" -lines 0 | xargs -I{} brave \"https://www.duckduckgo.com/?q={}\"'"),
@@ -256,55 +256,61 @@ for i in groups:
 
 * Themes
 
-Definition of the colors used to theme Qtile.
+Load the theme sets by the theme switcher
 
 #+begin_src python
+import importlib.util
 
-One = {
-    "bg":      "#282c34",
-    "fg":      "#bbc2cf",
-    "black":   "#1c1f24",
-    "white":   "#dfdfdf",
-    "red":     "#ff6c6b",
-    "green":   "#98be65",
-    "orange":  "#da8548",
-    "blue":    "#51afef",
-    "magenta": "#c678dd",
-    "cyan":    "#46d9ff",
-    "purple":  "#a9a1e1"
-}
+def load_current_theme():
+    """Load the current theme from the theme switcher system"""
+    theme_file = os.path.expanduser("~/.config/qtile/current_theme.py")
 
-Gruvbox = {
-    "bg":      "#282828",
-    "fg":      "#ebdbb2",
-    "black":   "#000000",
-    "white":   "#ebdbb2",
-    "red":     "#fb4934",
-    "green":   "#98971a",
-    "orange":  "#d79921",
-    "blue":    "#83a598",
-    "magenta": "#d3869b",
-    "cyan":    "#b8bb26",
-    "purple":  "#d3869b"
-}
+    if os.path.exists(theme_file):
+        try:
+            spec = importlib.util.spec_from_file_location("current_theme", theme_file)
+            theme_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(theme_module)
 
-Everforest = {
-    "bg":      "#333c43",
-    "fg":      "#d3c6aa",
-    "black":   "#191C25",
-    "white":   "#dfdfdf",
-    "red":     "#e67e80",
-    "green":   "#a7c080",
-    "orange":  "#e69875",
-    "blue":    "#7fbbb3",
-    "magenta": "#d699b6",
-    "cyan":    "#88C0D0",
-    "purple":  "#d699b6"
-}
+            # Find the theme dictionary in the module
+            for attr_name in dir(theme_module):
+                attr = getattr(theme_module, attr_name)
+                if (isinstance(attr, dict) and
+                    'bg' in attr and 'fg' in attr and
+                    not attr_name.startswith('__')):
+                    return attr
+        except Exception as e:
+            print(f"Error loading theme: {e}")
+
+    # Fallback to Gruvbox if theme loading fails
+    return {
+        "bg":      "#282c34",
+        "fg":      "#bbc2cf",
+        "black":   "#1c1f24",
+        "white":   "#dfdfdf",
+        "red":     "#ff6c6b",
+        "green":   "#98be65",
+        "orange":  "#da8548",
+        "blue":    "#51afef",
+        "magenta": "#c678dd",
+        "cyan":    "#46d9ff",
+        "purple":  "#a9a1e1"
+    }
 #+end_src
 
+Settingup the theme
+
 #+begin_src python
-colors = Gruvbox
+colors = load_current_theme()
+#+end_src
+
+Hook to reload the config on theme change
+
+#+begin_src python
+@hook.subscribe.client_name_updated
+def reload_config_on_theme_change(client):
+    """Reload config when theme files change"""
+    if client.name and "theme-switcher" in client.name:
+        qtile.call_later(1, lambda: qtile.cmd_reload_config())
 #+end_src
 
 * Default Settings For All Layouts
@@ -574,8 +580,8 @@ def create_widget():
 * Wallpaper
 
 #+begin_src python
-wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
-# wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
+# wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
+wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
 
 #+end_src
 

@@ -36,18 +36,9 @@ xwayland {
 #+end_src
 
 * Theme
+Managed via ~theme-switcher~.
 #+begin_src conf
-$bg = 0xff282c34
-$fg = 0xffbbc2cf
-$black = 0xff1c1f24
-$white = 0xffdfdfdf
-$red = 0xffff6c6b
-$green = 0xff98be65
-$orange = 0xffda8548
-$blue = 0xff51afef
-$magenta = 0xffc678dd
-$cyan = 0xff46d9ff
-$purple = 0xffa9a1e1
+source = ~/.config/theme-switcher/hyprland/one.conf
 #+end_src
 
 * Input config
@@ -168,6 +159,7 @@ bind = $mainMod, m, exec, pcmanfm
 bind = $mainMod, p, exec, wofi --show drun
 bind = $mainMod SHIFT, p, exec, wofi --show run
 bind = $mainMod CTRL, m, exec, wofi --show calc -modi calc -no-show-match -no-sort
+bind = $mainMod SHIFT, m, exec, theme-switcher
 bind = $mainMod, q, killactive
 bind = $mainMod, v, togglefloating
 bind = $mainMod SHIFT, v, fullscreen
@@ -176,7 +168,6 @@ bind = $mainMod CTRL, q, exit
 
 bind = $mainMod CTRL, z, exec, swaylock
 
-bind = $mainMod SHIFT, m, exec, nwg-displays
 bind = , PrntScrn, exec, flameshot gui
 
 #+end_src
