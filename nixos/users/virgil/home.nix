@@ -4,7 +4,7 @@ let
   theme-switcher = pkgs.callPackage ../pkgs/theme-switcher/theme-switcher.nix {};
   enhanced-theme-switcher = pkgs.writeScriptBin "theme-switcher" ''
     #!${pkgs.bash}/bin/bash
-    ${builtins.readFile ./enhanced-theme-switcher.sh}
+    ${builtins.readFile ../shell_scripts/enhanced-theme-switcher.sh}
   '';
   myOne = {
     slug = "myOne";

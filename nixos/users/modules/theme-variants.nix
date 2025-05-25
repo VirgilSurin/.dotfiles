@@ -1,4 +1,3 @@
-# nixos/users/modules/theme-variants.nix
 { config, lib, pkgs, inputs, ... }:
 
 let
@@ -247,41 +246,45 @@ in {
     # Set the colorScheme based on current theme
     colorScheme = themes.${currentTheme}.scheme;
 
-    # Generate all theme variant files
+    # Generate all theme variant files - combine everything into one home.file definition
     home.file = lib.mkMerge [
+      # Wallpaper files
       (lib.mapAttrs' (themeName: themeData:
         lib.nameValuePair "theme-variants/${themeName}/wallpaper" {
           source = themeData.wallpaper;
         }
       ) themes)
 
+      # Theme configuration files for each app
       (lib.mkMerge (lib.mapAttrsToList (themeName: themeData:
         generateAppConfig themeName themeData
       ) themes))
+
+      # Active theme symlinks (these point to current theme)
+      {
+        "config/alacritty/alacritty.toml".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/alacritty/themes/${currentTheme}.toml";
+
+        "config/rofi/config.rasi".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/rofi/themes/${currentTheme}.rasi";
+
+        "config/wofi/style.css".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/wofi/themes/${currentTheme}.css";
+
+        "config/dunst/dunstrc".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/dunst/themes/${currentTheme}.conf";
+
+        "config/fish/themes/current.fish".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/fish/themes/${currentTheme}.fish";
+
+        "config/qtile/current_theme.py".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qtile/themes/${currentTheme}.py";
+
+        # Theme info files
+        "config/theme-switcher/current-theme".text = currentTheme;
+        "config/theme-switcher/available-themes".text =
+          builtins.concatStringsSep "\n" (builtins.attrNames themes);
+      }
     ];
-
-    # Create active theme symlinks (these point to current theme)
-    home.file."config/alacritty/alacritty.toml".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/alacritty/themes/${currentTheme}.toml";
-
-    home.file."config/rofi/config.rasi".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/rofi/themes/${currentTheme}.rasi";
-
-    home.file."config/wofi/style.css".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/wofi/themes/${currentTheme}.css";
-
-    home.file."config/dunst/dunstrc".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/dunst/themes/${currentTheme}.conf";
-
-    home.file."config/fish/themes/current.fish".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/fish/themes/${currentTheme}.fish";
-
-    home.file."config/qtile/current_theme.py".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/qtile/themes/${currentTheme}.py";
-
-    # Create a theme info file
-    home.file."config/theme-switcher/current-theme".text = currentTheme;
-    home.file."config/theme-switcher/available-themes".text =
-      builtins.concatStringsSep "\n" (builtins.attrNames themes);
   };
 }
