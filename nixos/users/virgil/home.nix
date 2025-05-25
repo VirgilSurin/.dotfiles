@@ -32,7 +32,7 @@ in
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
-      ../modules/unified-theme.nix
+      ../modules/unified-themes.nix
 
       ../window_managers/qtile.nix
       ../programs/picom.nix
