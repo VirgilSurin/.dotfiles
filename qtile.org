@@ -256,61 +256,56 @@ for i in groups:
 
 * Themes
 
-Load the theme sets by the theme switcher
+Theme definitions
 
 #+begin_src python
-import importlib.util
+One = {
+    "bg":      "#282c34",
+    "fg":      "#bbc2cf",
+    "black":   "#1c1f24",
+    "white":   "#dfdfdf",
+    "red":     "#ff6c6b",
+    "green":   "#98be65",
+    "orange":  "#da8548",
+    "blue":    "#51afef",
+    "magenta": "#c678dd",
+    "cyan":    "#46d9ff",
+    "purple":  "#a9a1e1"
+}
 
-def load_current_theme():
-    """Load the current theme from the theme switcher system"""
-    theme_file = os.path.expanduser("~/.config/qtile/current_theme.py")
+Gruvbox = {
+    "bg":      "#282828",
+    "fg":      "#ebdbb2",
+    "black":   "#000000",
+    "white":   "#ebdbb2",
+    "red":     "#fb4934",
+    "green":   "#98971a",
+    "orange":  "#d79921",
+    "blue":    "#83a598",
+    "magenta": "#d3869b",
+    "cyan":    "#b8bb26",
+    "purple":  "#d3869b"
+}
 
-    if os.path.exists(theme_file):
-        try:
-            spec = importlib.util.spec_from_file_location("current_theme", theme_file)
-            theme_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(theme_module)
-
-            # Find the theme dictionary in the module
-            for attr_name in dir(theme_module):
-                attr = getattr(theme_module, attr_name)
-                if (isinstance(attr, dict) and
-                    'bg' in attr and 'fg' in attr and
-                    not attr_name.startswith('__')):
-                    return attr
-        except Exception as e:
-            print(f"Error loading theme: {e}")
-
-    # Fallback to Gruvbox if theme loading fails
-    return {
-        "bg":      "#282c34",
-        "fg":      "#bbc2cf",
-        "black":   "#1c1f24",
-        "white":   "#dfdfdf",
-        "red":     "#ff6c6b",
-        "green":   "#98be65",
-        "orange":  "#da8548",
-        "blue":    "#51afef",
-        "magenta": "#c678dd",
-        "cyan":    "#46d9ff",
-        "purple":  "#a9a1e1"
-    }
+Everforest = {
+    "bg":      "#333c43",
+    "fg":      "#d3c6aa",
+    "black":   "#191C25",
+    "white":   "#dfdfdf",
+    "red":     "#e67e80",
+    "green":   "#a7c080",
+    "orange":  "#e69875",
+    "blue":    "#7fbbb3",
+    "magenta": "#d699b6",
+    "cyan":    "#88C0D0",
+    "purple":  "#d699b6"
+}
 #+end_src
 
 Settingup the theme
 
 #+begin_src python
-colors = load_current_theme()
-#+end_src
-
-Hook to reload the config on theme change
-
-#+begin_src python
-@hook.subscribe.client_name_updated
-def reload_config_on_theme_change(client):
-    """Reload config when theme files change"""
-    if client.name and "theme-switcher" in client.name:
-        qtile.call_later(1, lambda: qtile.cmd_reload_config())
+colors = Gruvbox
 #+end_src
 
 * Default Settings For All Layouts
