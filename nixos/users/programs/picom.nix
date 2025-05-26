@@ -59,6 +59,14 @@
 
     settings = {
       corner-radius = 0;
+
+      animations = [
+        {
+          triggers = [ "open" ];
+          preset = "appear";
+          duration = "5";
+        }
+      ];
     };
 
   };
