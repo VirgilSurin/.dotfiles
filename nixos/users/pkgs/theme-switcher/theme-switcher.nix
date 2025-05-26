@@ -12,12 +12,12 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/bin
-    mkdir -p $out/share/theme-switcher/themes
-    mkdir -p $out/share/theme-switcher/waybar-themes
+    mkdir -p $out/share/theme-switcher/hyprland
+    mkdir -p $out/share/theme-switcher/waybar
 
     # Copy theme files
-    cp themes/*.conf $out/share/theme-switcher/themes/
-    cp waybar-themes/*.css $out/share/theme-switcher/waybar-themes/
+    cp hyprland/*.conf $out/share/theme-switcher/hyprland/
+    cp waybar/*.css $out/share/theme-switcher/waybar/
 
     # Install the main script
     cp theme-switcher.sh $out/bin/theme-switcher

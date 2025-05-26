@@ -3,8 +3,8 @@
 set -euo pipefail
 
 # Configuration
-THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/theme-switcher/themes"
-WAYBAR_THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/theme-switcher/waybar-themes"
+THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/theme-switcher/hyprland"
+WAYBAR_THEMES_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/theme-switcher/waybar"
 HYPR_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.conf"
 WAYBAR_STYLE="${XDG_CONFIG_HOME:-$HOME/.config}/waybar/style.css"
 CURRENT_THEME_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/theme-switcher/current-theme"

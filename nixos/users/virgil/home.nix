@@ -1,7 +1,7 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 let
-  theme-switcher = pkgs.callPackage ./users/pkgs/theme-switcher/theme-switcher.nix {};
+  theme-switcher = pkgs.callPackage ../pkgs/theme-switcher/theme-switcher.nix {};
   myOne = {
     slug = "myOne";
     name = "myOne";
@@ -133,6 +133,7 @@ in
     rofi-network-manager
 
     # Hyprland
+    theme-switcher
     networkmanagerapplet
     hyprpaper
     waybar
@@ -147,10 +148,10 @@ in
   ];
 
   xdg.configFile = {
-    "theme-switcher/hyprland/one.conf".source = ./pkgs/theme-switcher/hyprland/one.conf;
-    "theme-switcher/hyprland/gruvbox.conf".source = ./pkgs/theme-switcher/hyprland/gruvbox.conf;
-    "theme-switcher/waybar/one.css".source = ./pkgs/theme-switcher/waybar/one.css;
-    "theme-switcher/waybar/gruvbox.css".source = ./pkgs/theme-switcher/waybar/gruvbox.css;
+    "theme-switcher/hyprland/one.conf".source = ../pkgs/theme-switcher/hyprland/one.conf;
+    "theme-switcher/hyprland/gruvbox.conf".source = ../pkgs/theme-switcher/hyprland/gruvbox.conf;
+    "theme-switcher/waybar/one.css".source = ../pkgs/theme-switcher/waybar/one.css;
+    "theme-switcher/waybar/gruvbox.css".source = ../pkgs/theme-switcher/waybar/gruvbox.css;
   };
 
   xdg.mimeApps.defaultApplications = {
