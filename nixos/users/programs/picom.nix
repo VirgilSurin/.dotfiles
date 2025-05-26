@@ -4,12 +4,12 @@
 
   services.picom = {
 
-    enable = true;
-    package = pkgs.picom;
-    backend = "xrender";
+    enable = false;
+    package = pkgs.picom-pijulius;
+    backend = "glx";
 
     fade = false;
-    fadeSteps = [ 0.03 0.03 ];
+    fadeSteps = [ 0.01 0.1 ];
     fadeExclude = [
       "class_g = 'slop'"
     ];
@@ -55,18 +55,28 @@
       dnd = { shadow = true; };
       popup_menu = { opacity = 1.0; };
       dropdown_menu = { opacity = 1.0; };
+
+      notification = {
+        animation = "slide-left";
+        animation-unmap = "zoom";
+      };
     };
 
     settings = {
       corner-radius = 0;
 
-      animations = [
-        {
-          triggers = [ "open" ];
-          preset = "appear";
-          duration = "5";
-        }
-      ];
+      animations = true;
+      animation-stiffness = 300.0;
+      animation-dampening = 35.0;
+      animation-window-mass = 1.0;
+      animation-delta = 8;
+      animation-clamping = true;
+
+      animation-for-open-window = "slide-up";          # Windows opening
+      animation-for-unmap-window = "slide-down";       # Windows minimizing/hiding
+      animation-for-workspace-switch-in = "slide-in";  # Workspace switch (coming into view)
+      animation-for-workspace-switch-out = "slide-out"; # Workspace switch (going out of view)
+      animation-force-steps = false;
     };
 
   };

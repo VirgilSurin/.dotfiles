@@ -1,0 +1,51 @@
+#+title: Picom Config
+#+AUTHOR: Virgil Surin
+#+PROPERTY: header-args :tangle ~/.config/picom/picom.conf
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+#+begin_src conf
+backend = "glx";
+
+active-opacity = 1.0;
+inactive-opacity = 1.0;
+corner-radius = 0;
+
+
+fading = false;
+fade-delta = 10;
+fade-exclude = [ "class_g = 'slop'" ];
+fade-in-step = 0.030000;
+fade-out-step = 0.030000;
+
+opacity-rule = [ "80:class_g     = 'Bar'" , "100:class_g    = 'slop'" , "100:class_g    = 'XTerm'" , "100:class_g    = 'URxvt'" , "100:class_g    = 'kitty'" , "100:class_g    = 'Alacritty'" , "80:class_g     = 'Polybar'" , "100:class_g    = 'code-oss'" , "100:class_g    = 'Meld'" , "70:class_g     = 'TelegramDesktop'" , "90:class_g     = 'Joplin'" , "100:class_g    = 'firefox'" , "100:class_g    = 'Thunderbird'" ];
+
+animations = (
+    {
+        triggers = [ "open" ];
+        preset = "appear";
+        duration = 0.1;
+        scale = 0.3;
+    },
+    {
+        triggers = [ "geometry" ];
+        preset = "geometry-change";
+    },
+    {
+        triggers = [ "close" ];
+        preset = "disappear";
+        duration = 0.1;
+        scale = 0.3;
+    }
+)
+
+
+shadow = true;
+shadow-exclude = [ "name = 'Notification'" , "class_g = 'Conky'" , "class_g ?= 'Notify-osd'" , "class_g = 'Cairo-clock'" , "class_g = 'slop'" , "class_g = 'Polybar'" , "class_g = 'trayer'" , "override_redirect = true" , "_GTK_FRAME_EXTENTS@:c" ];
+shadow-offset-x = -3;
+shadow-offset-y = -3;
+shadow-opacity = 0.300000;
+vsync = false;
+
+wintypes: { dnd = { shadow = true; }; dock = { shadow = false; }; dropdown_menu = { opacity = 1.000000; }; normal = { fade = false; shadow = true; }; popup_menu = { opacity = 1.000000; }; tooltip = { fade = true; focus = true; full-shadow = false; opacity = 0.750000; shadow = true; }; };
+#+end_src

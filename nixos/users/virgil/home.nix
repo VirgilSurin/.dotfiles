@@ -87,6 +87,7 @@ in
 
     # wallpaper
     feh
+    picom-pijulius
     waypaper
     qimgv # for images
     alsa-utils # for audio
