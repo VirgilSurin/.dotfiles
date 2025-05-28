@@ -24,11 +24,8 @@
       "100:class_g    = 'URxvt'"
       "100:class_g    = 'kitty'"
       "100:class_g    = 'Alacritty'"
-      "80:class_g     = 'Polybar'"
       "100:class_g    = 'code-oss'"
       "100:class_g    = 'Meld'"
-      "70:class_g     = 'TelegramDesktop'"
-      "90:class_g     = 'Joplin'"
       "100:class_g    = 'firefox'"
       "100:class_g    = 'Thunderbird'"
     ];
@@ -64,19 +61,6 @@
 
     settings = {
       corner-radius = 0;
-
-      animations = true;
-      animation-stiffness = 300.0;
-      animation-dampening = 35.0;
-      animation-window-mass = 1.0;
-      animation-delta = 8;
-      animation-clamping = true;
-
-      animation-for-open-window = "slide-up";          # Windows opening
-      animation-for-unmap-window = "slide-down";       # Windows minimizing/hiding
-      animation-for-workspace-switch-in = "slide-in";  # Workspace switch (coming into view)
-      animation-for-workspace-switch-out = "slide-out"; # Workspace switch (going out of view)
-      animation-force-steps = false;
     };
 
   };

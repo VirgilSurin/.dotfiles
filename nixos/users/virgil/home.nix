@@ -40,6 +40,7 @@ in
       ../programs/dunst.nix
 
       ../window_managers/qtile.nix
+      # ../window_managers/hyprland.nix
 
       ../programs/picom.nix
       ../programs/btop.nix
@@ -56,9 +57,9 @@ in
   ];
 
 
-  colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+  # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  # colorScheme = myOne;
+  colorScheme = myOne;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -78,7 +79,7 @@ in
     tree-sitter
     signal-desktop
     vlc
-    pcmanfm
+    xfce.thunar
     mpv
     protonmail-desktop
     dwt1-shell-color-scripts

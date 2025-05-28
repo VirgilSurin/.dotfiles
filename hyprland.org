@@ -16,7 +16,6 @@ exec-once = waybar
 exec-once = hyprpaper
 exec-once = waypaper --restore
 exec-once = dunst
-exec-once = swayidle -w timeout 300 'swaylock -f' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
 #+end_src
 
 *  Env var
@@ -38,7 +37,7 @@ xwayland {
 * Theme
 Managed via ~theme-switcher~.
 #+begin_src conf
-source = ~/.config/hypr/themes/gruvbox.conf
+source = ~/.config/hypr/themes/one.conf
 
 #+end_src
 
@@ -67,29 +66,37 @@ general {
     border_size = 2
     col.active_border = $cyan
     col.inactive_border = $black
-
+    no_focus_fallback = true
     allow_tearing = false
 
-    layout = dwindle
+    layout = master
 }
 #+end_src
 
 * Layout
-Dwindle layout
+** Dwindle layout
 #+begin_src conf
 dwindle {
     pseudotile = true
     preserve_split = true
 }
 #+end_src
-hy3 layout (note, plugin must be installed)
 
+** Master layout
 #+begin_src conf
-# plugin {
-#     hy3 {
-#         no_gaps_when_only = 0
-#   }
-# }
+master {
+    mfact = 0.65
+}
+#+end_src
+
+** hy3 layout
+(note, plugin must be installed)
+#+begin_src conf
+plugin {
+    hy3 {
+        no_gaps_when_only = 0
+  }
+}
 #+end_src
 
 * Group
@@ -156,7 +163,7 @@ $mainMod = SUPER
 bind = $mainMod, Return, exec, alacritty
 bind = $mainMod, b, exec, brave
 bind = $mainMod, x, exec, emacsclient -c -a "emacs"
-bind = $mainMod, m, exec, pcmanfm
+bind = $mainMod, m, exec, thunar
 bind = $mainMod, p, exec, wofi --show drun
 bind = $mainMod SHIFT, p, exec, wofi --show run
 bind = $mainMod CTRL, m, exec, wofi --show calc -modi calc -no-show-match -no-sort
@@ -177,7 +184,9 @@ bind = , PrntScrn, exec, flameshot gui
 bind = $mainMod, n, movefocus, l
 bind = $mainMod, o, movefocus, r
 bind = $mainMod, i, movefocus, u
+bind = $mainMod, i, changegroupactive, f
 bind = $mainMod, e, movefocus, d
+bind = $mainMod, e, changegroupactive, b
 
 bind = $mainMod SHIFT, n, movewindoworgroup, l
 bind = $mainMod SHIFT, o, movewindoworgroup, r

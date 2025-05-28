@@ -50,8 +50,7 @@ mod = "mod4"
 terminal = "alacritty"
 browser = "brave"
 editor = "emacsclient -c -a 'emacs' "
-filemanager = "pcmanfm"
-
+filemanager = "thunar"
 #+end_src
 
 Here I define the directional key. In case I want to switch layout (QWERTY, COLEMAK-DH, ...).
@@ -73,7 +72,7 @@ def autostart():
     subprocess.run(["systemctl", "--user", "start", "dunst.service"])
     os.system("waypaper --restore")
     os.system("xset -dpms")
-
+    os.system("picom -b")
 #+end_src
 
 * Hooks
@@ -144,12 +143,12 @@ keys = [
     # Grow/shrink windows left/right for specific layouts
     Key([mod], "equal",
         lazy.layout.grow_left().when(layout=["bsp", "columns"]),
-        lazy.layout.grow().when(layout=["monadtall", "monadwide"]),
+        lazy.layout.grow().when(layout=["monadtall", "monadright"]),
         desc="Grow window to the left"
         ),
     Key([mod], "minus",
         lazy.layout.grow_right().when(layout=["bsp", "columns"]),
-        lazy.layout.shrink().when(layout=["monadtall", "monadwide"]),
+        lazy.layout.shrink().when(layout=["monadtall", "monadright"]),
         desc="Grow window to the left"
         ),
 
@@ -181,7 +180,6 @@ keys = [
     Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
     Key([mod, "shift"], "p", lazy.spawn("rofi -show run"), desc="Run commands"),
     Key([mod, "control"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
-    Key([mod, "shift"], "m", lazy.spawn("theme-switcher"), desc="Open theme switcher"),
     Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mod, "control"], "b", lazy.spawn("zsh -c 'rofi -dmenu -p \"Search DuckDuckGo:\" -lines 0 | xargs -I{} brave \"https://www.duckduckgo.com/?q={}\"'"),
@@ -191,8 +189,8 @@ keys = [
     Key([mod], "m", lazy.spawn(filemanager), desc="Open file manager"),
     Key([], "Print", lazy.spawn("flameshot gui")),
 
-    Key(["mod4"], "space", lazy.spawn("setxkbmap -layout us -variant colemak_dh")),
-    Key(["mod4", "shift"], "space", lazy.spawn("setxkbmap -layout us")),
+    # Key(["mod4"], "space", lazy.spawn("setxkbmap -layout us -variant colemak_dh")),
+    # Key(["mod4", "shift"], "space", lazy.spawn("setxkbmap -layout us")),
 ]
 
 # Add key bindings to switch VTs in Wayland.
@@ -305,7 +303,7 @@ Everforest = {
 Settingup the theme
 
 #+begin_src python
-colors = Gruvbox
+colors = One
 #+end_src
 
 * Default Settings For All Layouts
@@ -322,21 +320,33 @@ layout_theme = {
 #+end_src
 
 * Layouts
+
+
 #+begin_src python
 layouts = [
+    layout.MonadTall(**layout_theme,
+                     name="monadright",
+                     align=layout.MonadTall._right,
+                     auto_maximize=True,
+                     min_secondary_size=35,
+                     ratio = 0.7,
+                     ),
     layout.Columns(**layout_theme,
                    border_on_single = True,
                    border_focus_stack = colors["magenta"],
                    border_normal_stack = colors["bg"],
+                   num_columns=2,
+                   initial_ratio=1.75,
+                   insert_position=1,
+                   align=0,
                    ),
-    layout.MonadTall(**layout_theme,
-                     ratio = 0.6,
-                     ),
     layout.MonadWide(**layout_theme),
     layout.Max(**layout_theme),
 ]
 
 #+end_src
+
+#+RESULTS:
 
 * Popup menu
 Using qtile-extra we can create popup menu !
@@ -614,7 +624,6 @@ screens = [
 ]
 
     #+end_src
-
 
 * Floating Layout
 

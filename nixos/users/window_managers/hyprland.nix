@@ -10,12 +10,6 @@ let
 in
 {
 
-  imports = [
-    ../modules/wallpaper.nix
-  ];
-
-  wallpaper = ../../../wallpapers/star-wars-naboo-wallpapers.png;
-
   wayland.windowManager.hyprland = {
     enable = true;
     plugins = [

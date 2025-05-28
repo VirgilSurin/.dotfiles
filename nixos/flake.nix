@@ -9,11 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nvf = {
-    #   url = "github:notashelf/nvf";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    # Need to wait till they update things I guess
+    hyprland.url = "github:hyprwm/Hyprland";
+    hy3 = {
+      url = "github:outfoxxed/hy3";
+      inputs.hyprland.follows = "hyprland";
+    };
 
     nix-colors.url = "github:misterio77/nix-colors";
 

@@ -30,6 +30,7 @@ animations = (
     {
         triggers = [ "geometry" ];
         preset = "geometry-change";
+        duration = 2;
     },
     {
         triggers = [ "close" ];
