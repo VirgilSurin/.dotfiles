@@ -2,6 +2,7 @@
 
 let
   theme-switcher = pkgs.callPackage ../pkgs/theme-switcher/theme-switcher.nix {};
+  i3-lock = pkgs.callPackage ../pkgs/custom-i3lock/default.nix {};
   myOne = {
     slug = "myOne";
     name = "myOne";
@@ -39,7 +40,7 @@ in
       ../programs/wofi.nix
       ../programs/dunst.nix
 
-      ../window_managers/qtile.nix
+      # ../window_managers/qtile.nix
       # ../window_managers/hyprland.nix
 
       ../programs/picom.nix
@@ -52,7 +53,6 @@ in
       ../programs/eza.nix
       ../programs/zathura.nix
       ../programs/autorandr.nix
-      ../programs/xscreensaver.nix
       ../programs/sioyek.nix
   ];
 
@@ -79,11 +79,12 @@ in
     tree-sitter
     signal-desktop
     vlc
-    xfce.thunar
+    pcmanfm
     mpv
     protonmail-desktop
     dwt1-shell-color-scripts
-
+    i3-lock
+    xscreensaver
     # linux utilities
 
     # wallpaper
@@ -156,21 +157,24 @@ in
     "theme-switcher/waybar/gruvbox.css".source = ../pkgs/theme-switcher/waybar/gruvbox.css;
   };
 
-  xdg.mimeApps.defaultApplications = {
-    "application/pdf" = [ "sioyek.desktop" "emacs.desktop" ];
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "application/pdf" = [ "sioyek.desktop" "emacs.desktop" ];
 
-    "image/png" = [ "qimgv.desktop" ];
-    "image/jpeg" = [ "qimgv.desktop" ];
-    "image/gif" = [ "qimgv.desktop" ];
+      "image/png" = [ "qimgv.desktop" "emacs.desktop" ];
+      "image/jpeg" = [ "qimgv.desktop" "emacs.desktop" ];
+      "image/gif" = [ "qimgv.desktop" "emacs.desktop" ];
 
-    "vidio/mp4" = [ "vlc.desktop" ];
-    "vidio/webm" = [ "vlc.desktop" ];
-    "vidio/mkv" = [ "vlc.desktop" ];
+      "video/mp4" = [ "vlc.desktop" ];
+      "video/webm" = [ "vlc.desktop" ];
+      "video/mkv" = [ "vlc.desktop" ];
 
-    "x-sheme-handler/mailto" = [ "proton-mail.desktop" ];
+      "x-sheme-handler/mailto" = [ "proton-mail.desktop" ];
 
-    "text/plain" = [ "emacs.desktop" ];
+      "text/plain" = [ "emacs.desktop" ];
 
+    };
   };
 
   gtk = {
