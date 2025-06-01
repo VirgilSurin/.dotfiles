@@ -37,6 +37,7 @@ in
 
       ../programs/alacritty.nix
       ../programs/rofi.nix
+      ../programs/onagre.nix
       ../programs/wofi.nix
       ../programs/dunst.nix
 
