@@ -37,7 +37,7 @@ in
 
       ../programs/alacritty.nix
       ../programs/rofi.nix
-      ../programs/onagre.nix
+      # ../programs/onagre.nix # options do not exist ??
       ../programs/wofi.nix
       ../programs/dunst.nix
 

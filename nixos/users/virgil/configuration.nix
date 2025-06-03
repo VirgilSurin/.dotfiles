@@ -69,7 +69,7 @@
       };
 
       displayManager.gdm = {
-        enable = false;
+        enable = true;
         wayland = true;
       };
 
@@ -103,7 +103,7 @@
       };
 
       sddm = {
-        enable = true;
+        enable = false;
         wayland.enable = true;
         theme = "where_is_my_sddm_theme";
       };

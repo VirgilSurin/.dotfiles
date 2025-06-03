@@ -50,7 +50,7 @@ mod = "mod4"
 terminal = "alacritty"
 browser = "brave"
 editor = "emacsclient -c -a 'emacs' "
-filemanager = "thunar"
+filemanager = "pcmanfm"
 #+end_src
 
 Here I define the directional key. In case I want to switch layout (QWERTY, COLEMAK-DH, ...).
@@ -325,6 +325,13 @@ layout_theme = {
 #+begin_src python
 layouts = [
     layout.MonadTall(**layout_theme,
+                     name="monadleft",
+                     align=layout.MonadTall._left,
+                     auto_maximize=True,
+                     min_secondary_size=35,
+                     ratio = 0.6,
+                     ),
+    layout.MonadTall(**layout_theme,
                      name="monadright",
                      align=layout.MonadTall._right,
                      auto_maximize=True,
@@ -340,13 +347,10 @@ layouts = [
                    insert_position=1,
                    align=0,
                    ),
-    layout.MonadWide(**layout_theme),
     layout.Max(**layout_theme),
 ]
 
 #+end_src
-
-#+RESULTS:
 
 * Popup menu
 Using qtile-extra we can create popup menu !
