@@ -1,6 +1,8 @@
 { config, pkgs, inputs, lib, fetchFromGitHub, ... }:
 
 {
+  nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
+
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../modules/monitor_switcher.nix
@@ -75,15 +77,7 @@
 
       windowManager.qtile = {
         enable = true;
-        package = pkgs.python313Packages.qtile.overrideAttrs (oldAttrs: rec {
-          version = "0.31.0";
-          src = fetchFromGitHub {
-            owner = "qtile";
-            repo = "qtile";
-            tag = "v${version}";
-            hash = "sha256-EqrvBXigMjevPERTcz3EXSRaZP2xSEsOxjuiJ/5QOz0=";
-          };
-        });
+        package = pkgs.qtile;
         extraPackages = p: with p; [ qtile-extras iwlib dbus-fast ];
       };
 
@@ -185,6 +179,7 @@
   users = {
     users.virgil = {
       isNormalUser = true;
+      shell = pkgs.zsh;
       description = "Virgil Surin";
       extraGroups = [ "audio" "networkmanager" "wheel" "video" "docker" ];
       packages = with pkgs; [

@@ -1,8 +1,6 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 let
-  theme-switcher = pkgs.callPackage ../pkgs/theme-switcher/theme-switcher.nix {};
-  i3-lock = pkgs.callPackage ../pkgs/custom-i3lock/default.nix {};
   myOne = {
     slug = "myOne";
     name = "myOne";
@@ -31,6 +29,7 @@ let
     gtkThemeFromScheme;
 in
 {
+  nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
@@ -59,8 +58,8 @@ in
 
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
-  # colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  colorScheme = myOne;
+  colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  # colorScheme = myOne;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -84,7 +83,6 @@ in
     mpv
     protonmail-desktop
     dwt1-shell-color-scripts
-    i3-lock
     xscreensaver
     # linux utilities
 
@@ -137,7 +135,6 @@ in
     rofi-network-manager
 
     # Hyprland
-    theme-switcher
     networkmanagerapplet
     hyprpaper
     waybar
@@ -152,10 +149,10 @@ in
   ];
 
   xdg.configFile = {
-    "theme-switcher/hyprland/one.conf".source = ../pkgs/theme-switcher/hyprland/one.conf;
-    "theme-switcher/hyprland/gruvbox.conf".source = ../pkgs/theme-switcher/hyprland/gruvbox.conf;
-    "theme-switcher/waybar/one.css".source = ../pkgs/theme-switcher/waybar/one.css;
-    "theme-switcher/waybar/gruvbox.css".source = ../pkgs/theme-switcher/waybar/gruvbox.css;
+    "theme-switcher/hyprland/one.conf".source = ../../pkgs/theme-switcher/hyprland/one.conf;
+    "theme-switcher/hyprland/gruvbox.conf".source = ../../pkgs/theme-switcher/hyprland/gruvbox.conf;
+    "theme-switcher/waybar/one.css".source = ../../pkgs/theme-switcher/waybar/one.css;
+    "theme-switcher/waybar/gruvbox.css".source = ../../pkgs/theme-switcher/waybar/gruvbox.css;
   };
 
   xdg.mimeApps = {
