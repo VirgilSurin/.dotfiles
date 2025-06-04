@@ -30,9 +30,6 @@
         virgil = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
-            {
-              nixpkgs.overlays = builtins.attrValues self.overlays;
-            }
             ./users/virgil/configuration.nix
             inputs.home-manager.nixosModules.default
             inputs.hosts.nixosModule {

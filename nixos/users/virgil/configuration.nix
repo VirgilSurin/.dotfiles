@@ -233,6 +233,7 @@
     spotify
     xorg.xinit
 
+    hello
     libdrm
     mesa
     wayland

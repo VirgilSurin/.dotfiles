@@ -26,7 +26,7 @@
 
     };
 
-    initExtra =  ''
+    initContent =  ''
 vterm_printf() {
     if [ -n "$TMUX" ] \
         && { [ "$\{TERM%%-*}" = "tmux" ] \

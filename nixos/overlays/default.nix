@@ -14,6 +14,14 @@
 
     # for custom modifications to packages (version changes etc)
     modifications = final: prev: {
+      hello = prev.hello.overrideAttrs (oldAttrs: rec {
+        version = "2.10";
+        src = prev.fetchurl {
+          url = "https://ftp.gnu.org/gnu/hello/hello-${version}.tar.gz";
+          sha256 = "";
+        };
+      });
+
       qtile = prev.qtile-unwrapped.overrideAttrs (oldAttrs: rec {
         version = "0.31.0";
         src = prev.fetchFromGitHub {

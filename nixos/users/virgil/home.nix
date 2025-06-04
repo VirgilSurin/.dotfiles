@@ -58,8 +58,8 @@ in
 
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
-  colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  # colorScheme = myOne;
+  # colorScheme = inputs.nix-colors.colorSchemes.everforest;
+  colorScheme = myOne;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -73,18 +73,19 @@ in
     alacritty
     btop
     brave
-    bitwarden
     mullvad-vpn
     emacs-all-the-icons-fonts
     tree-sitter
-    signal-desktop
     vlc
     pcmanfm
     mpv
-    protonmail-desktop
+    unstable.bitwarden
+    unstable.signal-desktop
+    unstable.protonmail-desktop
     dwt1-shell-color-scripts
     xscreensaver
     # linux utilities
+
 
     # wallpaper
     feh
@@ -122,7 +123,7 @@ in
     nix-prefetch
     nix-prefetch-github
     nil
-    nodejs_23
+    nodejs_24
     pyright
     emacsPackages.lsp-pyright
 
