@@ -301,6 +301,18 @@
     via
   ];
 
+  security.pam.services = {
+    i3lock = {
+      enable = true;
+    };
+    i3lock-color = {
+      enable = true;
+    };
+    xscreensaver = {
+      enable = true;
+    };
+  };
+
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
 
