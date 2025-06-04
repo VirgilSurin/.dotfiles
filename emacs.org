@@ -317,6 +317,8 @@ Here are the font related stuff:
 #+begin_src emacs-lisp
 (custom-set-faces! `(doom-gruvbox)
   `(org-block :background ,(doom-color 'base2)))
+(custom-set-faces! `(doom-everforest)
+  `(org-block :background ,(doom-color 'bg-alt)))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
