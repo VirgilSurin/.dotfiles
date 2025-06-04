@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ pkgs }:
 
 {
   theme-switcher = pkgs.callPackage ./theme-switcher/theme-switcher.nix {};
-  i3-lock = pkgs.callPackage ./custom-i3lock/default.nix {};
+  custom-i3lock = pkgs.callPackage ./custom-i3lock/default.nix {};
 }

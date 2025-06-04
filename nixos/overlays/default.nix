@@ -2,7 +2,7 @@
 
 {
   # imports my custom pkgs from the "pkgs" directory
-  # additions = final: _prev: import ../pkgs { pkgs = final; };
+  additions = final: _prev: import ../pkgs { pkgs = final; };
 
   unstable-packages = final: _prev: {
     # accessible through "pkgs.unstable"

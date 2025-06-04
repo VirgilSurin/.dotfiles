@@ -88,6 +88,7 @@ in
 
 
     # wallpaper
+    custom-i3lock
     feh
     picom-pijulius
     waypaper
