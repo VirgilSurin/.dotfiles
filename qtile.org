@@ -590,7 +590,8 @@ def create_widget():
 
 #+begin_src python
 # wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
-wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
+# wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
+wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
 
 #+end_src
 
