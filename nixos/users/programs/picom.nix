@@ -4,7 +4,7 @@
 
   services.picom = {
 
-    enable = false;
+    enable = true;
     package = pkgs.picom-pijulius;
     backend = "glx";
 
@@ -61,6 +61,20 @@
 
     settings = {
       corner-radius = 0;
+      animations = [
+        {
+          triggers = [ "open" "show" ];
+          preset = "fly-in";
+          direction = "left";
+          duration = 0.5;
+        }
+        {
+          triggers = [ "close" "hide" ];
+          preset = "fly-out";
+          direction = "right";
+          duration = 0.3;
+        }
+      ];
     };
 
   };
