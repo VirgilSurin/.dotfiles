@@ -14,8 +14,8 @@
       # python="python3.11";
       # python3="python3.11";
 
-      cfg="sudo nvim /etc/nixos/configuration.nix";
-      nrs="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
+      cfg="doas nvim /etc/nixos/configuration.nix";
+      nrs="doas nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
       hms="home-manager switch";
 
       # Changing "ls" to "exa"

@@ -12,10 +12,10 @@
       # python="python3.11";
       # python3="python3.11";
 
-      cfg="sudo nvim /etc/nixos/configuration.nix";
-      nrs="sudo nixos-rebuild switch";
+      cfg="doas nvim /etc/nixos/configuration.nix";
+      nrs="doas nixos-rebuild switch";
       hms="home-manager switch";
-      rebuild="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
+      rebuild="doas nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
       update="nix flake update";
 
       grep="grep --color=auto";

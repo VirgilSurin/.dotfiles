@@ -243,7 +243,7 @@
   ];
   hardware.keyboard.zsa.enable = true;
 
-  security.sudo.enable = true;
+  security.sudo.enable = false;
   security.doas = {
     enable = true;
     extraRules = [{
