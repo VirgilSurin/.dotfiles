@@ -36,13 +36,14 @@ in
 
       ../programs/alacritty.nix
       ../programs/rofi.nix
-      # ../programs/onagre.nix # options do not exist ??
+      ../programs/onagre.nix # options do not exist ??
       ../programs/wofi.nix
       ../programs/dunst.nix
 
       # ../window_managers/qtile.nix
       # ../window_managers/hyprland.nix
 
+      ../programs/eww.nix
       ../programs/picom.nix
       ../programs/btop.nix
       ../programs/git.nix

@@ -243,9 +243,9 @@
   ];
   hardware.keyboard.zsa.enable = true;
 
-  security.sudo.enable = false;
+  security.sudo.enable = true;
   security.doas = {
-    enable = true;
+    enable = false;
     extraRules = [{
       users = [ "virgil" ];
       keepEnv = true;

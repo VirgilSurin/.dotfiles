@@ -70,9 +70,9 @@ directions = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.run(["systemctl", "--user", "start", "dunst.service"])
-    os.system("waypaper --restore")
-    os.system("xset -dpms")
-    os.system("picom -b")
+    subprocess.run(["waypaper", "--restore"])
+    subprocess.run(["xset", "-dpms"])
+    subprocess.run(["picom", "-b"])
 #+end_src
 
 * Hooks
@@ -177,6 +177,7 @@ keys = [
     Key([mod, "control"], "z", lazy.spawn("xscreensaver-command -lock"), desc="Lock screen with XScreenSaver"),
 
     # Application launchers
+    Key([mod], "g", lazy.spawn("nm-connection-editor"), desc="Launch apps"),
     Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
     Key([mod, "shift"], "p", lazy.spawn("rofi -show run"), desc="Run commands"),
     Key([mod, "control"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
@@ -662,6 +663,7 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="pavucontrol"),  # sound
+        Match(wm_class="nm-connection-editor"),  # sound
         Match(wm_class="crx_nngceckbapebfimnlniiiahkandclblb")
     ]
 )

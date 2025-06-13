@@ -5,6 +5,7 @@
 #+STARTUP: showeverything
 
 #+begin_src conf
+
 backend = "glx";
 
 active-opacity = 1.0;
@@ -20,25 +21,112 @@ fade-out-step = 0.030000;
 
 opacity-rule = [ "80:class_g     = 'Bar'" , "100:class_g    = 'slop'" , "100:class_g    = 'XTerm'" , "100:class_g    = 'URxvt'" , "100:class_g    = 'kitty'" , "100:class_g    = 'Alacritty'" , "80:class_g     = 'Polybar'" , "100:class_g    = 'code-oss'" , "100:class_g    = 'Meld'" , "70:class_g     = 'TelegramDesktop'" , "90:class_g     = 'Joplin'" , "100:class_g    = 'firefox'" , "100:class_g    = 'Thunderbird'" ];
 
-animations = (
+blur = {
+  method = "dual_kawase";  # Available: none, gaussian, box, kernel, dual_kawase
+  size = 10;               # Blur kernel size (for gaussian/box methods)
+  deviation = 5.0;         # Standard deviation for gaussian blur
+  strength = 5;            # Strength for dual_kawase method (0-20)
+}
+
+animations: (
     {
-        triggers = [ "open" ];
-        preset = "appear";
-        duration = 0.1;
-        scale = 0.3;
+        triggers = ["open"];
+        opacity = {
+            duration = 0.2;
+            start = 0;
+            end = 1;
+            timing = "ease-out";
+        };
+        scale-x = {
+            duration = 0.2;
+            start = 0.8;
+            end = 1;
+            timing = "ease-out";
+        };
+        scale-y = {
+            duration = 0.2;
+            start = 0.8;
+            end = 1;
+            timing = "ease-out";
+        };
     },
     {
-        triggers = [ "geometry" ];
-        preset = "geometry-change";
-        duration = 2;
+    triggers = ["close"];
+        opacity = {
+            duration = 0.15;
+            start = 1;
+            end = 0;
+            timing = "ease-in";
+        };
+        scale-x = {
+            duration = 0.15;
+            start = 1;
+            end = 0.8;
+            timing = "ease-in";
+        };
+        scale-y = {
+            duration = 0.15;
+            start = 1;
+            end = 0.8;
+            timing = "ease-in";
+        };
     },
     {
-        triggers = [ "close" ];
-        preset = "disappear";
-        duration = 0.1;
-        scale = 0.3;
+    triggers = ["geometry"];
+        # Smooth sliding effect using offset
+        offset-x = {
+            duration = 0.25;                    # Animation duration in seconds
+            start = "window-x-before - window-x";  # Start from previous position
+            end = 0;                            # End at current position
+            timing = "cubic-bezier(0.25, 0.46, 0.45, 0.94)";  # Smooth easing
+        };
+
+        offset-y = {
+            duration = 0.25;
+            start = "window-y-before - window-y";  # Start from previous position
+            end = 0;                            # End at current position
+            timing = "cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        };
+
+        # Keep shadow synchronized with window movement
+        shadow-offset-x = "offset-x";
+        shadow-offset-y = "offset-y";
+
+        # Optional: Add slight scale effect during movement
+        scale-x = {
+            duration = 0.15;
+            start = 0.98;
+            end = 1.0;
+            timing = "ease-out";
+        };
+
+        scale-y = {
+            duration = 0.15;
+            start = 0.98;
+            end = 1.0;
+            timing = "ease-out";
+        };
     }
 )
+# animations = (
+#     {
+#         triggers = [ "open" ];
+#         preset = "appear";
+#         duration = 0.1;
+#         scale = 0.3;
+#     },
+#     {
+#         triggers = [ "geometry" ];
+#         preset = "geometry-change";
+#         duration = 2;
+#     },
+#     {
+#         triggers = [ "close" ];
+#         preset = "disappear";
+#         duration = 0.1;
+#         scale = 0.3;
+#     }
+# )
 
 
 shadow = true;

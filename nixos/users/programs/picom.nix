@@ -4,7 +4,7 @@
 
   services.picom = {
 
-    enable = true;
+    enable = false;
     package = pkgs.picom-pijulius;
     backend = "glx";
 

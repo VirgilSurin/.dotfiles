@@ -5,17 +5,16 @@
     enable = true;
 
     shellAliases = {
-      hh="echo hello world";
       vi="nvim";
       vim="nvim";
 
       # python="python3.11";
       # python3="python3.11";
 
-      cfg="doas nvim /etc/nixos/configuration.nix";
-      nrs="doas nixos-rebuild switch";
+      cfg="sudo nvim /etc/nixos/configuration.nix";
+      nrs="sudo nixos-rebuild switch";
       hms="home-manager switch";
-      rebuild="doas nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
+      rebuild="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
       update="nix flake update";
 
       grep="grep --color=auto";
