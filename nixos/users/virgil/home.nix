@@ -43,7 +43,7 @@ in
       # ../window_managers/qtile.nix
       # ../window_managers/hyprland.nix
 
-      ../programs/eww.nix
+      # ../programs/eww.nix
       ../programs/picom.nix
       ../programs/btop.nix
       ../programs/git.nix
@@ -85,13 +85,14 @@ in
     unstable.protonmail-desktop
     dwt1-shell-color-scripts
     xscreensaver
-    # linux utilities
 
+    eww
+    pamixer
 
     # wallpaper
     custom-i3lock
     feh
-    picom-pijulius
+    picom
     waypaper
     qimgv # for images
     alsa-utils # for audio
@@ -111,6 +112,7 @@ in
     nerd-fonts.fira-code
     nerd-fonts.fira-mono
     nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
     nerd-fonts.symbols-only
     zip
     unzip
@@ -132,14 +134,14 @@ in
     # Audio
     pavucontrol
     pulseaudio
+    mpc
+    playerctl
     # wifi and bluetooth
     rofi-bluetooth
     wirelesstools
     rofi-network-manager
 
-    # Hyprland
     networkmanagerapplet
-    hyprpaper
     waybar
     wofi
     swaylock

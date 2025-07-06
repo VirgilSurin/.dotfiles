@@ -93,6 +93,12 @@
     };
   };
 
+  programs.sway = {
+    enable = true;
+    package = pkgs.swayfx;
+    wrapperFeatures.gtk = true;
+  };
+
   programs.hyprland = {
     enable = true;
   };
@@ -206,11 +212,6 @@
     libinput
     seatd
     wlroots
-
-    # for usb
-    usbutils
-    udiskie
-    udisks
 
     # qt5
     libsForQt5.qt5.qtquickcontrols2
