@@ -69,10 +69,11 @@ directions = {
 #+begin_src python
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.run(["systemctl", "--user", "start", "dunst.service"])
-    subprocess.run(["waypaper", "--restore"])
-    subprocess.run(["xset", "-dpms"])
-    subprocess.run(["picom", "-b"])
+    subprocess.Popen(["systemctl", "--user", "start", "dunst.service"])
+    subprocess.Popen(["waypaper", "--restore"])
+    subprocess.Popen(["xset", "-dpms"])
+    subprocess.Popen(["picom", "-b"])
+    subprocess.Popen(["eww", "daemon"])
 #+end_src
 
 * Hooks
@@ -325,6 +326,16 @@ layout_theme = {
 
 #+begin_src python
 layouts = [
+    layout.Columns(**layout_theme,
+                   border_on_single = True,
+                   border_focus_stack = colors["magenta"],
+                   border_normal_stack = colors["bg"],
+                   num_columns=2,
+                   initial_ratio=1.75,
+                   insert_position=1,
+                   align=0,
+                   ),
+    layout.Max(**layout_theme),
     layout.MonadTall(**layout_theme,
                      name="monadright",
                      align=layout.MonadTall._right,
@@ -339,16 +350,6 @@ layouts = [
                      min_secondary_size=35,
                      ratio = 0.6,
                      ),
-    layout.Columns(**layout_theme,
-                   border_on_single = True,
-                   border_focus_stack = colors["magenta"],
-                   border_normal_stack = colors["bg"],
-                   num_columns=2,
-                   initial_ratio=1.75,
-                   insert_position=1,
-                   align=0,
-                   ),
-    layout.Max(**layout_theme),
 ]
 
 #+end_src
