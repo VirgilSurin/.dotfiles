@@ -247,6 +247,8 @@ This code block represents the `package.el` file needed for doom emacs. It speci
 (package! cdlatex)
 (package! lsp-ltex)
 
+(package! yuck-mode)
+
 (package! tree-sitter)
 
 (package! eldoc-box)
@@ -422,6 +424,10 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
                "e" #'evil-window-down
                "i" #'evil-window-up
                "o" #'evil-window-right
+               "N" #'+evil/window-move-left
+               "E" #'+evil/window-move-down
+               "I" #'+evil/window-move-up
+               "O" #'+evil/window-move-right
       ))
 
 (map! :n "t" 'evil-insert
