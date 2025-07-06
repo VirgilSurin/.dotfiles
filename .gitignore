@@ -14,3 +14,4 @@ smex-items
 /.emacs.d/url/
 /.emacs.d/workspace/
 /qtile/__pycache__/
+/media/
