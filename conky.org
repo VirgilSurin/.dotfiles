@@ -26,14 +26,14 @@ conky.config = {
     imlib_cache_size = 0,                -- disable image cache to get a new spotify cover per song
 
     -- Placement
-    alignment = 'top_right',             -- top_left, top_middle, top_right, bottom_left, bottom_middle, bottom_right
+    alignment = 'top_left',             -- top_left, top_middle, top_right, bottom_left, bottom_middle, bottom_right
     gap_x = 50,                          -- pixels between right or left border
     gap_y = 70,                          -- pixels between bottom or left border
+    xinerama_head = 0,
 
     -- Size
     minimum_height = 200,                -- minimum height of window
     minimum_width = 260,                 -- minimum width of window
-    maximum_width = 260,                 -- maximum width of window
 
     -- Graphical
     border_inner_margin = 5,             -- margin between border and text
@@ -55,10 +55,7 @@ conky.config = {
 
     -- Textual
     format_human_readable = true,        -- KiB, MiB rather than number of bytes
-    font = 'Source Code Pro:bold:size=10', -- the default font used
-    font2 = 'Raleway:bold:size=30',      -- font for the time
-    font3 = 'Ubuntu:size=14',            -- font for the date
-    font4 = 'Raleway:bold:size=9',       -- font for the keybindings heading
+    font = 'JetBrainsMono Nerd Font:SemiBold:size=10', -- the default font used
     max_text_width = 0,                  -- 0 will make sure line does not get broken if width too small
     max_user_text = 16384,               -- max text in conky default 16384
     override_utf8_locale = true,         -- force UTF8 requires xft
@@ -82,40 +79,60 @@ conky.config = {
     own_window_hints = 'undecorated,below,above,sticky,skip_taskbar,skip_pager', -- if own_window true - just hints
 
     -- Colors (Doom One theme)
+    default_color = '#bbc2cf',           -- fg color
     color0 = '#c678dd',                  -- purple for headings (magenta)
     color1 = '#bbc2cf',                  -- foreground for text (fg)
     color2 = '#51afef',                  -- blue for bars
     color3 = '#98be65',                  -- green for titles
+    color4 = '#e06c75',                  -- red for accent
+    color5 = '#d19a66',                  -- orange for highlights
 };
 
 conky.text = [[
-${alignc}${color0}${font2}${time %H:%M}${font}
-${voffset 6}${alignc}${color0}${font3}${time %b %d, %Y}${font}${color}
-${voffset 18}${goto 12}${color3}CPU${goto 50}${cpu}%
-${color2}${goto 12}${cpubar 8,254}
-${voffset 5}${goto 12}${font}${color1}${top name 1}${alignr}${color}${top cpu 1}%
-${goto 12}${color1}${top name 2}${alignr}${color}${top cpu 2}%
-${goto 12}${color1}${top name 3}${alignr}${color}${top cpu 3}%
-${voffset 14}${goto 12}${color3}RAM${goto 50}${mem}/${memmax}
-${color2}${goto 12}${membar 8,254}${color}
-${goto 12}${voffset 5}${color1}${top_mem name 1}${alignr}${color}${top_mem mem_res 1}
-${goto 12}${color1}${top_mem name 2}${alignr}${color}${top_mem mem_res 2}
-${goto 12}${color1}${top_mem name 3}${alignr}${color}${top_mem mem_res 3}
-${voffset 18}${color1}${alignc}${font4}KEYBINDINGS${font}${color}
-${color1}${hr}${color}
-${color1}[S]+p${alignr}${color2}run prompt${color}
-${color1}[S]+[SHIFT]+p${alignr}${color2}run command${color}
-${color1}[S]+[SHIFT]+m${alignr}${color2}monitor config${color}
-${color1}[S]+[CTRL]+m${alignr}${color2}calculator${color}
-${color1}[PrtSc]${alignr}${color2}take screenshot${color}
-${color1}${hr}${color}
-${color1}[S]+[RET]${alignr}${color2}open terminal${color}
-${color1}[S]+b${alignr}${color2}open browser${color}
-${color1}[S]+x${alignr}${color2}open emacs${color}
-${color1}[S]+m${alignr}${color2}open file manager${color}
-${color1}${hr}${color}
-${color1}[S]+[CTRL]+z${alignr}${color2}lock screen${color}
-${color1}[S]+[CTRL]+q${alignr}${color2}quit Qtile${color}
-${color1}[S]+[CTRL]+f${alignr}${color2}reload config${color}
+#------------+
+# Distro     |
+#------------+
+${voffset 10}
+${color3}${font Ubuntu Mono:bold:size=12}SYSTEM INFO${font}
+${color4}${hr 1}
+${color1}User: ${color2}${exec whoami}
+${color1}Distro: ${color2}${exec cat /etc/os-release | grep "PRETTY_NAME" | cut -d'"' -f2}
+${color1}Kernel: ${color2}${kernel}
+${color1}Architecture: ${color2}${machine}
+${color4}${hr 1}
+#------------+
+# CPU        |
+#------------+
+${color1}CPU: ${color2}${exec cat /proc/cpuinfo | grep "model name" | head -1 | cut -d: -f2 | sed 's/^[ \t]*//' | cut -c1-25}
+${color1}Load: ${color2}${execpi 2 vmstat 1 2 | tail -1 | awk '{print 100-$15"%"}'} ${color1}Temp: ${color2}${exec sensors | grep "Package id 0" | cut -d: -f2 | cut -d'(' -f1 | xargs || sensors | grep "Tctl" | cut -d: -f2 | cut -d'(' -f1 | xargs || echo "N/A"}
+${color1}Frequency: ${color2}${exec cat /proc/cpuinfo | grep "cpu MHz" | head -1 | cut -d: -f2 | awk '{printf "%.0f MHz", $1}'}
+${color1}Uptime: ${color2}${uptime}
+${color}${goto 13}C01: ${goto 51}${color3}${cpu cpu1}% ${goto 101}${color3}${cpubar cpu1 12,60}${goto 170}${color}C09: ${goto 208}${color3}${cpu cpu9}% ${goto 268}${color3}${cpubar cpu9 12,60}
+${color}${goto 13}C02: ${goto 51}${color3}${cpu cpu2}% ${goto 101}${color3}${cpubar cpu2 12,60}${goto 170}${color}C10: ${goto 208}${color3}${cpu cpu10}% ${goto 268}${color3}${cpubar cpu10 12,60}
+${color}${goto 13}C03: ${goto 51}${color3}${cpu cpu3}% ${goto 101}${color3}${cpubar cpu3 12,60}${goto 170}${color}C11: ${goto 208}${color3}${cpu cpu11}% ${goto 268}${color3}${cpubar cpu11 12,60}
+${color}${goto 13}C04: ${goto 51}${color3}${cpu cpu4}% ${goto 101}${color3}${cpubar cpu4 12,60}${goto 170}${color}C12: ${goto 208}${color3}${cpu cpu12}% ${goto 268}${color3}${cpubar cpu12 12,60}
+${color}${goto 13}C05: ${goto 51}${color3}${cpu cpu5}% ${goto 101}${color3}${cpubar cpu5 12,60}${goto 170}${color}C13: ${goto 208}${color3}${cpu cpu13}% ${goto 268}${color3}${cpubar cpu13 12,60}
+${color}${goto 13}C06: ${goto 51}${color3}${cpu cpu6}% ${goto 101}${color3}${cpubar cpu6 12,60}${goto 170}${color}C14: ${goto 208}${color3}${cpu cpu14}% ${goto 268}${color3}${cpubar cpu14 12,60}
+${color}${goto 13}C07: ${goto 51}${color3}${cpu cpu7}% ${goto 101}${color3}${cpubar cpu7 12,60}${goto 170}${color}C15: ${goto 208}${color3}${cpu cpu15}% ${goto 268}${color3}${cpubar cpu15 12,60}
+${color}${goto 13}C08: ${goto 51}${color3}${cpu cpu8}% ${goto 101}${color3}${cpubar cpu8 12,60}${goto 170}${color}C16: ${goto 208}${color3}${cpu cpu16}% ${goto 268}${color3}${cpubar cpu16 12,60}
+#------------+
+# Storage    |
+#------------+
+${color1}RAM Use/Free:${goto 148}${color4}$mem ${color4} ${goto 220}${membar 15,100} $alignr${color}${memeasyfree}
+${color1}Linux Root:${goto 148}${color4}${fs_used /} ${color4} ${goto 220}${fs_bar 15,100 /} $alignr${color}${fs_free /}
+${color1}${if_mounted /mnt/old}Broken 16.04:${goto 148}${color4} ${fs_used /mnt/old} ${color4} ${goto 220}${fs_bar 15,100 /mnt/old} $alignr${color}${fs_free /mnt/old}${else}Cache RAM:${goto 148}${color green}${cached} ${color1} ${alignr}Buffers: ${color green} ${buffers}${endif}
+${color orange}${voffset 2}${hr 1}
+#------------+
+# Network    |
+#------------+
+${color1}Network
+# vnstatd updates database every five minutes
+${execi 300 vnstat -i wlp6s0 | grep "today" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 110}${execi 300 vnstat -i wlp6s0 | grep "yesterday" | awk '{print $8" "substr ($9, 1, 1)}'} ${goto 220}${execi 300 vnstat -i wlp6s0 -w | grep "current week" | awk '{print $9" "substr ($10, 1, 1)}'} ${goto 315}${execi 300 vnstat -i wlp6s0 -m | grep "`date +"%b '%y"`" | awk '{print $9" "substr ($10, 1, 1)}'}
+${color}Down: ${color green}${downspeed wlp6s0}/s ${color}${goto 220}Up: ${color green}${upspeed wlp6s0}/s
+${downspeedgraph wlp6s0 25,190 000000 ff0000} ${alignr}${upspeedgraph wlp6s0 25,190 000000 00ff00}$color
+Total: ${color green}${totaldown wlp6s0} $color${alignr}Total: ${color green}${totalup wlp6s0}
+#Bit Rate:$color ${wireless_bitrate wlp60s0}
 ]]
 #+end_src
+
+#+RESULTS:
