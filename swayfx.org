@@ -1,0 +1,237 @@
+#+title: Swayfx
+#+AUTHOR: Virgil Surin
+#+PROPERTY: header-args :tangle ~/.config/sway/config
+#+auto_tangle: t
+
+#+begin_src conf
+# SwayFX Configuration
+# Based on your Qtile config
+
+### Variables ###
+set $mod Mod4
+set $terminal alacritty
+set $browser brave
+set $editor emacsclient -c -a 'emacs'
+set $filemanager pcmanfm
+set $menu rofi -show drun
+
+# Directional keys (Colemak-DH layout)
+set $left n
+set $right o
+set $up i
+set $down e
+
+### Theme Colors ###
+# Based on your "One" theme
+set $bg #282c34
+set $fg #bbc2cf
+set $black #1c1f24
+set $white #dfdfdf
+set $red #ff6c6b
+set $green #98be65
+set $orange #da8548
+set $blue #51afef
+set $magenta #c678dd
+set $cyan #46d9ff
+set $purple #a9a1e1
+
+# Window borders
+default_border pixel 2
+default_floating_border pixel 2
+gaps inner 8
+
+# Window colors
+# class                 border  backgr. text    indicator child_border
+client.focused          $cyan   $bg     $fg     $cyan     $cyan
+client.focused_inactive $black  $bg     $fg     $black    $black
+client.unfocused        $black  $bg     $fg     $black    $black
+client.urgent           $red    $bg     $fg     $red      $red
+
+### Autostart ###
+exec systemctl --user start dunst.service
+exec waypaper --restore
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+
+# Update D-Bus activation environment
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+
+# Set desktop environment
+exec export XDG_CURRENT_DESKTOP=sway
+exec export XDG_SESSION_TYPE=wayland
+
+### Alternative: Disable Portal if Still Having Issues ###
+# If portals continue to cause problems, uncomment this line:
+# exec export GTK_USE_PORTAL=0
+bar {
+    swaybar_command waybar
+}
+
+# SwayFX specific effects (optional)
+blur enable
+blur_xray disable
+blur_passes 2
+blur_radius 5
+corner_radius 0
+shadows enable
+shadow_blur_radius 2
+shadow_color #000000FF
+
+
+### Output configuration ###
+# Example: output * bg ~/.dotfiles/wallpapers/mountain_uw.jpg stretch
+output * bg ~/.dotfiles/wallpapers/mountain_uw.jpg stretch
+
+### Idle configuration ###
+# This replaces xscreensaver functionality
+exec swayidle -w \
+    timeout 300 'swaylock -f' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f'
+
+### Key bindings ###
+
+# Window focus movement
+bindsym $mod+$left focus left
+bindsym $mod+$right focus right
+bindsym $mod+$up focus up
+bindsym $mod+$down focus down
+
+# Window movement
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$right move right
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$down move down
+
+# Window resizing
+bindsym $mod+Control+$left resize shrink width 10px
+bindsym $mod+Control+$right resize grow width 10px
+bindsym $mod+Control+$up resize shrink height 10px
+bindsym $mod+Control+$down resize grow height 10px
+
+# Split containers
+bindsym $mod+Shift+Return split toggle
+
+# Container layout
+bindsym $mod+Tab layout toggle split tabbed stacking
+
+# Toggle floating
+bindsym $mod+v floating toggle
+bindsym $mod+Shift+v fullscreen toggle
+
+# Focus between tiling/floating
+bindsym $mod+space focus mode_toggle
+
+# Parent/child container focus
+bindsym $mod+g focus parent
+bindsym $mod+Shift+g focus child
+
+# Special window sizing (similar to grow/shrink in Qtile)
+bindsym $mod+equal resize grow width 10px
+bindsym $mod+minus resize shrink width 10px
+
+# Screen/Output focus
+bindsym $mod+y focus output right
+bindsym $mod+Shift+y focus output left
+
+# Audio controls
+bindsym XF86AudioMute exec amixer -q set Master toggle
+bindsym XF86AudioLowerVolume exec amixer sset Master 5%-
+bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
+
+# Brightness controls
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+
+# System commands
+bindsym $mod+Control+f reload
+bindsym $mod+Control+q exec swaynag -t warning -m 'Exit Sway?' -B 'Yes' 'swaymsg exit'
+bindsym $mod+Control+z exec swaylock
+
+# Application launchers
+bindsym $mod+p exec wofi -show drun
+bindsym $mod+Shift+p exec rofi -show run
+bindsym $mod+Return exec $terminal
+bindsym $mod+b exec $browser
+bindsym $mod+Control+b exec zsh -c 'rofi -dmenu -p "Search DuckDuckGo:" -lines 0 | xargs -I{} brave "https://www.duckduckgo.com/?q={}"'
+bindsym $mod+x exec $editor
+bindsym $mod+q kill
+bindsym $mod+m exec $filemanager
+bindsym Print exec grim -g "$(slurp)" - | wl-copy
+
+### Workspaces ###
+# Define workspaces with names matching your Qtile setup
+set $ws1 "1:a: "
+set $ws2 "2:r:󰖟"
+set $ws3 "3:s:󰈙"
+set $ws4 "4:t:"
+set $ws5 "5:l:󰍦"
+set $ws6 "6:u:󰓇"
+
+# Switch to workspace
+bindsym $mod+a workspace $ws1
+bindsym $mod+r workspace $ws2
+bindsym $mod+s workspace $ws3
+bindsym $mod+t workspace $ws4
+bindsym $mod+l workspace $ws5
+bindsym $mod+u workspace $ws6
+
+# Move focused container to workspace
+bindsym $mod+Shift+a move container to workspace $ws1; workspace $ws1
+bindsym $mod+Shift+r move container to workspace $ws2; workspace $ws2
+bindsym $mod+Shift+s move container to workspace $ws3; workspace $ws3
+bindsym $mod+Shift+t move container to workspace $ws4; workspace $ws4
+bindsym $mod+Shift+l move container to workspace $ws5; workspace $ws5
+bindsym $mod+Shift+u move container to workspace $ws6; workspace $ws6
+
+# Move to workspace without switching
+bindsym $mod+Control+a move container to workspace $ws1
+bindsym $mod+Control+r move container to workspace $ws2
+bindsym $mod+Control+s move container to workspace $ws3
+bindsym $mod+Control+t move container to workspace $ws4
+bindsym $mod+Control+l move container to workspace $ws5
+bindsym $mod+Control+u move container to workspace $ws6
+
+# Workspace assignments
+assign [app_id="signal"] $ws5
+assign [class="Signal"] $ws5
+assign [class="Spotify"] $ws6
+assign [app_id="spotify"] $ws6
+
+### Window Rules ###
+# Floating windows
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [title="Picture-in-Picture"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [title="branchdialog"] floating enable
+for_window [title="pinentry"] floating enable
+for_window [app_id="confirmreset"] floating enable
+for_window [app_id="makebranch"] floating enable
+for_window [app_id="maketag"] floating enable
+for_window [app_id="ssh-askpass"] floating enable
+
+### Input configuration ###
+# Example for keyboard layout
+input type:keyboard {
+    xkb_layout us
+    # For Colemak-DH, uncomment:
+    # xkb_variant colemak_dh
+}
+
+### Resize mode ###
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Control+m mode "resize"
+
+#+end_src
