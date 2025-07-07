@@ -28,15 +28,13 @@ let
             systemctl reboot
             ;;
         $lock)
-            ${if config.programs.i3lock.enable then "i3lock" else "loginctl lock-session"}
+            custom-i3lock
             ;;
         $suspend)
             systemctl suspend
             ;;
         $logout)
-            ${if config.xsession.windowManager.i3.enable then "i3-msg exit"
-              else if config.wayland.windowManager.hyprland.enable then "hyprctl dispatch exit"
-              else "loginctl terminate-user $USER"}
+              loginctl terminate-user $USER
             ;;
     esac
   '';
