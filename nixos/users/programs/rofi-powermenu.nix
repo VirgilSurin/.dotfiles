@@ -5,37 +5,93 @@ let
 
   powerMenuScript = pkgs.writeShellScriptBin "rofi-powermenu" ''
     #!/usr/bin/env bash
+uptime="`uptime -p | sed -e 's/up //g'`"
+host=`hostname`
+rofi_cmd() {
+  rofi -dmenu \
+    -p "$host" \
+    -mesg "Uptime: $uptime" \
+    -theme ~/.config/rofi/powermenu.rasi
+}
 
-    # Power Menu Options
-    shutdown="󰐥"
-    reboot=""
-    lock=""
-    suspend="󰤄"
-    logout="󰿅"
+# Confirmation CMD
+confirm_cmd() {
+  rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 250px;}' \
+    -theme-str 'mainbox {children: [ "message", "listview" ];}' \
+    -theme-str 'listview {columns: 2; lines: 1;}' \
+    -theme-str 'element-text {horizontal-align: 0.5;}' \
+    -theme-str 'textbox {horizontal-align: 0.5;}' \
+    -dmenu \
+    -p 'Confirmation' \
+    -mesg 'Are you Sure?' \
+    -theme ~/.config/rofi/powermenu.rasi
+}
 
-    # Create options string
-    options="$shutdown\n$reboot\n$lock\n$suspend\n$logout"
+# Ask for confirmation
+confirm_exit() {
+  yes="Yes"
+  no="No"
+  echo -e "$yes\n$no" | confirm_cmd
+}
 
-    # Show menu and get choice
-    chosen="$(echo -e "$options" | rofi -dmenu -theme ~/.config/rofi/powermenu.rasi -p "⏻ Power Menu")"
+# Pass variables to rofi dmenu
+run_rofi() {
+  echo -e "$lock\n$suspend\n$logout\n$reboot\n$shutdown" | rofi_cmd
+}
 
-    case $chosen in
-        $shutdown)
-            systemctl poweroff
-            ;;
-        $reboot)
-            systemctl reboot
-            ;;
-        $lock)
-            custom-i3lock
-            ;;
-        $suspend)
-            systemctl suspend
-            ;;
-        $logout)
-              loginctl terminate-user $USER
-            ;;
-    esac
+# Execute Command
+run_cmd() {
+  selected="$(confirm_exit)"
+  if [[ "$selected" == "$yes" ]]; then
+    if [[ $1 == '--shutdown' ]]; then
+      systemctl poweroff
+    elif [[ $1 == '--reboot' ]]; then
+      systemctl reboot
+    elif [[ $1 == '--suspend' ]]; then
+      mpc -q pause
+      amixer set Master mute
+      systemctl suspend
+    elif [[ $1 == '--logout' ]]; then
+      if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+        openbox --exit
+      elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+        bspc quit
+      elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+        i3-msg exit
+      elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
+        qdbus org.kde.ksmserver /KSMServer logout 0 0 0
+      elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+        qtile cmd-obj -o cmd -f shutdown
+      fi
+    fi
+  else
+    exit 0
+  fi
+}
+
+# Actions
+chosen="$(run_rofi)"
+case $\{chosen} in
+    $shutdown)
+    run_cmd --shutdown
+        ;;
+    $reboot)
+    run_cmd --reboot
+        ;;
+    $lock)
+    if [[ -x '/usr/bin/betterlockscreen' ]]; then
+      betterlockscreen -l
+    elif [[ -x '/usr/bin/i3lock' ]]; then
+      custom-i3lock
+    fi
+        ;;
+    $suspend)
+    run_cmd --suspend
+        ;;
+    $logout)
+    run_cmd --logout
+        ;;
+esac
   '';
 
   powerMenuTheme = {
