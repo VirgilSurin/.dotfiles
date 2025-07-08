@@ -7,6 +7,13 @@ let
     #!/usr/bin/env bash
 uptime="`uptime -p | sed -e 's/up //g'`"
 host=`hostname`
+shutdown='󰐥 Shutdown'
+reboot='󰜉 Reboot'
+lock='󰌾 Lock'
+suspend='󰒲 Suspend'
+logout='󰿅 Logout'
+yes='󰄬 Yes'
+no=' No'
 rofi_cmd() {
   rofi -dmenu \
     -p "$host" \
@@ -29,8 +36,6 @@ confirm_cmd() {
 
 # Ask for confirmation
 confirm_exit() {
-  yes="Yes"
-  no="No"
   echo -e "$yes\n$no" | confirm_cmd
 }
 
@@ -127,25 +132,25 @@ esac
 
     "mainbox" = {
       enabled          = true;
-      spacing          = mkLiteral "15px";
+      spacing          = mkLiteral "0px";
       margin           = mkLiteral "0px";
-      padding          = mkLiteral "30px";
+      padding          = mkLiteral "20px";
       border           = mkLiteral "0px solid";
       border-radius    = mkLiteral "0px";
       border-color     = mkLiteral "@border-colour";
       background-color = mkLiteral "transparent";
-      children         = mkLiteral "[ \"inputbar\", \"listview\" ]";
+      children         = mkLiteral "[ \"inputbar\", \"message\", \"listview\" ]";
     };
 
     "inputbar" = {
       enabled          = true;
-      spacing          = mkLiteral "10px";
-      margin           = mkLiteral "0px 0px 20px 0px";
-      padding          = mkLiteral "15px";
+      spacing          = mkLiteral "0px";
+      margin           = mkLiteral "0px";
+      padding          = mkLiteral "0px";
       border           = mkLiteral "0px solid";
-      border-radius    = mkLiteral "8px";
+      border-radius    = mkLiteral "0px";
       border-color     = mkLiteral "@border-colour";
-      background-color = mkLiteral "@alternate-background";
+      background-color = mkLiteral "transparent";
       text-color       = mkLiteral "@foreground-colour";
       children         = mkLiteral "[ \"prompt\" ]";
     };
@@ -154,6 +159,17 @@ esac
       enabled          = true;
       background-color = mkLiteral "inherit";
       text-color       = mkLiteral "inherit";
+    };
+
+    "message" = {
+      enabled          = true;
+      margin           = mkLiteral "0px";
+      padding          = mkLiteral "0px";
+      border           = mkLiteral "0px solid";
+      border-radius    = mkLiteral "0px";
+      border-color     = mkLiteral "@border-colour";
+      background-color = mkLiteral "transparent";
+      text-color       = mkLiteral "@foreground-colour";
     };
 
     "listview" = {
@@ -167,7 +183,7 @@ esac
       reverse          = false;
       fixed-height     = true;
       fixed-columns    = true;
-      spacing          = mkLiteral "10px";
+      spacing          = mkLiteral "5px";
       margin           = mkLiteral "0px";
       padding          = mkLiteral "0px";
       border           = mkLiteral "0px solid";
@@ -180,11 +196,11 @@ esac
 
     "element" = {
       enabled          = true;
-      spacing          = mkLiteral "15px";
+      spacing          = mkLiteral "0px";
       margin           = mkLiteral "0px";
-      padding          = mkLiteral "15px";
+      padding          = mkLiteral "10px";
       border           = mkLiteral "0px solid";
-      border-radius    = mkLiteral "8px";
+      border-radius    = mkLiteral "10px";
       border-color     = mkLiteral "@border-colour";
       background-color = mkLiteral "transparent";
       text-color       = mkLiteral "@foreground-colour";
@@ -199,7 +215,7 @@ esac
     "element selected.normal" = {
       background-color = mkLiteral "var(selected-normal-background)";
       text-color       = mkLiteral "var(selected-normal-foreground)";
-      border-radius    = mkLiteral "8px";
+      border-radius    = mkLiteral "10px";
     };
 
     "element-text" = {
