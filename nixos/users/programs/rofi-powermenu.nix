@@ -120,10 +120,11 @@ esac
       width            = mkLiteral "400px";
       x-offset         = mkLiteral "0px";
       y-offset         = mkLiteral "0px";
+
       enabled          = true;
       margin           = mkLiteral "0px";
       padding          = mkLiteral "0px";
-      border           = mkLiteral "2px solid";
+      border           = mkLiteral "1px solid";
       border-radius    = mkLiteral "12px";
       border-color     = mkLiteral "@border-colour";
       cursor           = mkLiteral "default";
@@ -132,7 +133,7 @@ esac
 
     "mainbox" = {
       enabled          = true;
-      spacing          = mkLiteral "0px";
+      spacing          = mkLiteral "10px";
       margin           = mkLiteral "0px";
       padding          = mkLiteral "20px";
       border           = mkLiteral "0px solid";
@@ -144,7 +145,7 @@ esac
 
     "inputbar" = {
       enabled          = true;
-      spacing          = mkLiteral "0px";
+      spacing          = mkLiteral "10px";
       margin           = mkLiteral "0px";
       padding          = mkLiteral "0px";
       border           = mkLiteral "0px solid";
@@ -152,25 +153,56 @@ esac
       border-color     = mkLiteral "@border-colour";
       background-color = mkLiteral "transparent";
       text-color       = mkLiteral "@foreground-colour";
-      children         = mkLiteral "[ \"prompt\" ]";
+      children         = mkLiteral "[ \"textbox-prompt-colon\", \"prompt\" ]";
+    };
+
+    "textbox-prompt-colon" = {
+      enabled          = true;
+      expand           = false;
+      str              = "";
+      padding          = mkLiteral "10px 14px";
+      border-radius    = mkLiteral "10px";
+      background-color = mkLiteral "@urgent";
+      text-color       = mkLiteral "@background-colour";
     };
 
     "prompt" = {
       enabled          = true;
-      background-color = mkLiteral "inherit";
-      text-color       = mkLiteral "inherit";
+      padding          = mkLiteral "10px";
+      border-radius    = mkLiteral "10px";
+      background-color = mkLiteral "@background-colour";
+      text-color       = mkLiteral "@foreground-colour";
     };
 
     "message" = {
       enabled          = true;
       margin           = mkLiteral "0px";
-      padding          = mkLiteral "0px";
+      padding          = mkLiteral "10px";
       border           = mkLiteral "0px solid";
-      border-radius    = mkLiteral "0px";
-      border-color     = mkLiteral "@border-colour";
-      background-color = mkLiteral "transparent";
+      border-radius    = mkLiteral "10px";
+      border-color     = mkLiteral "@selected-normal-background";
+      background-color = mkLiteral "@alternate-background";
       text-color       = mkLiteral "@foreground-colour";
     };
+
+    "textbox" = {
+      background-color  = mkLiteral "inherit";
+      text-color        = mkLiteral "inherit";
+      vertical-align    = mkLiteral "0.5";
+      horizontal-align  = mkLiteral "0.0";
+      placeholder-color = mkLiteral "@foreground-colour";
+      blink             = true;
+      markup            = true;
+    };
+
+    "error-message" = {
+        padding          = mkLiteral "10px";
+        border           = mkLiteral "0px solid";
+        border-radius    = mkLiteral "0px";
+        border-color     = mkLiteral "@selected-normal-background";
+        background-color = mkLiteral "@background-colour";
+        text-color       = mkLiteral "@foreground-colour";
+      };
 
     "listview" = {
       enabled          = true;
@@ -183,12 +215,13 @@ esac
       reverse          = false;
       fixed-height     = true;
       fixed-columns    = true;
+
       spacing          = mkLiteral "5px";
       margin           = mkLiteral "0px";
       padding          = mkLiteral "0px";
       border           = mkLiteral "0px solid";
       border-radius    = mkLiteral "0px";
-      border-color     = mkLiteral "@border-colour";
+      border-color     = mkLiteral "@selected-normal-background";
       background-color = mkLiteral "transparent";
       text-color       = mkLiteral "@foreground-colour";
       cursor           = mkLiteral "default";
@@ -201,27 +234,20 @@ esac
       padding          = mkLiteral "10px";
       border           = mkLiteral "0px solid";
       border-radius    = mkLiteral "10px";
-      border-color     = mkLiteral "@border-colour";
+      border-color     = mkLiteral "@selected-normal-background";
       background-color = mkLiteral "transparent";
       text-color       = mkLiteral "@foreground-colour";
       cursor           = mkLiteral "pointer";
     };
 
-    "element normal.normal" = {
-      background-color = mkLiteral "var(normal-background)";
-      text-color       = mkLiteral "var(normal-foreground)";
-    };
-
     "element selected.normal" = {
       background-color = mkLiteral "var(selected-normal-background)";
       text-color       = mkLiteral "var(selected-normal-foreground)";
-      border-radius    = mkLiteral "10px";
     };
 
     "element-text" = {
       background-color = mkLiteral "transparent";
       text-color       = mkLiteral "inherit";
-      highlight        = mkLiteral "inherit";
       cursor           = mkLiteral "inherit";
       vertical-align   = mkLiteral "0.5";
       horizontal-align = mkLiteral "0.5";
