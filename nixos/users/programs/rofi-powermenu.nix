@@ -5,7 +5,7 @@ let
 
   powerMenuScript = pkgs.writeShellScriptBin "rofi-powermenu" ''
     #!/usr/bin/env bash
-uptime="`uptime -p | sed -e 's/up //g'`"
+uptime="`uptime | awk '{print $1}'`"
 host=`hostname`
 shutdown='󰐥 Shutdown'
 reboot='󰜉 Reboot'
@@ -102,14 +102,16 @@ esac
   powerMenuTheme = {
     "*" = {
       border-colour               = mkLiteral "#${config.colorScheme.palette.base08}";
-      handle-colour               = mkLiteral "#${config.colorScheme.palette.base08}";
+      handle-colour               = mkLiteral "#${config.colorScheme.palette.base0E}";
       background-colour           = mkLiteral "#${config.colorScheme.palette.base00}";
       foreground-colour           = mkLiteral "#${config.colorScheme.palette.base05}";
       alternate-background        = mkLiteral "#${config.colorScheme.palette.base01}";
       normal-background           = mkLiteral "#${config.colorScheme.palette.base00}";
-      normal-foreground           = mkLiteral "#${config.colorScheme.palette.base05}";
+      normal-foreground           = mkLiteral "#${config.colorScheme.palette.base07}";
       selected-normal-background  = mkLiteral "#${config.colorScheme.palette.base08}";
       selected-normal-foreground  = mkLiteral "#${config.colorScheme.palette.base00}";
+      colour1                     = mkLiteral "#${config.colorScheme.palette.base0B}";
+      colour2                     = mkLiteral "#${config.colorScheme.palette.base0D}";
     };
 
     "window" = {
@@ -159,10 +161,10 @@ esac
     "textbox-prompt-colon" = {
       enabled          = true;
       expand           = false;
-      str              = "";
-      padding          = mkLiteral "10px 14px";
-      border-radius    = mkLiteral "10px";
-      background-color = mkLiteral "@urgent";
+      str              = " ";
+      padding          = mkLiteral "10px 18px";
+      border-radius    = mkLiteral "14px";
+      background-color = mkLiteral "@handle-colour";
       text-color       = mkLiteral "@background-colour";
     };
 
@@ -170,8 +172,8 @@ esac
       enabled          = true;
       padding          = mkLiteral "10px";
       border-radius    = mkLiteral "10px";
-      background-color = mkLiteral "@background-colour";
-      text-color       = mkLiteral "@foreground-colour";
+      background-color = mkLiteral "@colour1";
+      text-color       = mkLiteral "@background-colour";
     };
 
     "message" = {
@@ -182,7 +184,7 @@ esac
       border-radius    = mkLiteral "10px";
       border-color     = mkLiteral "@selected-normal-background";
       background-color = mkLiteral "@alternate-background";
-      text-color       = mkLiteral "@foreground-colour";
+      text-color       = mkLiteral "@normal-foreground";
     };
 
     "textbox" = {
@@ -238,11 +240,20 @@ esac
       background-color = mkLiteral "transparent";
       text-color       = mkLiteral "@foreground-colour";
       cursor           = mkLiteral "pointer";
+      children         = mkLiteral "[ \"element-icon\", \"element-text\" ]";
     };
 
     "element selected.normal" = {
-      background-color = mkLiteral "var(selected-normal-background)";
-      text-color       = mkLiteral "var(selected-normal-foreground)";
+      background-color = mkLiteral "@colour2";
+      text-color       = mkLiteral "@selected-normal-foreground";
+    };
+
+    "element-icon" = {
+      background-color = mkLiteral "transparent";
+      text-color       = mkLiteral "inherit";
+      cursor           = mkLiteral "inherit";
+      vertical-align   = mkLiteral "0.5";
+      horizontal-align = mkLiteral "0.0";
     };
 
     "element-text" = {
@@ -250,7 +261,7 @@ esac
       text-color       = mkLiteral "inherit";
       cursor           = mkLiteral "inherit";
       vertical-align   = mkLiteral "0.5";
-      horizontal-align = mkLiteral "0.5";
+      horizontal-align = mkLiteral "0.0";
     };
   };
 
