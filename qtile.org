@@ -314,8 +314,8 @@ Some default settings to ensure consistent theming among every layout used.
 
 #+begin_src python
 layout_theme = {
-    "border_width": 3,
-    "margin": 6,
+    "border_width": 2,
+    "margin": 4,
     "border_focus": colors["cyan"],
     "border_normal": colors["black"]
 }
@@ -485,17 +485,17 @@ def create_widget():
             foreground = colors["orange"],
             scale = 0.5,
             use_mask = True,
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         widget.CurrentLayout(
             foreground = colors["orange"],
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         sep_bar,
         widget.WindowName(
             max_chars = 32,
             foreground = colors["blue"],
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.UnitStatus(
@@ -503,7 +503,7 @@ def create_widget():
             foreground = colors["cyan"],
             label = " emacs",
             unit_name = "emacs.service",
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.KeyboardLayout(
@@ -514,7 +514,7 @@ def create_widget():
             },
             foreground = colors["orange"],
             fmt = "⌨ {}",
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.WiFiIcon(
@@ -527,7 +527,7 @@ def create_widget():
             mouse_callbacks={
                 "Button1": lazy.spawn("rofi-network-manager")
             },
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         # widget.Wlan(
         #     disconnected_message = "disconnected",
@@ -551,7 +551,7 @@ def create_widget():
             mouse_callbacks={
                 'Button1': lazy.spawn("pavucontrol")
             },
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         # widget.UPowerWidget(
@@ -568,13 +568,14 @@ def create_widget():
         widget.Battery(
             foreground = colors["green"],
             format = "  {percent:2.0%}",
-            **widget_defaults,
+            full_short_text = "  100%",
+            ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.Clock(
             foreground = colors["blue"],
             format = "⏱ %a, %d %b - %H:%M ",
-            **widget_defaults,
+            ,**widget_defaults,
         ),
         #widget.Systray(
         #    padding = 3,
