@@ -89,6 +89,7 @@ in
 
     eww
     pamixer
+    cachix
 
     # wallpaper
     custom-i3lock

@@ -3,7 +3,6 @@
 let
   inherit (config.lib.formats.rasi) mkLiteral;
 
-  # Power menu script
   powerMenuScript = pkgs.writeShellScriptBin "rofi-powermenu" ''
     #!/usr/bin/env bash
 
@@ -160,11 +159,10 @@ let
   formatRasiTheme = theme:
     let
       formatRasiValue = value:
-        if lib.isString value then
-          if lib.hasPrefix "mkLiteral " value then
-            lib.removePrefix "mkLiteral " value
-          else
-            ''"${value}"''
+        if lib.isAttrs value && value ? _type && value._type == "literal" then
+          value.value
+        else if lib.isString value then
+          ''"${value}"''
         else if lib.isBool value then
           if value then "true" else "false"
         else if lib.isInt value then

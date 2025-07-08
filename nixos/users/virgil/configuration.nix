@@ -187,6 +187,11 @@
   system.autoUpgrade.dates = "weekly";
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.auto-optimise-store = true;
+  nix.settings = {
+    substituters = [ "https://claude-code.cachix.org" ];
+    trusted-public-keys = [ "claude-code.cachix.org-1:YeXf2aNu7UTX8Vwrze0za1WEDS+4DuI2kVeWEE4fsRk=" ];
+    trusted-users = [ "root" "virgil" ];
+  };
   nix.gc = {
     automatic = true;
     dates = "weekly";
