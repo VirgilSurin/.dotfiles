@@ -51,6 +51,7 @@ terminal = "alacritty"
 browser = "brave"
 editor = "emacsclient -c -a 'emacs' "
 filemanager = "pcmanfm"
+lock = "custom-i3lock"
 #+end_src
 
 Here I define the directional key. In case I want to switch layout (QWERTY, COLEMAK-DH, ...).
@@ -175,7 +176,7 @@ keys = [
     Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "shift"], "f", lazy.restart(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod, "control"], "z", lazy.spawn("xscreensaver-command -lock"), desc="Lock screen with XScreenSaver"),
+    Key([mod, "control"], "z", lazy.spawn(lock), desc="Lock screen with XScreenSaver"),
 
     # Application launchers
     Key([mod], "g", lazy.spawn("nm-connection-editor"), desc="Launch apps"),
@@ -362,7 +363,7 @@ def create_menu():
     menu_items = [
         ("Shutdown now", lazy.spawn("shutdown now")),
         ("Screenshot", lazy.spawn("flameshot gui")),
-        ("Lock", lazy.spawn("xscreensaver-command -lock")),
+        ("Lock", lazy.spawn(lock)),
     ]
 
     menu = PopupRelativeLayout(
