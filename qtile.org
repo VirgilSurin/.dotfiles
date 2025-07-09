@@ -15,7 +15,6 @@
 - [[#themes][Themes]]
 - [[#default-settings-for-all-layouts][Default Settings For All Layouts]]
 - [[#layouts][Layouts]]
-- [[#popup-menu][Popup menu]]
 - [[#default-settings-for-all-widgets][Default Settings For All Widgets]]
 - [[#widgets][Widgets]]
 - [[#wallpaper][Wallpaper]]
@@ -101,7 +100,7 @@ def start_xscreensaver():
     except Exception as e:
         print(f"Error starting XScreenSaver: {e}")
 
-start_xscreensaver()
+# start_xscreensaver()
 #+end_src
 
 * Keybindings
@@ -355,44 +354,6 @@ layouts = [
 
 #+end_src
 
-* Popup menu
-Using qtile-extra we can create popup menu !
-
-#+begin_src python
-def create_menu():
-    menu_items = [
-        ("Shutdown now", lazy.spawn("shutdown now")),
-        ("Screenshot", lazy.spawn("flameshot gui")),
-        ("Lock", lazy.spawn(lock)),
-    ]
-
-    menu = PopupRelativeLayout(
-        width = 200,
-        height = len(menu_items) * 30 + 10,
-        controls = [
-            PopupText(
-                text = item[0],
-                pos_x = 0.1,
-                pos_y = (i * 30 + 10) / (len(menu_items) * 30 + 10),
-                width = 0.8,
-                height = 25 / (len(menu_items) * 30 + 10),
-                mouse_callbacks = {"Button1": item[1]}
-            )
-            for i, item in enumerate(menu_items)
-        ],
-        background = colors["bg"],
-        border_width = 2,
-        border = colors["blue"],
-        margin = 2,
-        initial_focus = None,
-    )
-    return menu
-
-def show_menu(qtile):
-    menu = create_menu()
-    menu.show(qtile=qtile, centered=True)
-#+end_src
-
 * Default Settings For All Widgets
 
 Some function and default settings for the widgets.
@@ -435,7 +396,7 @@ def create_widget():
             foreground = colors["blue"],
             padding=10,
             mouse_callbacks={
-                'Button1': lazy.function(show_menu)
+                'Button1': lazy.spawn("rofi-powermenu")
             },
         ),
         widget.Spacer(length=4),

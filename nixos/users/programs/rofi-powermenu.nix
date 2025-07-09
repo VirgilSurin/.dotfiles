@@ -21,23 +21,6 @@ rofi_cmd() {
     -theme ~/.config/rofi/powermenu.rasi
 }
 
-# Confirmation CMD
-confirm_cmd() {
-  rofi -theme-str 'window {location: center; anchor: center; fullscreen: false; width: 250px;}' \
-    -theme-str 'mainbox {children: [ "message", "listview" ];}' \
-    -theme-str 'listview {columns: 2; lines: 1;}' \
-    -theme-str 'element-text {horizontal-align: 0.5;}' \
-    -theme-str 'textbox {horizontal-align: 0.5;}' \
-    -dmenu \
-    -p 'Confirmation' \
-    -mesg 'Are you Sure?' \
-    -theme ~/.config/rofi/powermenu.rasi
-}
-
-# Ask for confirmation
-confirm_exit() {
-  echo -e "$yes\n$no" | confirm_cmd
-}
 
 # Pass variables to rofi dmenu
 run_rofi() {
@@ -46,37 +29,32 @@ run_rofi() {
 
 # Execute Command
 run_cmd() {
-  selected="$(confirm_exit)"
-  if [[ "$selected" == "$yes" ]]; then
-    if [[ $1 == '--shutdown' ]]; then
-      systemctl poweroff
-    elif [[ $1 == '--reboot' ]]; then
-      systemctl reboot
-    elif [[ $1 == '--suspend' ]]; then
-      mpc -q pause
-      amixer set Master mute
-      systemctl suspend
-    elif [[ $1 == '--logout' ]]; then
-      if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
-        openbox --exit
-      elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
-        bspc quit
-      elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
-        i3-msg exit
-      elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
-        qdbus org.kde.ksmserver /KSMServer logout 0 0 0
-      elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
-        qtile cmd-obj -o cmd -f shutdown
-      fi
+  if [[ $1 == '--shutdown' ]]; then
+    systemctl poweroff
+  elif [[ $1 == '--reboot' ]]; then
+    systemctl reboot
+  elif [[ $1 == '--suspend' ]]; then
+    mpc -q pause
+    amixer set Master mute
+    systemctl suspend
+  elif [[ $1 == '--logout' ]]; then
+    if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+      openbox --exit
+    elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
+      bspc quit
+    elif [[ "$DESKTOP_SESSION" == 'i3' ]]; then
+      i3-msg exit
+    elif [[ "$DESKTOP_SESSION" == 'plasma' ]]; then
+      qdbus org.kde.ksmserver /KSMServer logout 0 0 0
+    elif [[ "$DESKTOP_SESSION" == 'qtile' ]]; then
+      qtile cmd-obj -o cmd -f shutdown
     fi
-  else
-    exit 0
   fi
 }
 
 # Actions
 chosen="$(run_rofi)"
-case $\{chosen} in
+case $chosen in
     $shutdown)
     run_cmd --shutdown
         ;;
@@ -84,11 +62,7 @@ case $\{chosen} in
     run_cmd --reboot
         ;;
     $lock)
-    if [[ -x '/usr/bin/betterlockscreen' ]]; then
-      betterlockscreen -l
-    elif [[ -x '/usr/bin/i3lock' ]]; then
-      custom-i3lock
-    fi
+    custom-i3lock
         ;;
     $suspend)
     run_cmd --suspend
@@ -116,12 +90,12 @@ esac
 
     "window" = {
       transparency     = "real";
-      location         = mkLiteral "center";
-      anchor           = mkLiteral "center";
+      location         = mkLiteral "northwest";
+      anchor           = mkLiteral "northwest";
       fullscreen       = false;
       width            = mkLiteral "400px";
-      x-offset         = mkLiteral "0px";
-      y-offset         = mkLiteral "0px";
+      x-offset         = mkLiteral "12px";
+      y-offset         = mkLiteral "35px";
 
       enabled          = true;
       margin           = mkLiteral "0px";
@@ -139,7 +113,7 @@ esac
       margin           = mkLiteral "0px";
       padding          = mkLiteral "20px";
       border           = mkLiteral "0px solid";
-      border-radius    = mkLiteral "0px";
+      border-radius    = mkLiteral "12px";
       border-color     = mkLiteral "@border-colour";
       background-color = mkLiteral "transparent";
       children         = mkLiteral "[ \"inputbar\", \"message\", \"listview\" ]";
@@ -161,16 +135,16 @@ esac
     "textbox-prompt-colon" = {
       enabled          = true;
       expand           = false;
-      str              = " ";
-      padding          = mkLiteral "10px 18px";
-      border-radius    = mkLiteral "14px";
-      background-color = mkLiteral "@handle-colour";
-      text-color       = mkLiteral "@background-colour";
+      str              = "";
+      padding          = mkLiteral "4px 8px";
+      border-radius    = mkLiteral "10px";
+      background-color = mkLiteral "transparent";
+      text-color       = mkLiteral "@handle-colour";
     };
 
     "prompt" = {
       enabled          = true;
-      padding          = mkLiteral "10px";
+      padding          = mkLiteral "4px";
       border-radius    = mkLiteral "10px";
       background-color = mkLiteral "@colour1";
       text-color       = mkLiteral "@background-colour";
@@ -179,7 +153,7 @@ esac
     "message" = {
       enabled          = true;
       margin           = mkLiteral "0px";
-      padding          = mkLiteral "10px";
+      padding          = mkLiteral "4px";
       border           = mkLiteral "0px solid";
       border-radius    = mkLiteral "10px";
       border-color     = mkLiteral "@selected-normal-background";
@@ -198,7 +172,7 @@ esac
     };
 
     "error-message" = {
-        padding          = mkLiteral "10px";
+        padding          = mkLiteral "4px";
         border           = mkLiteral "0px solid";
         border-radius    = mkLiteral "0px";
         border-color     = mkLiteral "@selected-normal-background";
@@ -218,7 +192,7 @@ esac
       fixed-height     = true;
       fixed-columns    = true;
 
-      spacing          = mkLiteral "5px";
+      spacing          = mkLiteral "2px";
       margin           = mkLiteral "0px";
       padding          = mkLiteral "0px";
       border           = mkLiteral "0px solid";
@@ -233,7 +207,7 @@ esac
       enabled          = true;
       spacing          = mkLiteral "0px";
       margin           = mkLiteral "0px";
-      padding          = mkLiteral "10px";
+      padding          = mkLiteral "2px";
       border           = mkLiteral "0px solid";
       border-radius    = mkLiteral "10px";
       border-color     = mkLiteral "@selected-normal-background";
