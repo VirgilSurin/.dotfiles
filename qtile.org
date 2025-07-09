@@ -179,8 +179,8 @@ keys = [
 
     # Application launchers
     Key([mod], "g", lazy.spawn("nm-connection-editor"), desc="Launch apps"),
-    Key([mod], "p", lazy.spawn("rofi -show drun"), desc="Launch apps"),
-    Key([mod, "shift"], "p", lazy.spawn("rofi -show run"), desc="Run commands"),
+    Key([mod], "p", lazy.spawn("rofi -show drun -hover-select -me-select-entry MouseDPrimary -me-accept-entry MousePrimary"), desc="Launch apps"),
+    Key([mod, "shift"], "p", lazy.spawn("rofi -show run -hover-select -me-select-entry MouseDPrimary -me-accept-entry MousePrimary"), desc="Run commands"),
     Key([mod, "control"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
     Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),

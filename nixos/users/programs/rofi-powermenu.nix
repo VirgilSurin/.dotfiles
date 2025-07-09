@@ -18,7 +18,10 @@ rofi_cmd() {
   rofi -dmenu \
     -p "$host" \
     -mesg "Uptime: $uptime" \
-    -theme ~/.config/rofi/powermenu.rasi
+    -theme ~/.config/rofi/powermenu.rasi \
+    -hover-select\
+    -me-select-entry MouseDPrimary\
+    -me-accept-entry MousePrimary
 }
 
 
