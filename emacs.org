@@ -408,6 +408,8 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       :nmv "o" 'evil-forward-char
       :nmv "f" 'evil-forward-word-end
       :nmv "F" 'evil-forward-WORD-end
+      :nmv "<down>" 'evil-next-visual-line
+      :nmv "<up>" 'evil-previous-visual-line
       )
 
 ;; To do some small move in insert mode
