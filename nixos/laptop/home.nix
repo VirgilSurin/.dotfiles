@@ -34,28 +34,28 @@ in
   imports = [
       inputs.nix-colors.homeManagerModules.default
 
-      ../programs/alacritty.nix
-      ../programs/rofi.nix
-      ../programs/rofi-powermenu.nix
-      ../programs/onagre.nix # options do not exist ??
-      ../programs/wofi.nix
-      ../programs/dunst.nix
+      ../modules/alacritty.nix
+      ../modules/rofi.nix
+      ../modules/rofi-powermenu.nix
+      ../modules/onagre.nix # options do not exist ??
+      ../modules/wofi.nix
+      ../modules/dunst.nix
 
       # ../window_managers/qtile.nix
       # ../window_managers/hyprland.nix
 
-      # ../programs/eww.nix
-      ../programs/picom.nix
-      ../programs/btop.nix
-      ../programs/git.nix
-      ../programs/fish.nix
-      ../programs/zsh.nix
-      ../programs/bash.nix
-      ../programs/zoxide.nix
-      ../programs/eza.nix
-      ../programs/zathura.nix
-      ../programs/autorandr.nix
-      ../programs/sioyek.nix
+      # ../modules/eww.nix
+      ../modules/picom.nix
+      ../modules/btop.nix
+      ../modules/git.nix
+      ../modules/fish.nix
+      ../modules/zsh.nix
+      ../modules/bash.nix
+      ../modules/zoxide.nix
+      ../modules/eza.nix
+      ../modules/zathura.nix
+      ../modules/autorandr.nix
+      ../modules/sioyek.nix
   ];
 
 
@@ -70,22 +70,15 @@ in
 
 
   home.packages = with pkgs; [
-    base16-schemes
     texlive.combined.scheme-full
-    alacritty
     btop
     brave
-    mullvad-vpn
-    emacs-all-the-icons-fonts
-    tree-sitter
-    vlc
     pcmanfm
     mpv
     unstable.bitwarden
     unstable.signal-desktop
     unstable.protonmail-desktop
     dwt1-shell-color-scripts
-    xscreensaver
 
     eww
     pamixer
@@ -93,7 +86,9 @@ in
 
     # wallpaper
     custom-i3lock
-    feh
+    discord
+    keymapp
+    spotify
     picom
     waypaper
     qimgv # for images
@@ -105,33 +100,11 @@ in
     libvterm
     fzf
     brightnessctl
-    fd
-    imagemagick
-    scrot
-    nerd-fonts.ubuntu
-    nerd-fonts.ubuntu-sans
-    nerd-fonts.ubuntu-mono
-    nerd-fonts.fira-code
-    nerd-fonts.fira-mono
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.iosevka
-    nerd-fonts.symbols-only
     zip
     unzip
-    xclip
-    xdotool
-    xorg.xprop
-    xorg.xwininfo
     arandr
     flameshot
     conky
-
-    nix-prefetch
-    nix-prefetch-github
-    nil
-    nodejs_24
-    pyright
-    emacsPackages.lsp-pyright
 
     # Audio
     pavucontrol
@@ -152,15 +125,9 @@ in
     wl-clipboard
     nwg-displays
     nwg-panel
+    vlc
 
   ];
-
-  xdg.configFile = {
-    "theme-switcher/hyprland/one.conf".source = ../../pkgs/theme-switcher/hyprland/one.conf;
-    "theme-switcher/hyprland/gruvbox.conf".source = ../../pkgs/theme-switcher/hyprland/gruvbox.conf;
-    "theme-switcher/waybar/one.css".source = ../../pkgs/theme-switcher/waybar/one.css;
-    "theme-switcher/waybar/gruvbox.css".source = ../../pkgs/theme-switcher/waybar/gruvbox.css;
-  };
 
   xdg.mimeApps = {
     enable = true;

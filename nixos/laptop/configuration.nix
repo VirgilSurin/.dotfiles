@@ -3,60 +3,25 @@
 {
   nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
 
-  imports = [ # Include the results of the hardware scan.
+  imports = [
     ./hardware-configuration.nix
-    ../modules/monitor_switcher.nix
+    ../modules/common_config.nix
     inputs.home-manager.nixosModules.default
-    inputs.nix-colors.homeManagerModules.default
-    # inputs.hosts.nixosModules.default
   ];
 
-  colorScheme = inputs.nix-colors.colorSchemes.onedark;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  commonConfig = {
+    enable = true;
+    hostname = "VS-Coruscant";
+  };
 
   boot.initrd.secrets = { "/crypto_keyfile.bin" = null;
   };
-
-  boot.supportedFilesystems = [ "ntfs" ];
-
-  networking.hostName = "VS-chimaera";
-  networking.networkmanager.enable = true;
-  systemd.services.NetworkManager-wait-online.enable = pkgs.lib.mkForce false;
-
-  time.timeZone = "Europe/Brussels";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "fr_BE.UTF-8";
-    LC_IDENTIFICATION = "fr_BE.UTF-8";
-    LC_MEASUREMENT = "fr_BE.UTF-8";
-    LC_MONETARY = "fr_BE.UTF-8";
-    LC_NAME = "fr_BE.UTF-8";
-    LC_NUMERIC = "fr_BE.UTF-8";
-    LC_PAPER = "fr_BE.UTF-8";
-    LC_TELEPHONE = "fr_BE.UTF-8";
-    LC_TIME = "fr_BE.UTF-8";
-  };
-
-  virtualisation.docker.enable = true;
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "virgil" ];
-
-  services.hardware.bolt.enable = true;
 
   services = {
     libinput.enable = true;
     libinput.touchpad.naturalScrolling = true;
 
     xserver = {
-      enable = true;
-      xkb = {
-        layout = "us,us";
-        variant = "altgr-intl,colemak_dh";
-        options = "caps:ctrl_modifier";
-      };
 
       displayManager.gdm = {
         enable = true;
@@ -68,13 +33,6 @@
         package = pkgs.qtile;
         extraPackages = p: with p; [ qtile-extras iwlib dbus-fast ];
       };
-
-      desktopManager.gnome.enable = false;
-    };
-
-    monitor-switcher = {
-      enable = true;
-      profiles = [ "laptop" "home" "mobile-portrait" "common" ];
     };
 
     displayManager = {
@@ -93,12 +51,6 @@
     };
   };
 
-  programs.sway = {
-    enable = true;
-    package = pkgs.swayfx;
-    wrapperFeatures.gtk = true;
-  };
-
   programs.hyprland = {
     enable = true;
   };
@@ -113,10 +65,6 @@
       enable = true;
     };
   };
-
-  services.printing.enable = true;
-
-  services.power-profiles-daemon.enable = false;
 
   services.logind.extraConfig = "IdleAction=ignore";
 
@@ -136,26 +84,8 @@
     };
   };
 
-  services.pulseaudio.enable = true;
-  nixpkgs.config.pulseaudio = true;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = false;
-    # jack.enable = true;
-  };
 
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
-
-  services.fprintd = {
-    enable = false;
-    tod.enable = true;
-    tod.driver = pkgs.libfprint-2-tod1-vfs0090;
-  };
-
-  programs.steam.enable = false;
-
-  programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
   users = {
     users.virgil = {
@@ -183,47 +113,29 @@
     "keymapp"
   ];
 
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.dates = "weekly";
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.auto-optimise-store = true;
   nix.settings = {
     substituters = [ "https://claude-code.cachix.org" ];
     trusted-public-keys = [ "claude-code.cachix.org-1:YeXf2aNu7UTX8Vwrze0za1WEDS+4DuI2kVeWEE4fsRk=" ];
     trusted-users = [ "root" "virgil" ];
   };
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 10d";
-  };
 
   environment.systemPackages = with pkgs; [
-    discord
-    slack
-    wget
+    vim
+    alacritty
+    # emacs stuff
     git
-    neovim
-    tlp
-    home-manager
-    keymapp
-    spotify
+    ripgrep
+    coreutils
+    fd
+    cmake
+    clang
+    libtool
+    libvterm
+  ];
 
-    libdrm
-    mesa
-    wayland
-    libxkbcommon
-    pixman
-    libinput
-    seatd
-    wlroots
-
-    # qt5
-    libsForQt5.qt5.qtquickcontrols2
-    libsForQt5.qt5.qtgraphicaleffects
-    libsForQt5.qt5.qtsvg
-    libsForQt5.breeze-gtk
-    libsForQt5.breeze-icons
+  fonts.packages = with pkgs; [
+    nerd-fonts.ubuntu
+    nerd-fonts.jetbrains-mono
   ];
 
   qt = {
@@ -243,22 +155,6 @@
     blockSocial = false;
   };
 
-  services.udev.packages = with pkgs; [
-    vial
-    via
-  ];
-  hardware.keyboard.zsa.enable = true;
-
-  security.sudo.enable = true;
-  security.doas = {
-    enable = false;
-    extraRules = [{
-      users = [ "virgil" ];
-      keepEnv = true;
-      persist = true;
-    }];
-  };
-
   security.pam.services = {
     i3lock = {
       enable = true;
@@ -270,10 +166,6 @@
       enable = true;
     };
   };
-
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
 
   system.stateVersion = "23.05"; # DO NOT CHANGE
 
