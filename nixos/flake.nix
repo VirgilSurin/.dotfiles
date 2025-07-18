@@ -16,10 +16,18 @@
   };
   outputs = { self, nixpkgs, ... }@inputs:
     {
-
       overlays = import ./overlays {inherit inputs;};
 
       nixosConfigurations = {
+
+        home = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./home/configuration.nix
+            inputs.home-manager.nixosModules.default
+          ];
+        };
+
         laptop = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
