@@ -5,7 +5,7 @@ let
 in
 {
   options.commonConfig = {
-    enable = lib.mkEnableOpion "enable common config module";
+    enable = lib.mkEnableOption "enable common config module";
 
     hostname = lib.mkOption {
       default = "VS-generic-name";
@@ -44,44 +44,44 @@ in
       LC_TELEPHONE = "fr_BE.UTF-8";
       LC_TIME = "fr_BE.UTF-8";
     };
-  };
 
-  services = {
-    xserver = {
-      enable = true;
-      xkb.layout = "us";
-      xkb.variant = "altgr-intl";
-      xkb.options = "caps:ctrl_modifier";
+    services = {
+      xserver = {
+        enable = true;
+        xkb.layout = "us";
+        xkb.variant = "altgr-intl";
+        xkb.options = "caps:ctrl_modifier";
+      };
+
+      printing.enable = true;
+
+      pipewire = {
+        enable = true;
+      };
     };
 
-    printing.enable = true;
-
-    pipewire = {
-      enable = true;
+    system.autoUpgrade.enable = true;
+    system.autoUpgrade.dates = "weekly";
+    nix = {
+      settings.experimental-features = [ "nix-command" "flakes" ];
+      settings.auto-optimise-store = true;
+      gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 10d";
+      };
     };
+
+    services.udev.packages = with pkgs; [
+      vial
+      via
+    ];
+    hardware.keyboard.zsa.enable = true;
+
+    hardware.enableAllFirmware = true;
+    hardware.enableRedistributableFirmware = true;
+
+    hardware.bluetooth.enable = true;
+
   };
-
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.dates = "weekly";
-  nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-    settings.auto-optimise-store = true;
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 10d";
-    };
-  };
-
-  services.udev.packages = with pkgs; [
-    vial
-    via
-  ];
-  hardware.keyboard.zsa.enable = true;
-
-  hardware.enableAllFirmware = true;
-  hardware.enableRedistributableFirmware = true;
-
-  hardware.bluetooth.enable = true;
-
 }
