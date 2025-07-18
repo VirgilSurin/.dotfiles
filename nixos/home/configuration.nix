@@ -26,11 +26,15 @@
   };
   services.desktopManager.plasma6.enable = true;
 
-   users.users.virgil = {
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
+  users.users.virgil = {
     isNormalUser = true;
+    shell = pkgs.zsh;
+    description = "Virgil Surin";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      brave
+      firefox
     ];
   };
 
@@ -54,6 +58,7 @@
     coreutils
     fd
     cmake
+    gnumake
     clang
     libtool
     libvterm
@@ -76,7 +81,10 @@
     enable = true;
     package = pkgs.emacs-gtk;
   };
-  
+
+  programs.steam = {
+    enable = true;
+  };
 
   system.stateVersion = "25.05"; # NEVER CHANGE THIS
 

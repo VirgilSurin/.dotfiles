@@ -87,6 +87,7 @@
   security.rtkit.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
+  programs.zsh.enable = true;
   users = {
     users.virgil = {
       isNormalUser = true;
