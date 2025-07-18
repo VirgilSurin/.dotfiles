@@ -72,7 +72,6 @@ in
   home.packages = with pkgs; [
     texlive.combined.scheme-full
     btop
-    brave
     pcmanfm
     mpv
     unstable.bitwarden
@@ -86,8 +85,6 @@ in
 
     # wallpaper
     custom-i3lock
-    discord
-    keymapp
     spotify
     picom
     waypaper

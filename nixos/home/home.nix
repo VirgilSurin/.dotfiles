@@ -13,16 +13,13 @@
       ../modules/zoxide.nix
   ];
 
-  colorScheme = inputs.nix-colors.colorSchemes.one-dark;
+  colorScheme = inputs.nix-colors.colorSchemes.onedark;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
   home.stateVersion = "25.05";
 
   home.packages = with pkgs; [
-    discord
-    keymapp
-    spotify
     vlc
     qimgv
     unstable.bitwarden
@@ -30,7 +27,7 @@
     unstable.protonmail-desktop
 
     dwt1-shell-color-scripts
-    nvim
+    neovim
   ];
 
   xdg.mimeApps = {

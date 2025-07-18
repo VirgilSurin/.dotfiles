@@ -15,29 +15,37 @@
     hosts.url = "github:StevenBlack/hosts";
   };
   outputs = { self, nixpkgs, ... }@inputs:
-    {
-      overlays = import ./overlays {inherit inputs;};
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    in
+      {
 
-      nixosConfigurations = {
+        overlays = import ./overlays {inherit inputs;};
 
-        home = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./home/configuration.nix
-            inputs.home-manager.nixosModules.default
-          ];
-        };
+        nixosConfigurations = {
 
-        laptop = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./laptop/configuration.nix
-            inputs.home-manager.nixosModules.default
-            inputs.hosts.nixosModule {
-              networking.stevenBlackHosts.enable = true;
-            }
-          ];
+          home = nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs pkgs system; };
+            modules = [
+              ./home/configuration.nix
+              inputs.home-manager.nixosModules.default
+            ];
+          };
+
+          laptop = nixpkgs.lib.nixosSystem {
+            specialArgs = { inherit inputs pkgs system; };
+            modules = [
+              ./laptop/configuration.nix
+              inputs.home-manager.nixosModules.default
+              inputs.hosts.nixosModule {
+                networking.stevenBlackHosts.enable = true;
+              }
+            ];
+          };
         };
       };
-    };
 }

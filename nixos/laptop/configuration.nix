@@ -94,7 +94,7 @@
       description = "Virgil Surin";
       extraGroups = [ "audio" "networkmanager" "wheel" "video" "docker" ];
       packages = with pkgs; [
-        firefox
+        brave
       ];
     };
   };
@@ -107,11 +107,11 @@
   backupFileExtension = "backup-$(date +%Y%m%d)";
   };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "discord"
-    "keymapp"
-  ];
+  # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+  #   "discord"
+  #   "keymapp"
+  # ];
 
   nix.settings = {
     substituters = [ "https://claude-code.cachix.org" ];
@@ -120,6 +120,9 @@
   };
 
   environment.systemPackages = with pkgs; [
+    discord
+    spotify
+    keymapp
     vim
     alacritty
     # emacs stuff

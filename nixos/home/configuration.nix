@@ -39,9 +39,13 @@
     users = {
       "virgil" = import ./home.nix;
     };
+    backupFileExtension = "backup-$(date +%Y%m%d)";
   };
 
   environment.systemPackages = with pkgs; [
+    discord
+    spotify
+    keymapp
     vim
     alacritty
     # emacs stuff
@@ -58,15 +62,6 @@
   fonts.packages = with pkgs; [
     nerd-fonts.ubuntu
     nerd-fonts.jetbrains-mono
-  ];
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "broadcom-sta-6.30.223.271-57-6.12.38"
-  ];
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "discord"
-    "keymapp"
   ];
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
