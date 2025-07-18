@@ -231,6 +231,7 @@ This code block represents the `package.el` file needed for doom emacs. It speci
 (package! one-themes)
 (package! atom-one-dark-theme)
 (package! gruvbox-theme)
+(package! rainbow-delimiters)
 
 (package! smooth-scrolling)
 
