@@ -241,6 +241,8 @@ This code block represents the `package.el` file needed for doom emacs. It speci
 
 (package! direnv)
 
+(package! rainbow-mode)
+
 (package! org-mime)
 (package! org-auto-tangle)
 ;; (package! org-roam-ui)
@@ -295,10 +297,14 @@ Here are some sane default settings.
 * Theming
 Some theme configurations.
 #+begin_src emacs-lisp
-(setq! doom-gruvbox-dark-variant "hard")
+(setq! doom-gruvbox-dark-variant "hard"
+       doom-gruvbox-light-variant "medium"
+       doom-everforest-light-background "hard"
+       doom-everforest-light-palette "mix")
+
 
 ;; set `doom-theme'
-(setq! doom-theme 'doom-one)
+(setq! doom-theme 'doom-everforest-light)
 ;; (setq! doom-theme 'doom-one)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
@@ -322,6 +328,8 @@ Here are the font related stuff:
   `(org-block :background ,(doom-color 'base2)))
 (custom-set-faces! `(doom-everforest)
   `(org-block :background ,(doom-color 'bg-alt)))
+(custom-set-faces! `(doom-everforest-light)
+  `(region :background ,(doom-color 'base2)))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
@@ -358,6 +366,13 @@ I am not sure if this is needed so I let it commented out just in case.
       evil-visual-state-cursor '("#c6d3ab" hollow)
       evil-replace-state-cursor '("#c6d3ab" hbar)
       )
+#+end_src
+
+Rainbow mode!
+
+#+begin_src emacs-lisp
+(after! rainbow-mode
+  :hook (prog-mode . rainbow-mode))
 #+end_src
 
 * Keybinding
@@ -401,8 +416,34 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       "M-o" #'evil-window-right
       "M-w" #'evil-window-delete
       "M-W" #'delete-other-windows
-      :nv "I" 'evil-ex-search-previous
-      :nv "E" 'evil-ex-search-next
+      :nmv "I" 'evil-ex-search-previous
+      :nmv "E" 'evil-ex-search-next
+      :nmv "n" 'evil-backward-char
+      :nmv "e" 'evil-next-visual-line
+      :nmv "i" 'evil-previous-visual-line
+      :nmv "o" 'evil-forward-char
+      :nmv "f" 'evil-forward-word-end
+      :nmv "F" 'evil-forward-WORD-end
+      :nmv "<down>" 'evil-next-visual-line
+      :nmv "<up>" 'evil-previous-visual-line
+      )
+
+(map! :map 'magit-mode-map
+      :nmv "n" 'evil-backward-char
+      :nmv "e" 'evil-next-visual-line
+      :nmv "i" 'evil-previous-visual-line
+      :nmv "o" 'evil-forward-char
+      )
+
+(map! :map 'evil-org-mode-map
+      "M-n" #'evil-window-left
+      "M-e" #'evil-window-down
+      "M-i" #'evil-window-up
+      "M-o" #'evil-window-right
+      "M-w" #'evil-window-delete
+      "M-W" #'delete-other-windows
+      :nmv "I" 'evil-ex-search-previous
+      :nmv "E" 'evil-ex-search-next
       :nmv "n" 'evil-backward-char
       :nmv "e" 'evil-next-visual-line
       :nmv "i" 'evil-previous-visual-line
@@ -421,6 +462,12 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       "C-i" #'evil-previous-visual-line
       )
 
+(map! :map 'pdf-view-mode-map
+      :nmv "n" 'image-backward-hscroll
+      :nmv "e" 'pdf-view-next-line-or-next-page
+      :nmv "i" 'pdf-view-previous-line-or-previous-page
+      :nmv "o" 'image-forward-hscroll)
+
 (map! :leader
       (:prefix ("w" . "window")
                "n" #'evil-window-left
@@ -431,7 +478,7 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
                "E" #'+evil/window-move-down
                "I" #'+evil/window-move-up
                "O" #'+evil/window-move-right
-      ))
+               ))
 
 (map! :n "t" 'evil-insert
       :n "T" 'evil-insert-line
@@ -501,6 +548,7 @@ _r_: remove last cursor       _0_: remove all  _q_: quit/exit
 ** Dired
 
 #+begin_src emacs-lisp
+
 (map! :leader
       (:prefix ("d" . "dired")
        :desc "Open dired" "d" #'dired
@@ -664,6 +712,7 @@ Doc in a top box instead of minibuffer.
         lsp-enable-semantic-highlighting nil
         gc-cons-threshold 100000000))
 #+end_src
+
 ** Tree sitter
 
 #+begin_src emacs-lisp

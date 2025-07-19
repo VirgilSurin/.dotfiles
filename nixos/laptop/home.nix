@@ -1,6 +1,29 @@
 { pkgs, config, lib, self, inputs, allowed-unfree-packages, ... }:
 
 let
+  myEverforestLight = {
+    slug = "myEverforestLight";
+    name = "myEverforestLight";
+    author = "Virgil Surin";
+    palette = {
+      base00 = "#fffbef";
+      base01 = "#f0eed9";
+      base02 = "#e6e2cc";
+      base03 = "#d8d3ba";
+      base04 = "#a6b0aa";
+      base05 = "#5c6a72";
+      base06 = "#4a5258";
+      base07 = "#383c42";
+      base08 = "#f85552";
+      base09 = "#f57d26";
+      base0A = "#8da101";
+      base0B = "#8da101";
+      base0C = "#3dc2c2";
+      base0D = "#3a94c5";
+      base0E = "#df69ba";
+      base0F = "#f57d26";
+    };
+  };
   myOne = {
     slug = "myOne";
     name = "myOne";
@@ -61,7 +84,8 @@ in
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  colorScheme = myOne;
+  # colorScheme = myOne;
+  colorScheme = myEverforestLight;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";
@@ -83,7 +107,8 @@ in
     pamixer
     cachix
 
-    # wallpaper
+   via
+
     custom-i3lock
     spotify
     picom
