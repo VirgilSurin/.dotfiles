@@ -17,8 +17,9 @@
     shellAliases = {
       vi="nvim";
       vim="nvim";
-      rebuild="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
+      # rebuild="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos/#virgil";
       claude="nix run github:sadjow/claude-code-nix";
+      update-discord="nix-env -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz -iA discord";
       # ls="eza -al --color=always --group-directories-first --icons"; # my preferred listing
       # la="eza -a --color=always --group-directories-first --icons";  # all files and dirs
       # ll="eza -l --color=always --group-directories-first --icons";  # long format

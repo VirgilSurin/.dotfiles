@@ -336,7 +336,7 @@ Everforest_light = {
 Settingup the theme
 
 #+begin_src python
-colors = Everforest_light
+colors = One
 #+end_src
 
 * Default Settings For All Layouts
@@ -362,7 +362,7 @@ layouts = [
                    border_focus_stack = colors["magenta"],
                    border_normal_stack = colors["bg"],
                    num_columns=2,
-                   initial_ratio=1.75,
+                   initial_ratio=1.80,
                    insert_position=1,
                    align=0,
                    ),

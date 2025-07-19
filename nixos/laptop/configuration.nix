@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, fetchFromGitHub, ... }:
+{ config, pkgs, inputs, lib, fetchFromGitHub, unstable, ... }:
 
 {
   nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
@@ -121,7 +121,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    discord
+    unstable.discord
     spotify
     keymapp
     vim

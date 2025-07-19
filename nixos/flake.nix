@@ -14,10 +14,14 @@
 
     hosts.url = "github:StevenBlack/hosts";
   };
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, unstable, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      unstable-pkgs = import unstable {
         inherit system;
         config.allowUnfree = true;
       };
@@ -37,7 +41,7 @@
           };
 
           laptop = nixpkgs.lib.nixosSystem {
-            specialArgs = { inherit inputs pkgs system; };
+            specialArgs = { inherit inputs pkgs system; unstable = unstable-pkgs; };
             modules = [
               ./laptop/configuration.nix
               inputs.home-manager.nixosModules.default
