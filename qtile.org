@@ -150,7 +150,7 @@ keys = [
     Key([mod], "minus",
         lazy.layout.grow_right().when(layout=["bsp", "columns"]),
         lazy.layout.shrink().when(layout=["monadtall", "monadright"]),
-        desc="Grow window to the left"
+        desc="Grow window to the right"
         ),
 
     # Layout and window management
@@ -172,24 +172,40 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
 
     # System commands
-    Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
+    # Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "shift"], "f", lazy.restart(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+
     Key([mod, "control"], "z", lazy.spawn(lock), desc="Lock screen with XScreenSaver"),
 
     # Application launchers
-    Key([mod], "g", lazy.spawn("nm-connection-editor"), desc="Launch apps"),
     Key([mod], "p", lazy.spawn("rofi -show drun -hover-select -me-select-entry MouseDPrimary -me-accept-entry MousePrimary"), desc="Launch apps"),
     Key([mod, "shift"], "p", lazy.spawn("rofi -show run -hover-select -me-select-entry MouseDPrimary -me-accept-entry MousePrimary"), desc="Run commands"),
+
     Key([mod, "control"], "m", lazy.spawn("monitor-switch"), desc="Change monitor config"),
+    Key([mod, "shift"], "m", lazy.spawn("rofi -show filebrowser"), desc="Browse files with rofi"),
+    Key([mod], "m", lazy.spawn(filemanager), desc="Open file manager"),
+
     Key([mod], "Return", lazy.spawn("alacritty"), desc="Launch terminal"),
+
     Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
     Key([mod, "control"], "b", lazy.spawn("zsh -c 'rofi -dmenu -p \"Search DuckDuckGo:\" -lines 0 | xargs -I{} brave \"https://www.duckduckgo.com/?q={}\"'"),
         desc="Search DuckDuckGo with Rofi"),
+
     Key([mod], "x", lazy.spawn(editor), desc='Emacs Dashboard'),
+
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "m", lazy.spawn(filemanager), desc="Open file manager"),
+
     Key([], "Print", lazy.spawn("flameshot gui")),
+
+    # System management
+    KeyChord([mod], "g", [
+        Key([], "a", lazy.spawn("rofi-powermenu")),
+        Key([], "r", lazy.spawn("nm-connection-editor")),
+        Key([], "s", lazy.spawn("rofi-bluetooth")),
+        Key([], "t", lazy.spawn("rofi-network-manager"))],
+        mode=True,
+        name="Windows"
+            ),
 
     # Key(["mod4"], "space", lazy.spawn("setxkbmap -layout us -variant colemak_dh")),
     # Key(["mod4", "shift"], "space", lazy.spawn("setxkbmap -layout us")),
@@ -218,12 +234,12 @@ The philosophy is to use the left hand's home row and 2 keys above the right han
 
 #+begin_src python
 groups = [
-    Group(name='a', label=' '),
-    Group(name='r', label='󰖟'),
-    Group(name='s', label='󰈙'),
-    Group(name='t', label=''),
-    Group(name='l', label='󰍦', matches=[Match(wm_class="signal")], layout="columns"),
-    Group(name='u', label='󰓇', matches=[Match(wm_class="spotify")], layout="columns"),
+    Group(name='a', label=''),
+    Group(name='r', label=''),
+    Group(name='s', label=''),
+    Group(name='t', label=''),
+    Group(name='l', label='', matches=[Match(wm_class="signal")], layout="columns"),
+    Group(name='u', label='', matches=[Match(wm_class="spotify")], layout="columns"),
 ]
 
 for i in groups:
@@ -300,12 +316,27 @@ Everforest = {
     "cyan":    "#88C0D0",
     "purple":  "#d699b6"
 }
+
+Everforest_light = {
+    "bg":      "#fffbef",
+    "fg":      "#5c6a72",
+    "black":   "#f0eed9",
+    "white":   "#5c6a72",
+    "red":     "#f85552",
+    "green":   "#8da101",
+    "orange":  "#f57d26",
+    "blue":    "#3a94c5",
+    "magenta": "#df69ba",
+    "cyan":    "#3dc2c2",
+    "purple":  "#df69ba"
+}
+
 #+end_src
 
 Settingup the theme
 
 #+begin_src python
-colors = One
+colors = Everforest_light
 #+end_src
 
 * Default Settings For All Layouts
@@ -314,8 +345,8 @@ Some default settings to ensure consistent theming among every layout used.
 
 #+begin_src python
 layout_theme = {
-    "border_width": 2,
-    "margin": 4,
+    "border_width": 3,
+    "margin": 6,
     "border_focus": colors["cyan"],
     "border_normal": colors["black"]
 }
@@ -336,20 +367,6 @@ layouts = [
                    align=0,
                    ),
     layout.Max(**layout_theme),
-    layout.MonadTall(**layout_theme,
-                     name="monadright",
-                     align=layout.MonadTall._right,
-                     auto_maximize=True,
-                     min_secondary_size=35,
-                     ratio = 0.7,
-                     ),
-    layout.MonadTall(**layout_theme,
-                     name="monadleft",
-                     align=layout.MonadTall._left,
-                     auto_maximize=True,
-                     min_secondary_size=35,
-                     ratio = 0.6,
-                     ),
 ]
 
 #+end_src
@@ -449,10 +466,6 @@ def create_widget():
             use_mask = True,
             ,**widget_defaults,
         ),
-        widget.CurrentLayout(
-            foreground = colors["orange"],
-            ,**widget_defaults,
-        ),
         sep_bar,
         widget.WindowName(
             max_chars = 32,
@@ -465,6 +478,9 @@ def create_widget():
             foreground = colors["cyan"],
             label = " emacs",
             unit_name = "emacs.service",
+            mouse_callbacks = {
+                "Button1": lazy.spawn("systemctl restart emacs.service"),
+            },
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -553,9 +569,9 @@ def create_widget():
 * Wallpaper
 
 #+begin_src python
-# wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
+wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
 # wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
-wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
+# wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
 
 #+end_src
 

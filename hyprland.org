@@ -85,17 +85,9 @@ dwindle {
 ** Master layout
 #+begin_src conf
 master {
-    mfact = 0.65
-}
-#+end_src
-
-** hy3 layout
-(note, plugin must be installed)
-#+begin_src conf
-plugin {
-    hy3 {
-        no_gaps_when_only = 0
-  }
+    mfact = 0.65,
+    orientation = right,
+    smart_rezising = false,
 }
 #+end_src
 
@@ -163,11 +155,9 @@ $mainMod = SUPER
 bind = $mainMod, Return, exec, alacritty
 bind = $mainMod, b, exec, brave
 bind = $mainMod, x, exec, emacsclient -c -a "emacs"
-bind = $mainMod, m, exec, thunar
-bind = $mainMod, p, exec, wofi --show drun
-bind = $mainMod SHIFT, p, exec, wofi --show run
-bind = $mainMod CTRL, m, exec, wofi --show calc -modi calc -no-show-match -no-sort
-bind = $mainMod SHIFT, m, exec, theme-switcher
+bind = $mainMod, m, exec, pcmanfm
+bind = $mainMod, p, exec, rofi --show drun
+bind = $mainMod SHIFT, p, exec, rofi --show run
 bind = $mainMod, q, killactive
 bind = $mainMod, v, togglefloating
 bind = $mainMod SHIFT, v, fullscreen
