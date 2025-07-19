@@ -28,6 +28,8 @@
 
     dwt1-shell-color-scripts
     neovim
+
+    xdotool # for window killing in KDE
   ];
 
   xdg.mimeApps = {
