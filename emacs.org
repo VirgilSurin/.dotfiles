@@ -409,24 +409,34 @@ Yank pop!
 I use the Colemak-dh layout and thus need to adapt the keybindings to reflect that
 
 #+begin_src emacs-lisp
-(map! :map 'override
-      "M-n" #'evil-window-left
-      "M-e" #'evil-window-down
-      "M-i" #'evil-window-up
-      "M-o" #'evil-window-right
-      "M-w" #'evil-window-delete
-      "M-W" #'delete-other-windows
-      :nmv "I" 'evil-ex-search-previous
-      :nmv "E" 'evil-ex-search-next
-      :nmv "n" 'evil-backward-char
-      :nmv "e" 'evil-next-visual-line
-      :nmv "i" 'evil-previous-visual-line
-      :nmv "o" 'evil-forward-char
-      :nmv "f" 'evil-forward-word-end
-      :nmv "F" 'evil-forward-WORD-end
-      :nmv "<down>" 'evil-next-visual-line
-      :nmv "<up>" 'evil-previous-visual-line
-      )
+(map!
+    "M-n" #'evil-window-left
+    "M-e" #'evil-window-down
+    "M-i" #'evil-window-up
+    "M-o" #'evil-window-right
+    "M-w" #'evil-window-delete
+    "M-W" #'delete-other-windows
+    :n "t" 'evil-insert
+    :n "T" 'evil-insert-line
+    :n "l" 'evil-open-below
+    :n "L" 'evil-open-above
+    :n "O" 'evil-ex-search-next
+    :n "h" 'helpful-at-point
+    :n "m" 'evil-mc-make-cursor-here
+    :nv "k" 'sp-mark-sexp
+    :nv "j" 'sp-forward-sexp
+    :nv "J" 'sp-backward-sexp
+    :nv "." 'evil-snipe-repeat
+    :nm ";" 'comment-line
+    :nmv "I" 'evil-ex-search-previous
+    :nmv "E" 'evil-ex-search-next
+    :nmv "n" 'evil-backward-char
+    :nmv "e" 'evil-next-visual-line
+    :nmv "i" 'evil-previous-visual-line
+    :nmv "o" 'evil-forward-char
+    :nmv "f" 'evil-forward-word-end
+    :nmv "F" 'evil-forward-WORD-end
+    )
 
 (map! :map 'magit-mode-map
       :nmv "n" 'evil-backward-char
@@ -462,11 +472,12 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       "C-i" #'evil-previous-visual-line
       )
 
-(map! :map 'pdf-view-mode-map
-      :nmv "n" 'image-backward-hscroll
-      :nmv "e" 'pdf-view-next-line-or-next-page
-      :nmv "i" 'pdf-view-previous-line-or-previous-page
-      :nmv "o" 'image-forward-hscroll)
+(map! :after pdf-tools
+      :map pdf-view-mode-map
+      :nmv "n" #'image-backward-hscroll
+      :nmv "e" #'pdf-view-next-line-or-next-page
+      :nmv "i" #'pdf-view-previous-line-or-previous-page
+      :nmv "o" #'image-forward-hscroll)
 
 (map! :leader
       (:prefix ("w" . "window")
@@ -480,25 +491,6 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
                "O" #'+evil/window-move-right
                ))
 
-(map! :n "t" 'evil-insert
-      :n "T" 'evil-insert-line
-      :n "l" 'evil-open-below
-      :n "L" 'evil-open-above
-      :n "O" 'evil-ex-search-next
-      :n "h" 'helpful-at-point
-      :n "m" 'evil-mc-make-cursor-here
-      :nv "k" 'sp-mark-sexp
-      :nv "j" 'sp-forward-sexp
-      :nv "J" 'sp-backward-sexp
-      :nv "." 'evil-snipe-repeat
-      :nm ";" 'comment-line
-      :nmv "n" 'evil-backward-char
-      :nmv "e" 'evil-next-visual-line
-      :nmv "i" 'evil-previous-visual-line
-      :nmv "o" 'evil-forward-char
-      :nmv "f" 'evil-forward-word-end
-      :nmv "F" 'evil-forward-WORD-end
-      )
 #+end_src
 
 #+RESULTS:
