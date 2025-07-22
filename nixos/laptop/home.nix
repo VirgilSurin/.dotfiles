@@ -84,8 +84,8 @@ in
 
   # colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
   # colorScheme = inputs.nix-colors.colorSchemes.everforest;
-  colorScheme = myOne;
-  # colorScheme = myEverforestLight;
+  # colorScheme = myOne;
+  colorScheme = myEverforestLight;
 
   home.username = "virgil";
   home.homeDirectory = "/home/virgil";

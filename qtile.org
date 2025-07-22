@@ -320,8 +320,8 @@ Everforest = {
 Everforest_light = {
     "bg":      "#fffbef",
     "fg":      "#5c6a72",
-    "black":   "#f0eed9",
-    "white":   "#5c6a72",
+    "white":   "#f0eed9",
+    "black":   "#5c6a72",
     "red":     "#f85552",
     "green":   "#8da101",
     "orange":  "#f57d26",
@@ -336,7 +336,7 @@ Everforest_light = {
 Settingup the theme
 
 #+begin_src python
-colors = One
+colors = Everforest_light
 #+end_src
 
 * Default Settings For All Layouts
@@ -569,9 +569,10 @@ def create_widget():
 * Wallpaper
 
 #+begin_src python
-wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
+# wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
 # wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
 # wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
+wall = "~/.dotfiles/wallpapers/forest_uw.jpg"
 
 #+end_src
 
