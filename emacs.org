@@ -12,7 +12,6 @@
 - [[#theming][Theming]]
 - [[#keybinding][Keybinding]]
   - [[#colemak][Colemak]]
-  - [[#multicursor][Multicursor]]
   - [[#dired][Dired]]
 - [[#which-key][Which-key]]
 - [[#evil][Evil]]
@@ -128,7 +127,7 @@ This code block represents the `init.el` file needed for doom emacs. It specifie
        ;;pass              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
-       rgb               ; creating color strings
+       ;; rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
@@ -298,14 +297,14 @@ Here are some sane default settings.
 Some theme configurations.
 #+begin_src emacs-lisp
 (setq! doom-gruvbox-dark-variant "hard"
-       doom-gruvbox-light-variant "medium"
+       doom-gruvbox-light-variant "soft"
        doom-everforest-light-background "hard"
        doom-everforest-light-palette "mix")
 
 
 ;; set `doom-theme'
-;; (setq! doom-theme 'doom-everforest-light)
-(setq! doom-theme 'doom-one)
+(setq! doom-theme 'doom-everforest-light)
+;; (setq! doom-theme 'doom-one)
 (after! doom-themes
   (setq doom-themes-enable-bold 1
         doom-themes-enable-italic 1))
@@ -360,20 +359,14 @@ Here are the font related stuff:
 I am not sure if this is needed so I let it commented out just in case.
 
 #+begin_src emacs-lisp
-(setq evil-normal-state-cursor '("#c6d3ab" box)
-      evil-emacs-state-cursor '("#c6d3ab" bar)
-      evil-insert-state-cursor '("#c6d3ab" bar)
-      evil-visual-state-cursor '("#c6d3ab" hollow)
-      evil-replace-state-cursor '("#c6d3ab" hbar)
-      )
+;; (setq evil-normal-state-cursor '("#c6d3ab" box)
+;;       evil-emacs-state-cursor '("#c6d3ab" bar)
+;;       evil-insert-state-cursor '("#c6d3ab" bar)
+;;       evil-visual-state-cursor '("#c6d3ab" hollow)
+;;       evil-replace-state-cursor '("#c6d3ab" hbar)
+;;       )
 #+end_src
 
-Rainbow mode!
-
-#+begin_src emacs-lisp
-(after! rainbow-mode
-  :hook (prog-mode . rainbow-mode))
-#+end_src
 
 * Keybinding
 
@@ -491,48 +484,9 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
                "O" #'+evil/window-move-right
                ))
 
-#+end_src
 
-#+RESULTS:
-
-** Multicursor
-
-#+begin_src emacs-lisp
-;; Define a function to create N cursors above or below
-(defun create-n-cursors (n direction)
-  "Create N cursors in DIRECTION ('up or 'down)."
-  (interactive "p\nsDirection (up/down): ")
-  (let ((create-func (if (string= direction "up")
-                         #'evil-mc-make-cursor-move-prev-line
-                       #'evil-mc-make-cursor-move-next-line)))
-    (dotimes (i n)
-      (funcall create-func 1))))
-
-;; Define a transient state for multiple cursor operations
-(defhydra hydra-multiple-cursors (:hint nil)
-  "
-Multiple cursor commands
------------------------------------------
-_a_: mark all like this       _e_: ↓ cursor    _E_ [N]: N cursors below
-_n_: next match               _i_: ↑ cursor    _I_ [N]: N cursors above
-_p_: prev match               _s_: skip next   _c_: cursor here
-_r_: remove last cursor       _0_: remove all  _q_: quit/exit
-"
-  ("a" evil-mc-make-all-cursors)
-  ("n" evil-mc-make-and-goto-next-match)
-  ("p" evil-mc-make-and-goto-prev-match)
-  ("e" evil-mc-make-cursor-move-next-line)
-  ("i" evil-mc-make-cursor-move-prev-line)
-  ("E" (lambda (n) (interactive "p") (create-n-cursors n "down")))
-  ("I" (lambda (n) (interactive "p") (create-n-cursors n "up")))
-  ("c" evil-mc-make-cursor-here)
-  ("r" evil-mc-undo-last-added-cursor)
-  ("s" evil-mc-skip-and-goto-next-match)
-  ("0" evil-mc-undo-all-cursors)
-  ("q" evil-mc-undo-all-cursors :exit t))
-
-(map! :nmv "m" #'hydra-multiple-cursors/body)
-
+(map! :map 'override
+      :v "i" #'evil-previous-visual-line)
 #+end_src
 
 #+RESULTS:
