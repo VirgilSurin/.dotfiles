@@ -107,7 +107,7 @@ in
     pamixer
     cachix
 
-   via
+    via
 
     custom-i3lock
     picom
