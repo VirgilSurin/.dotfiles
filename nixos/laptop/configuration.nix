@@ -11,7 +11,7 @@
 
   commonConfig = {
     enable = true;
-    hostname = "VS-Coruscant";
+    hostname = "VS-Chimaera";
   };
 
   boot.initrd.secrets = { "/crypto_keyfile.bin" = null;
