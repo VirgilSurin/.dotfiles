@@ -20,6 +20,7 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
+        config.allowBroken = true;
       };
       unstable-pkgs = import unstable {
         inherit system;

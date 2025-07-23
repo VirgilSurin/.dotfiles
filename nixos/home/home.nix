@@ -25,6 +25,8 @@
     unstable.bitwarden
     unstable.signal-desktop
     unstable.protonmail-desktop
+    bottles
+    flameshot
 
     dwt1-shell-color-scripts
     neovim

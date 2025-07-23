@@ -47,6 +47,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    minecraft
     discord
     spotify
     keymapp
@@ -75,6 +76,7 @@
     okular
     elisa
     kwrited
+    spectacle
   ];
 
   services.emacs = {
