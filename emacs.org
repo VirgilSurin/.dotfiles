@@ -230,6 +230,7 @@ This code block represents the `package.el` file needed for doom emacs. It speci
 (package! one-themes)
 (package! atom-one-dark-theme)
 (package! gruvbox-theme)
+(package! spacemacs-theme)
 (package! rainbow-delimiters)
 
 (package! smooth-scrolling)
@@ -284,7 +285,7 @@ Here are some sane default settings.
 
 #+begin_src emacs-lisp
 (setq display-line-numbers-mode t)
-(setq display-line-numbers-type 'relative)
+(setq display-line-numbers-type 'visual)
 ;; Disable line numbers for some modes
 (dolist (mode '(term-mode-hook
                 shell-mode-hook
@@ -353,26 +354,11 @@ Here are the font related stuff:
 
 #+end_src
 
-#+RESULTS:
-: #<font-spec nil nil JetBrainsMono\ Nerd\ Font\ Mono nil nil normal nil nil 22 nil nil nil nil>
-
-I am not sure if this is needed so I let it commented out just in case.
-
-#+begin_src emacs-lisp
-;; (setq evil-normal-state-cursor '("#c6d3ab" box)
-;;       evil-emacs-state-cursor '("#c6d3ab" bar)
-;;       evil-insert-state-cursor '("#c6d3ab" bar)
-;;       evil-visual-state-cursor '("#c6d3ab" hollow)
-;;       evil-replace-state-cursor '("#c6d3ab" hbar)
-;;       )
-#+end_src
-
-
 * Keybinding
 
 | Key        | Command          |
 |------------+------------------|
-| ~n~, ~e~, ~i~, ~o~ | movement         |
+# | ~n~, ~e~, ~i~, ~o~ | movement         |
 | ~t~, ~a~       | insert           |
 | ~l~          | open line        |
 | ~k~          | mark sexp        |
@@ -403,33 +389,33 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
 
 #+begin_src emacs-lisp
 (map!
-    "M-n" #'evil-window-left
-    "M-e" #'evil-window-down
-    "M-i" #'evil-window-up
-    "M-o" #'evil-window-right
-    "M-w" #'evil-window-delete
-    "M-W" #'delete-other-windows
-    :n "t" 'evil-insert
-    :n "T" 'evil-insert-line
-    :n "l" 'evil-open-below
-    :n "L" 'evil-open-above
-    :n "O" 'evil-ex-search-next
-    :n "h" 'helpful-at-point
-    :n "m" 'evil-mc-make-cursor-here
-    :nv "k" 'sp-mark-sexp
-    :nv "j" 'sp-forward-sexp
-    :nv "J" 'sp-backward-sexp
-    :nv "." 'evil-snipe-repeat
-    :nm ";" 'comment-line
-    :nmv "I" 'evil-ex-search-previous
-    :nmv "E" 'evil-ex-search-next
-    :nmv "n" 'evil-backward-char
-    :nmv "e" 'evil-next-visual-line
-    :nmv "i" 'evil-previous-visual-line
-    :nmv "o" 'evil-forward-char
-    :nmv "f" 'evil-forward-word-end
-    :nmv "F" 'evil-forward-WORD-end
-    )
+ "M-n" #'evil-window-left
+ "M-e" #'evil-window-down
+ "M-i" #'evil-window-up
+ "M-o" #'evil-window-right
+ "M-w" #'evil-window-delete
+ "M-W" #'delete-other-windows
+ :n "t" 'evil-insert
+ :n "T" 'evil-insert-line
+ :n "l" 'evil-open-below
+ :n "L" 'evil-open-above
+ :n "O" 'evil-ex-search-next
+ :n "h" 'helpful-at-point
+ :n "m" 'evil-mc-make-cursor-here
+ :nv "k" 'sp-mark-sexp
+ :nv "j" 'sp-forward-sexp
+ :nv "J" 'sp-backward-sexp
+ :nv "." 'evil-snipe-repeat
+ :nm ";" 'comment-line
+ :nmv "I" 'evil-ex-search-previous
+ :nmv "E" 'evil-ex-search-next
+ :nmv "n" 'evil-backward-char
+ :nmv "e" 'evil-next-visual-line
+ :nmv "i" 'evil-previous-visual-line
+ :nmv "o" 'evil-forward-char
+ :nmv "f" 'evil-forward-word-end
+ :nmv "F" 'evil-forward-WORD-end
+ )
 
 (map! :map 'magit-mode-map
       :nmv "n" 'evil-backward-char
@@ -484,9 +470,57 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
                "O" #'+evil/window-move-right
                ))
 
+(map! :after evil-easymotion
+      :map 'evilem-map
+      "w" #'evilem-motion-forward-word-begin
+      "W" #'evilem-motion-forward-WORD-begin
+      "f" #'evilem-motion-forward-word-end
+      "F" #'evilem-motion-forward-WORD-end
+      "b" #'evilem-motion-backward-word-begin
+      "B" #'evilem-motion-backward-WORD-begin
+      "gf" #'evilem-motion-backward-word-end
+      "gF" #'evilem-motion-backward-WORD-end
+      "ge" #'evilem-motion-next-line
+      "gi" #'evilem-motion-previous-line
+      "e" #'evilem-motion-next-visual-line
+      "i" #'evilem-motion-previous-visual-line
+      "q" #'evilem-motion-find-char
+      "Q" #'evilem-motion-find-char-backward
+      "[[" #'evilem-motion-backward-section-begin
+      "[]" #'evilem-motion-backward-section-end
+      "]]" #'evilem-motion-forward-section-begin
+      "][" #'evilem-motion-forward-section-end
+      "(" #'evilem-motion-backward-sentence-begin
+      ")" #'evilem-motion-forward-sentence-begin
+      "n" #'evilem-motion-search-next
+      "N" #'evilem-motion-search-previous
+      "*" #'evilem-motion-search-word-forward
+      "#" #'evilem-motion-search-word-backward
+      "-" #'evilem-motion-previous-line-first-non-blank
+      "+" #'evilem-motion-next-line-first-non-blank
+      )
+
+(map! :map 'evil-operator-state-map
+      "a f"  'evil-tex-an-env
+      "a e"  'evil-indent-plus-a-indent-up-down
+      "a i"  'evil-indent-plus-a-indent-up
+      "a m"  'evil-tex-a-math
+      "a o"  'evil-a-symbol
+      "a p"  'evil-a-paragraph
+      "a q"  '+evil:outer-any-quote
+      "a s"  'evil-a-sentence
+      "a t"  'evil-a-tag
+      "t t"  'evil-indent-plus-i-indent
+      "t e"  'evil-indent-plus-i-indent-up-down
+      "t i"  'evil-indent-plus-i-indent-up
+      "s"    'evil-surround-edit
+      )
 
 (map! :map 'override
-      :v "i" #'evil-previous-visual-line)
+      :v "i" #'evil-previous-visual-line
+      :nmv "f" 'evil-forward-word-end
+      :nmv "F" 'evil-forward-WORD-end
+      )
 #+end_src
 
 #+RESULTS:
@@ -500,9 +534,9 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
        :desc "Open dired" "d" #'dired
        :desc "Dired jump to current" "e" #'dired-jump)
       (:after dired
-       (:map dired-mode-map
-        :desc "Peep-dired image previews" "d p" #'peep-dired
-        :desc "Dired view file"           "d v" #'dired-view-file)))
+              (:map dired-mode-map
+               :desc "Peep-dired image previews" "d p" #'peep-dired
+               :desc "Dired view file"           "d v" #'dired-view-file)))
 
 (evil-define-key 'normal dired-mode-map
   (kbd "M-RET") 'dired-display-file
@@ -602,16 +636,10 @@ The ultimate completion backend.
 * Avy / Snipping
 Avy is good for teleporting in the buffer! 
 
+here:  cool chicken coca cola test
+
 #+begin_src emacs-lisp
 (setq avy-keys '(?a ?r ?s ?t ?g ?n ?e ?i ?o))
-(map! :map 'evil-snipe-local-mode-map
-      :nm
-      "s" #'evil-avy-goto-word-1
-      :nm
-      "q" #'evil-snipe-f
-      :nm
-      "Q" #'evil-snipe-F
-      )
 #+end_src
 
 #+RESULTS:
@@ -658,6 +686,9 @@ Doc in a top box instead of minibuffer.
         lsp-enable-semantic-highlighting nil
         gc-cons-threshold 100000000))
 #+end_src
+
+#+RESULTS:
+: 100000000
 
 ** Tree sitter
 
@@ -723,17 +754,17 @@ For this, we use the jupyter package and write some config.
 Keybindings:
 
 #+begin_src emacs-lisp
-(map! :leader
-      (:prefix ("j" . "jupyter")
-       :desc "Start notebook server" "n" #'vs/start-jupyter-kernel-via-command
-       :desc "Refresh kernels" "r" #'vs/refresh-jupyter-kernels))
+;; (map! :leader
+;;       (:prefix ("j" . "jupyter")
+;;        :desc "Start notebook server" "n" #'vs/start-jupyter-kernel-via-command
+;;        :desc "Refresh kernels" "r" #'vs/refresh-jupyter-kernels))
 #+end_src
 
 Don't forget to use `org-mode-restart` in the buffer after launching the kernel for it to work. Also, the command `jupyter-run-repl` may be usefull if it does not work.
 
 To turn an org file into a jupyter notebook, put this line at the beginning:
 #+begin_src text :tangle no
-#+PROPERTY: header-args:jupyter-python :kernel nix-python :session memoire :async yes :results output
+,#+PROPERTY: header-args:jupyter-python :kernel nix-python :session memoire :async yes :results output
 #+end_src
 
 As I use NixOs I recommand setting up a dev flake to have your kernel project.
@@ -747,20 +778,20 @@ Here is an inspiration:
   };
   outputs = inputs @ { self, nixpkgs, flake-utils, ...}:
     flake-utils.lib.eachDefaultSystem (system:
-    let
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowBroken = true; };
-      };
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config = { allowBroken = true; };
+        };
 
-      pythonEnv = pkgs.python312.withPackages (ps: with ps; [
-        pip ipython virtualenv
-        numpy pandas matplotlib seaborn
-        tabulate python-dateutil graph-tool
-        jupyter notebook ipykernel
-      ]);
+        pythonEnv = pkgs.python312.withPackages (ps: with ps; [
+          pip ipython virtualenv
+          numpy pandas matplotlib seaborn
+          tabulate python-dateutil graph-tool
+          jupyter notebook ipykernel
+        ]);
 
-      setupScript = pkgs.writeShellScript "setup-jupyter-env.sh" ''
+        setupScript = pkgs.writeShellScript "setup-jupyter-env.sh" ''
         mkdir -p ~/.local/share/jupyter/kernels/nix-python
         cat > ~/.local/share/jupyter/kernels/nix-python/kernel.json << EOF
         {
@@ -778,16 +809,16 @@ Here is an inspiration:
 
         echo "Nix Python kernel set up. Use :kernel nix-python in org blocks."
       '';
-    in
-    {
-      devShell = pkgs.mkShell {
-        buildInputs = [
-          pythonEnv
-          pkgs.ruff
-          pkgs.pre-commit
-        ];
+      in
+        {
+          devShell = pkgs.mkShell {
+            buildInputs = [
+              pythonEnv
+              pkgs.ruff
+              pkgs.pre-commit
+            ];
 
-        shellHook = ''
+            shellHook = ''
           ${setupScript}
 
           # Create/update .envrc for direnv
@@ -802,8 +833,8 @@ Here is an inspiration:
             exec zsh -i
           fi
         '';
-      };
-    });
+          };
+        });
 }
 #+end_src
 
@@ -938,13 +969,13 @@ Here are the keybindings.
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("n" . "notes")
-       (:prefix ("r" . "roam")
-        :desc "Find node" "f" #'org-roam-node-find
-        :desc "Insert node" "i" #'org-roam-node-insert
-        :desc "Capture to node" "c" #'org-roam-capture
-        :desc "Toggle buffer" "b" #'org-roam-buffer-toggle
-        :desc "View TODOs" "t" #'(lambda () (interactive) (org-agenda nil "r"))
-        )))
+               (:prefix ("r" . "roam")
+                :desc "Find node" "f" #'org-roam-node-find
+                :desc "Insert node" "i" #'org-roam-node-insert
+                :desc "Capture to node" "c" #'org-roam-capture
+                :desc "Toggle buffer" "b" #'org-roam-buffer-toggle
+                :desc "View TODOs" "t" #'(lambda () (interactive) (org-agenda nil "r"))
+                )))
 #+end_src
 
 #+RESULTS:
