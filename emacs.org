@@ -518,7 +518,7 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
 
 (map! :map 'evil-snipe-local-mode-map
       :nm
-      "s" #'evil-snipe-S
+      "s" #'evil-snipe-s
       :nm
       "q" #'evil-snipe-f
       :nm
