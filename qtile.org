@@ -70,7 +70,6 @@ directions = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen(["systemctl", "--user", "start", "dunst.service"])
-    subprocess.Popen(["waypaper", "--restore"])
     subprocess.Popen(["xset", "-dpms"])
     subprocess.Popen(["picom", "-b"])
     subprocess.Popen(["eww", "daemon"])

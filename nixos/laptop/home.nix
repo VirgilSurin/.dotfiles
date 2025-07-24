@@ -104,14 +104,10 @@ in
     dwt1-shell-color-scripts
 
     eww
-    pamixer
     cachix
-
-    via
 
     custom-i3lock
     picom
-    waypaper
     qimgv # for images
     alsa-utils # for audio
     ripgrep
@@ -127,25 +123,13 @@ in
     flameshot
     conky
 
-    # Audio
     pavucontrol
-    pulseaudio
-    mpc
-    playerctl
+    mpc # for rofi powermenu TODO: put it in the module
     # wifi and bluetooth
     rofi-bluetooth
     wirelesstools
     rofi-network-manager
 
-    networkmanagerapplet
-    waybar
-    wofi
-    swaylock
-    swaybg
-    swayidle
-    wl-clipboard
-    nwg-displays
-    nwg-panel
     vlc
 
   ];
