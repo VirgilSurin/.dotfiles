@@ -56,6 +56,7 @@ in
 
   imports = [
       inputs.nix-colors.homeManagerModules.default
+      inputs.zen-browser.homeModules.beta
 
       ../modules/alacritty.nix
       ../modules/rofi.nix
@@ -180,6 +181,28 @@ in
     enable = true;
     nix-direnv.enable = true;
     enableZshIntegration = true;
+  };
+
+  programs.zen-browser = {
+    enable = true;
+    policies = {
+      AutofillAddressEnabled = false;
+      AutofillCreditCardEnabled = false;
+      DisableAppUpdate = true;
+      DisableFeedbackCommands = true;
+      DisableFirefoxStudies = true;
+      DisablePocket = true;
+      DisableTelemetry = true;
+      DontCheckDefaultBrowser = true;
+      NoDefaultBookmarks = true;
+      OfferToSaveLogins = false;
+      EnableTrackingProtection = {
+        Value = true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+    };
   };
 
   home.sessionPath = [
