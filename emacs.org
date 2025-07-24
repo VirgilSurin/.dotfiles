@@ -516,6 +516,15 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       "s"    'evil-surround-edit
       )
 
+(map! :map 'evil-snipe-local-mode-map
+      :nm
+      "s" #'evil-snipe-S
+      :nm
+      "q" #'evil-snipe-f
+      :nm
+      "Q" #'evil-snipe-F
+      )
+
 (map! :map 'override
       :v "i" #'evil-previous-visual-line
       :nmv "f" 'evil-forward-word-end
