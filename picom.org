@@ -10,8 +10,8 @@ backend = "glx";
 
 active-opacity = 1.0;
 inactive-opacity = 1.0;
-corner-radius = 10.0;
-round-borders = 1;
+corner-radius = 00.0;
+round-borders = 0;
 rounded-corners-exclude = [
   "class_g = 'awesome'",
   "class_g = 'URxvt'",
@@ -98,44 +98,44 @@ blur = {
             triggers = ["geometry"];
             # When the window is GROWING (open/move/resize)
             scale-x = {
-                curve = "cubic-bezier(0,0,0,1.28)";
-                duration = 0.5;
+                curve = "cubic-bezier(0,0,0,1)";
+                duration = 0.2;
                 start = "window-width-before / window-width";
                 end = 1;
             };
 
             # When the window is SHRINKING (close/move/resize)
             scale-x-reverse = {
-                curve = "cubic-bezier(0,0,0,1.28)";
-                duration = 0.5;
+                curve = "cubic-bezier(0,0,0,1)";
+                duration = 0.2;
                 start = "window-width / window-width-before";
                 end = 1;
             };
 
             scale-y = {
-                curve = "cubic-bezier(0,0,0,1.28)";
-                duration = 0.5;
+                curve = "cubic-bezier(0,0,0,1)";
+                duration = 0.2;
                 start = "window-height-before / window-height";
                 end = 1;
             };
 
             scale-y-reverse = {
-                curve = "cubic-bezier(0,0,0,1.28)";
+                curve = "cubic-bezier(0,0,0,1)";
                 duration = 0.1;
                 start = "window-height / window-height-before";
                 end = 1;
             };
 
             offset-x = {
-                curve = "cubic-bezier(0,0,0,1.28)";
-                duration = 0.5;
+                curve = "cubic-bezier(0,0,0,1)";
+                duration = 0.2;
                 start = "window-x-before - window-x";
                 end = 0;
             };
 
             offset-y = {
-                curve = "cubic-bezier(0,0,0,1.28)";
-                duration = 0.5;
+                curve = "cubic-bezier(0,0,0,1)";
+                duration = 0.2;
                 start = "window-y-before - window-y";
                 end = 0;
             };
