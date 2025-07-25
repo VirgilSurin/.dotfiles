@@ -70,7 +70,6 @@ directions = {
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen(["systemctl", "--user", "start", "dunst.service"])
-    subprocess.Popen(["waypaper", "--restore"])
     subprocess.Popen(["xset", "-dpms"])
     subprocess.Popen(["picom", "-b"])
     subprocess.Popen(["eww", "daemon"])
@@ -336,7 +335,7 @@ Everforest_light = {
 Settingup the theme
 
 #+begin_src python
-colors = Everforest_light
+colors = One
 #+end_src
 
 * Default Settings For All Layouts
@@ -345,8 +344,8 @@ Some default settings to ensure consistent theming among every layout used.
 
 #+begin_src python
 layout_theme = {
-    "border_width": 3,
-    "margin": 6,
+    "border_width": 2,
+    "margin": 0,
     "border_focus": colors["cyan"],
     "border_normal": colors["black"]
 }
@@ -571,8 +570,8 @@ def create_widget():
 #+begin_src python
 # wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
 # wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
-# wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
-wall = "~/.dotfiles/wallpapers/forest_uw.jpg"
+wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
+# wall = "~/.dotfiles/wallpapers/forest_uw.jpg"
 
 #+end_src
 
@@ -591,7 +590,7 @@ screens = [
             26,
             border_width=[0, 0, 0, 0],
             border_color=[colors["black"]] * 4,
-            margin = [6, 8, 6, 8],
+            margin = [0, 0, 0, 0],
             background = colors["bg"]
         ),
     ),
@@ -603,7 +602,7 @@ screens = [
             26,
             border_width=[0, 0, 0, 0],
             border_color=[colors["black"]] * 4,
-            margin = [6, 8, 6, 8],
+            margin = [0, 0, 0, 0],
             background = colors["bg"]
         ),
     ),

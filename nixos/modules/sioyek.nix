@@ -36,6 +36,8 @@ in {
       "search_highlight_color" = hexToRGB palette.base09;
       "link_highlight_color" = hexToRGB palette.base0C;
       "synctex_highlight_color" = hexToRGB palette.base0B;
+      "page_separator_width" = "2";
+      "page_separator_color" = hexToRGB palette.base01;
 
       "font_size" = "14";
       "ui_font" = "Ubuntu Nerd Font";
