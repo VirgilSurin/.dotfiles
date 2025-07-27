@@ -3,8 +3,8 @@
 {
   programs.btop = {
     enable = true;
-    settings = {
-      color_theme = "OneDark";
-    };
+    # settings = {
+    #   color_theme = "OneDark";
+    # };
   };
 }

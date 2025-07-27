@@ -14,11 +14,15 @@
       inputs.nixpkgs.follows = "unstable";
     };
 
+    stylix = {
+      url = "github:danth/stylix/release-25.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-colors.url = "github:misterio77/nix-colors";
 
     hosts.url = "github:StevenBlack/hosts";
   };
-  outputs = { self, nixpkgs, unstable, ... }@inputs:
+  outputs = { self, nixpkgs, unstable, stylix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -41,6 +45,7 @@
             specialArgs = { inherit inputs pkgs system; };
             modules = [
               ./home/configuration.nix
+              stylix.nixosModules.stylix
               inputs.home-manager.nixosModules.default
             ];
           };

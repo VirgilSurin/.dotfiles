@@ -19,12 +19,9 @@
                 text_icon_padding = 0;
                 frame_width = 2;
 
-                frame_color = "#${config.colorScheme.palette.base08}";
-                separator_color = "frame";
 
                 sort = true;
                 idle_threshold = 120;
-                font = "JetbrainsMonoBold 12";
                 line_height = 0;
                 markup = "full";
                 alignment = "left";
@@ -55,27 +52,19 @@
             };
 
             urgency_low = {
-                background = "#${config.colorScheme.palette.base00}";
-                foreground = "#${config.colorScheme.palette.base05}";
                 timeout = 5;
             };
 
             urgency_normal = {
-                background = "#${config.colorScheme.palette.base00}";
-                foreground = "#${config.colorScheme.palette.base05}";
                 timeout = 5;
             };
 
             urgency_critical = {
-                background = "#1E1E2E";
-                foreground = "#${config.colorScheme.palette.base05}";
-                frame_color = "#FAB387";
                 timeout = 10;
             };
 
             quick_disappear = {
                 summary = "test";
-                background = "#000000";
                 timeout = 1;
             };
 

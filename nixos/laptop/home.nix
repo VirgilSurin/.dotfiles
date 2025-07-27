@@ -157,22 +157,22 @@ in
 
   gtk = {
     enable = true;
-    theme = {
-      name = "${config.colorScheme.slug}";
-      package = gtkThemeFromScheme {scheme = config.colorScheme;};
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
+    # theme = {
+    #   name = "${config.colorScheme.slug}";
+    #   package = gtkThemeFromScheme {scheme = config.colorScheme;};
+    # };
+    # iconTheme = {
+    #   name = "Papirus-Dark";
+    #   package = pkgs.papirus-icon-theme;
+    # };
   };
 
   qt = {
     enable = true;
-    style = {
-      name = "Dracula";
-      package = pkgs.dracula-qt5-theme;
-    };
+    # style = {
+    #   name = "Dracula";
+    #   package = pkgs.dracula-qt5-theme;
+    # };
   };
 
   programs.home-manager.enable = true;
@@ -183,6 +183,9 @@ in
     enableZshIntegration = true;
   };
 
+  stylix.targets = {
+    # rofi.enable = false;
+  };
   programs.zen-browser = {
     enable = true;
     policies = {
