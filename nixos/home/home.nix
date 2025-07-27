@@ -11,6 +11,7 @@
       ../modules/zsh.nix
       ../modules/eza.nix
       ../modules/zoxide.nix
+      ../modules/rofi.nix
   ];
 
   colorScheme = inputs.nix-colors.colorSchemes.onedark;
@@ -25,6 +26,7 @@
     unstable.bitwarden
     unstable.signal-desktop
     unstable.protonmail-desktop
+    prismlauncher
     bottles
     flameshot
 
