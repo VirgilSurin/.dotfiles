@@ -183,9 +183,6 @@ in
     enableZshIntegration = true;
   };
 
-  stylix.targets = {
-    # rofi.enable = false;
-  };
   programs.zen-browser = {
     enable = true;
     policies = {

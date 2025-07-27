@@ -51,6 +51,9 @@
     };
   };
 
+  gtk.enable = true;
+  qt.enable = true;
+
   programs.home-manager.enable = true;
   xsession.enable = true;
 }

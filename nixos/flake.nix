@@ -55,6 +55,7 @@
             modules = [
               ./laptop/configuration.nix
               inputs.home-manager.nixosModules.default
+              stylix.nixosModules.stylix
               inputs.hosts.nixosModule {
                 networking.stevenBlackHosts.enable = true;
               }

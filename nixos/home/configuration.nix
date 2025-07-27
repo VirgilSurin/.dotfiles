@@ -6,7 +6,44 @@
       ./hardware-configuration.nix
       ../modules/common_config.nix
       inputs.home-manager.nixosModules.default
+      inputs.stylix.nixosModules.stylix
     ];
+
+  stylix = {
+    enable = true;
+    base16Scheme = {
+      base00 = "#282c34";
+      base01 = "#353b45";
+      base02 = "#3e4451";
+      base03 = "#545862";
+      base04 = "#565264";
+      base05 = "#abb2bf";
+      base06 = "#b6bdca";
+      base07 = "#c8ccd4";
+      base08 = "#56b6c2";
+      base09 = "#c678dd";
+      base0A = "#e5c07b";
+      base0B = "#98c379";
+      base0C = "#d19a66";
+      base0D = "#61afef";
+      base0E = "#e06c75";
+      base0F = "#be5046";
+    };
+    fonts = {
+      sansSerif = {
+        package = pkgs.nerd-fonts.ubuntu;
+        name = "Ubuntu Nerd Font";
+      };
+      serif = {
+        package = pkgs.nerd-fonts.ubuntu;
+        name = "Ubuntu Nerd Font";
+      };
+      monospace = {
+        package = pkgs.nerd-fonts.jetbrains-mono;
+        name = "JetBrainsMono Nerd Font";
+      };
+    };
+  };
 
   commonConfig = {
     enable = true;
