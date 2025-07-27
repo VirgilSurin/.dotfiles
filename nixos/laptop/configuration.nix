@@ -18,8 +18,15 @@
   };
 
   services = {
-    libinput.enable = true;
-    libinput.touchpad.naturalScrolling = true;
+    libinput = {
+      enable = true;
+      touchpad.naturalScrolling = true;
+
+      mouse = {
+        accelProfile = "flat";
+        accelSpeed = "0.0";
+      };
+    };
 
     xserver = {
 
