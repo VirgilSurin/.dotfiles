@@ -7,6 +7,7 @@
       inputs.nix-colors.homeManagerModules.default
 
       ../modules/alacritty.nix
+      ../modules/zen.nix
       ../modules/git.nix
       ../modules/zsh.nix
       ../modules/eza.nix
