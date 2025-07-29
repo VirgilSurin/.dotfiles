@@ -404,8 +404,7 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
  :n "h" 'helpful-at-point
  :n "m" 'evil-mc-make-cursor-here
  :nv "k" 'sp-mark-sexp
- :nv "j" 'sp-forward-sexp
- :nv "J" 'sp-backward-sexp
+ :nv "j" 'evil-join
  :nv "." 'evil-snipe-repeat
  :nm ";" 'comment-line
  :nmv "I" 'evil-ex-search-previous

@@ -571,7 +571,7 @@ def create_widget():
 #+begin_src python
 # wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
 # wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
-wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
+wall = "~/.dotfiles/wallpapers/nuvole.png"
 # wall = "~/.dotfiles/wallpapers/forest_uw.jpg"
 
 #+end_src
@@ -585,7 +585,7 @@ I mainly work with 2 monitors.
 screens = [
     Screen(
         wallpaper=wall,
-        wallpaper_mode="stretch",
+        wallpaper_mode="fill",
         top=bar.Bar(
             create_widget(),
             26,
