@@ -346,8 +346,8 @@ Here are the font related stuff:
   ;; `(tree-sitter-hl-face:number :foreground ,(doom-color 'magenta) :weight bold)
   ;; `(tree-sitter-hl-face:embedded :foreground ,(doom-color 'red) :weight bold)
   ;; `(vertical-border :foreground ,(doom-color 'base3))
-  '(whitespace-tab-regexp :background nil :foreground nil)
-  '(whitespace-tab :background nil :foreground nil)
+  ;; '(whitespace-tab-regexp :background nil :foreground nil)
+  ;; '(whitespace-tab :background nil :foreground nil)
   )
 (setq doom-font (font-spec :family "JetBrains Mono Nerd Font Mono" :size 16 :weight 'normal)
       doom-variable-pitch-font (font-spec :family "Ubuntu Nerd Font" :size 16)
@@ -386,35 +386,135 @@ Yank pop!
 #+end_src
 
 ** Colemak
-I use the Colemak-dh layout and thus need to adapt the keybindings to reflect that
+I use the Colemak-dh layout and thus need to adapt the keybindings to reflect that.
+
+*** Keybinding Reference
+
+**** Core Movement & Actions
+| Key        | Command          | Notes                                    |
+|------------+------------------+------------------------------------------|
+| ~n~, ~e~, ~i~, ~o~ | movement         | left, down, up, right (Colemak NEIO)    |
+| ~w~, ~b~       | word movement    | forward/backward word begin             |
+| ~f~, ~F~       | word end         | forward word/WORD end                   |
+| ~t~, ~T~       | insert           | insert at cursor/beginning of line      |
+| ~a~, ~A~       | append           | append after cursor/end of line         |
+| ~l~, ~L~       | open line        | open below/above                        |
+| ~h~          | help             | helpful-at-point                        |
+| ~m~          | multicursor      | evil-mc-make-cursor-here                |
+| ~k~          | mark sexp        | sp-mark-sexp                            |
+| ~j~          | join             | evil-join                               |
+| ~;~          | comment          | comment-line                            |
+|------------+------------------+------------------------------------------|
+
+**** Search & Navigation
+| Key        | Command          | Notes                                    |
+|------------+------------------+------------------------------------------|
+| ~/~          | search forward   | evil-search-forward                     |
+| ~?~          | search backward  | evil-search-backward                    |
+| ~N~          | prev search      | evil-search-previous (was ~n~ in Vim)   |
+| ~E~          | next search      | evil-search-next (was ~n~ in Vim)       |
+| ~s~, ~S~       | snipe            | evil-snipe forward/backward             |
+| ~q~, ~Q~       | find char        | evil-snipe-f/F                          |
+| ~.~          | repeat snipe     | evil-snipe-repeat                       |
+|------------+------------------+------------------------------------------|
+
+**** Text Objects (Operators + Motion)
+| Prefix | Meaning | Example    | Action                               |
+|--------+---------+------------+--------------------------------------|
+| ~a~      | around  | ~dap~        | delete around paragraph              |
+| ~a~      | around  | ~cas~        | change around sentence               |
+| ~a~      | around  | ~yaq~        | yank around quotes                   |
+| ~h~      | inside  | ~dhp~        | delete inside paragraph (was ~dip~)   |
+| ~h~      | inside  | ~chs~        | change inside sentence (was ~cis~)    |
+| ~h~      | inside  | ~yhw~        | yank inside word (was ~yiw~)          |
+|--------+---------+------------+--------------------------------------|
+
+**** Available Text Objects
+| Object | Around | Inside | Description                              |
+|--------+--------+--------+------------------------------------------|
+| ~p~      | ~ap~     | ~hp~     | paragraph                                |
+| ~s~      | ~as~     | ~hs~     | sentence                                 |
+| ~w~      | ~aw~     | ~hw~     | word                                     |
+| ~W~      | ~aW~     | ~hW~     | WORD (whitespace-delimited)              |
+| ~q~      | ~aq~     | ~hq~     | quotes (any type)                        |
+| ~t~      | ~at~     | ~ht~     | tag                                      |
+| ~f~      | ~af~     | ~hf~     | function/environment (LaTeX)             |
+| ~m~      | ~am~     | ~hm~     | math (LaTeX)                             |
+| ~r~      | ~ar~     | ~hr~     | symbol/reference                         |
+| ~u~      | ~au~     | ~hu~     | indent up-down                           |
+| ~d~      | ~ad~     | ~hd~     | indent up only                           |
+| ~h~      | ~ah~     | ~hh~     | indent (base)                            |
+|--------+--------+--------+------------------------------------------|
+
+**** Window Management
+| Key        | Command          | Notes                                    |
+|------------+------------------+------------------------------------------|
+| ~M-n~        | focus left       | evil-window-left                        |
+| ~M-e~        | focus down       | evil-window-down                        |
+| ~M-i~        | focus up         | evil-window-up                          |
+| ~M-o~        | focus right      | evil-window-right                       |
+| ~M-w~        | delete window    | evil-window-delete                      |
+| ~M-W~        | delete others    | delete-other-windows                    |
+|------------+------------------+------------------------------------------|
+
+*** Key Design Principles
+
+1. **Movement Consistency**: ~n e i o~ work everywhere (normal, visual, with operators)
+2. **No Conflicts**: Movement keys (~n e i o~) don't overlap with text object prefixes (~a h~)
+3. **Logical Mnemonics**:
+   - ~h~ = "here" for inside text objects
+   - ~a~ = "around" (same as Vim default)
+   - ~u~/~d~ = up/down for indent objects
+4. **Muscle Memory**: Core movement patterns stay the same, only text objects change
+5. **Colemak Optimized**: Frequently used keys are on home row
 
 #+begin_src emacs-lisp
+;; ============================================================================
+;; COLEMAK-DH EVIL CONFIGURATION
+;; ============================================================================
+
 (map!
+ ;; Window management
  "M-n" #'evil-window-left
  "M-e" #'evil-window-down
  "M-i" #'evil-window-up
  "M-o" #'evil-window-right
  "M-w" #'evil-window-delete
  "M-W" #'delete-other-windows
+
+ ;; Insert modes (t=insert, a=append)
  :n "t" 'evil-insert
  :n "T" 'evil-insert-line
+ :n "a" 'evil-append
+ :n "A" 'evil-append-line
+
+ ;; Line operations
  :n "l" 'evil-open-below
  :n "L" 'evil-open-above
- :n "O" 'evil-ex-search-next
- :n "h" 'helpful-at-point
- :n "m" 'evil-mc-make-cursor-here
- :nv "k" 'sp-mark-sexp
- :nv "j" 'evil-join
- :nv "." 'evil-snipe-repeat
- :nm ";" 'comment-line
- :nmv "I" 'evil-ex-search-previous
- :nmv "E" 'evil-ex-search-next
+
+ ;; Search (using different keys since n/e are movement)
+ :n "N" 'evil-ex-search-previous
+ :n "E" 'evil-ex-search-next
+
+ ;; Core movement (n=left, e=down, i=up, o=right)
  :nmv "n" 'evil-backward-char
  :nmv "e" 'evil-next-visual-line
  :nmv "i" 'evil-previous-visual-line
  :nmv "o" 'evil-forward-char
+
+ ;; Word movement
+ :nmv "w" 'evil-forward-word-begin
+ :nmv "b" 'evil-backward-word-begin
  :nmv "f" 'evil-forward-word-end
  :nmv "F" 'evil-forward-WORD-end
+
+ ;; Other useful bindings
+ :n "h" 'helpful-at-point
+ :n "m" '+multiple-cursors/evil-mc-toggle-cursor-here
+ :nv "k" 'sp-mark-sexp
+ :nv "j" 'evil-join
+ :nv "." 'evil-snipe-repeat
+ :nm ";" 'comment-line
  )
 
 (map! :map 'magit-mode-map
@@ -443,13 +543,8 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       :nmv "<up>" 'evil-previous-visual-line
       )
 
-;; To do some small move in insert mode
-(map! :map 'evil-insert-state-map
-      "C-o" #'right-char
-      "C-n" #'left-char
-      "C-e" #'evil-next-visual-line
-      "C-i" #'evil-previous-visual-line
-      )
+(setq! evil-markdown-movement-bindings '((up . "i") (down . "e") (left . "n") (right . "o")))
+(setq! evil-org-movement-bindings '((up . "i") (down . "e") (left . "n") (right . "o")))
 
 (map! :after pdf-tools
       :map pdf-view-mode-map
@@ -500,40 +595,73 @@ I use the Colemak-dh layout and thus need to adapt the keybindings to reflect th
       "+" #'evilem-motion-next-line-first-non-blank
       )
 
+;; ============================================================================
+;; TEXT OBJECTS AND OPERATORS (Colemak-friendly)
+;; ============================================================================
+
 (map! :map 'evil-operator-state-map
-      "a f"  'evil-tex-an-env
-      "a e"  'evil-indent-plus-a-indent-up-down
-      "a i"  'evil-indent-plus-a-indent-up
-      "a m"  'evil-tex-a-math
-      "a o"  'evil-a-symbol
-      "a p"  'evil-a-paragraph
-      "a q"  '+evil:outer-any-quote
-      "a s"  'evil-a-sentence
-      "a t"  'evil-a-tag
-      "t t"  'evil-indent-plus-i-indent
-      "t e"  'evil-indent-plus-i-indent-up-down
-      "t i"  'evil-indent-plus-i-indent-up
+      ;; Around text objects (using 'a' prefix)
+      "a f"  'evil-tex-an-env          ; around function/env
+      "a u"  'evil-indent-plus-a-indent-up-down  ; around indent (up-down)
+      "a d"  'evil-indent-plus-a-indent-up       ; around indent (up only)
+      "a m"  'evil-tex-a-math          ; around math
+      "a r"  'evil-a-symbol            ; around symbol (r for 'reference')
+      "a p"  'evil-a-paragraph         ; around paragraph
+      "a q"  '+evil:outer-any-quote    ; around quotes
+      "a s"  'evil-a-sentence          ; around sentence
+      "a t"  'evil-a-tag               ; around tag
+
+      ;; Inside text objects (using 'h' prefix instead of 'i')
+      "h h"  'evil-indent-plus-i-indent        ; inside indent (h for 'here')
+      "h u"  'evil-indent-plus-i-indent-up-down ; inside indent up-down
+      "h d"  'evil-indent-plus-i-indent-up      ; inside indent up
+      "h p"  'evil-inner-paragraph             ; inside paragraph
+      "h s"  'evil-inner-sentence              ; inside sentence
+      "h t"  'evil-inner-tag                   ; inside tag
+      "h q"  '+evil:inner-any-quote           ; inside quotes
+      "h w"  'evil-inner-word                  ; inside word
+      "h W"  'evil-inner-WORD                  ; inside WORD
+
+      ;; Surround operations
       "s"    'evil-surround-edit
       )
 
+;; ============================================================================
+;; SNIPE/SEARCH MAPPINGS
+;; ============================================================================
+
 (map! :map 'evil-snipe-local-mode-map
-      :nm
-      "s" #'evil-snipe-s
-      :nm
-      "q" #'evil-snipe-f
-      :nm
-      "Q" #'evil-snipe-F
+      :nm "s" #'evil-snipe-s           ; snipe forward
+      :nm "S" #'evil-snipe-S           ; snipe backward
+      :nm "q" #'evil-snipe-f           ; find char forward
+      :nm "Q" #'evil-snipe-F           ; find char backward
       )
 
-(map! :map 'override
-      :v "i" #'evil-previous-visual-line
-      :nmv "f" 'evil-forward-word-end
-      :nmv "F" 'evil-forward-WORD-end
+;; ============================================================================
+;; MODE-SPECIFIC OVERRIDES
+;; ============================================================================
+
+;; Ensure consistent movement in all modes
+(map! :map 'evil-visual-state-map
+      "i" #'evil-previous-visual-line
+      "e" #'evil-next-visual-line
+      "n" #'evil-backward-char
+      "o" #'evil-forward-char
+      "h h"  'evil-indent-plus-i-indent        ; inside indent (h for 'here')
+      "h u"  'evil-indent-plus-i-indent-up-down ; inside indent up-down
+      "h d"  'evil-indent-plus-i-indent-up      ; inside indent up
+      "h p"  'evil-inner-paragraph             ; inside paragraph
+      "h s"  'evil-inner-sentence              ; inside sentence
+      "h t"  'evil-inner-tag                   ; inside tag
+      "h q"  '+evil:inner-any-quote           ; inside quotes
+      "h w"  'evil-inner-word                  ; inside word
+      "h W"  'evil-inner-WORD                  ; inside WORD
+      "f" 'evil-forward-word-end
+      "F" 'evil-forward-WORD-end
       )
 #+end_src
 
 #+RESULTS:
-
 ** Dired
 
 #+begin_src emacs-lisp
@@ -643,7 +771,7 @@ The ultimate completion backend.
 #+end_src
 
 * Avy / Snipping
-Avy is good for teleporting in the buffer! 
+Avy is good for teleporting in the buffer!
 
 here:  cool chicken coca cola test
 
@@ -989,4 +1117,3 @@ Here are the keybindings.
 
 #+RESULTS:
 : #[nil ((org-agenda nil "r")) nil nil nil nil]
-
