@@ -36,7 +36,7 @@ from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration, RectDecoration, GradientDecoration
 from qtile_extras.popup.toolkit import PopupRelativeLayout, PopupText, PopupWidget
 from libqtile.command.client import InteractiveCommandClient
-
+from qtile_extras.popup.templates.mpris2 import COMPACT_LAYOUT, DEFAULT_LAYOUT
 #+end_src
 
 #+RESULTS:
@@ -420,7 +420,6 @@ def create_widget():
             },
         ),
         widget.Spacer(length=4),
-        sep_bar,
         widget.GroupBox(
             fontsize = 12,
             margin_x = 8,
@@ -446,9 +445,9 @@ def create_widget():
             use_mask = True,
             ,**widget_defaults,
         ),
-        widget.TextBox(text="◤", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"A0"),
-        widget.Spacer(background=colors["darker_bg"]+"A0"),
-        widget.TextBox(text="◢", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"A0"),
+        widget.TextBox(text="◤", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"40"),
+        widget.Spacer(background=colors["darker_bg"]+"40"),
+        widget.TextBox(text="◢", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"40"),
         widget.Spacer(length = 12),
         widget.KeyboardLayout(
             configured_keyboards = [ "US" ],
@@ -467,27 +466,12 @@ def create_widget():
             inactive_colour = colors["black"],
             foreground = colors["red"],
             interface = "wlp6s0",
-            show_ssid = True,
+            show_ssid = False,
             mouse_callbacks={
                 "Button1": lazy.spawn("rofi-network-manager")
             },
             ,**widget_defaults,
         ),
-        # widget.Wlan(
-        #     disconnected_message = "disconnected",
-        #     interface = "wlp6s0",
-        #     foreground = colors["red"],
-        #     format = "{percent:2.0%}",
-        # ),
-        # widget.Net(
-        #     interface = "wlp6s0",
-        #     format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
-        #     foreground = colors["red"],
-        #     mouse_callbacks={
-        #         'Button1': lazy.spawn("rofi-network-manager")
-        #     },
-        #     **widget_defaults,
-        # ),
         widget.Spacer(length = 12),
         widget.Volume(
             foreground = colors["magenta"],
@@ -498,17 +482,6 @@ def create_widget():
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
-        # widget.UPowerWidget(
-            # foreground = colors["green"],
-            # fill_charge = colors["green"],
-            # fill_critical = colors["red"],
-            # fill_low = colors["orange"],
-            # fill_normal = colors["green"],
-            # border_colour = colors["green"],
-            # border_charge_colour = colors["green"],
-            # border_critical_colour = colors["green"],
-            # **widget_defaults,
-        # ),
         widget.Battery(
             foreground = colors["green"],
             format = "  {percent:2.0%}",

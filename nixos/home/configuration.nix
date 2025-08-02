@@ -71,7 +71,6 @@
     description = "Virgil Surin";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      firefox
     ];
   };
 
