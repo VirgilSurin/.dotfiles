@@ -47,7 +47,7 @@ Some variables to make life easier.
 #+begin_src python
 mod = "mod4"
 terminal = "alacritty"
-browser = "brave"
+browser = "zen"
 editor = "emacsclient -c -a 'emacs' "
 filemanager = "pcmanfm"
 lock = "custom-i3lock"
@@ -449,27 +449,30 @@ def create_widget():
         widget.Spacer(background=colors["darker_bg"]+"40"),
         widget.TextBox(text="◢", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"40"),
         widget.Spacer(length = 12),
-        widget.KeyboardLayout(
-            configured_keyboards = [ "US" ],
-            mouse_callbacks = {
-                "Button1": lazy.widget["keyboardlayout"].next_keyboard(),
-                "Button2": lazy.widget["keyboardlayout"].previous_keyboard()
-            },
+        widget.Memory(
             foreground = colors["orange"],
-            fmt = "⌨ {}",
+            measure_mem="G",
+            format = " {MemUsed: .0f}%",
+            ,**widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.CPU(
+            foreground = colors["red"],
+            format = " {load_percent}%",
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.WiFiIcon(
-            active_colour = colors["red"],
+            active_colour = colors["purple"],
             disconnected_colour = colors["fg"],
-            inactive_colour = colors["black"],
+            inactive_colour = colors["darker_bg"],
             foreground = colors["red"],
             interface = "wlp6s0",
             show_ssid = False,
             mouse_callbacks={
                 "Button1": lazy.spawn("rofi-network-manager")
             },
+            padding_y = 20,
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
@@ -504,6 +507,9 @@ def create_widget():
         widget.Spacer(length = 8),
     ]
 #+end_src
+
+#+RESULTS:
+: None
 
 * Wallpaper
 
