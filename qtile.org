@@ -472,7 +472,6 @@ def create_widget():
             mouse_callbacks={
                 "Button1": lazy.spawn("rofi-network-manager")
             },
-            padding_y = 20,
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
