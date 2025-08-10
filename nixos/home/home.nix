@@ -24,9 +24,11 @@
   home.packages = with pkgs; [
     vlc
     qimgv
+    chromium
     unstable.bitwarden
     unstable.signal-desktop
     unstable.protonmail-desktop
+    tailscale-systray
     prismlauncher
     bottles
     flameshot

@@ -17,11 +17,12 @@ in
 
   config = lib.mkIf config.commonConfig.enable {
     boot.loader = {
+      systemd-boot.enable = true;
       efi = {
         canTouchEfiVariables = true;
       };
       grub = {
-        enable = true;
+        enable = false;
         efiSupport = true;
         useOSProber = true;
         device = "nodev";

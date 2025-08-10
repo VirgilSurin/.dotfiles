@@ -6,7 +6,7 @@
       ./hardware-configuration.nix
       ../modules/common_config.nix
       inputs.home-manager.nixosModules.default
-      inputs.stylix.nixosModules.stylix
+      # inputs.stylix.nixosModules.stylix
     ];
 
   stylix = {
@@ -71,7 +71,6 @@
     description = "Virgil Surin";
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      firefox
     ];
   };
 
@@ -115,6 +114,10 @@
     kwrited
     spectacle
   ];
+
+  services.tailscale = {
+    enable = true;
+  };
 
   services.emacs = {
     enable = true;
