@@ -14,6 +14,11 @@
       inputs.nixpkgs.follows = "unstable";
     };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     stylix = {
       url = "github:danth/stylix/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,7 +27,7 @@
 
     hosts.url = "github:StevenBlack/hosts";
   };
-  outputs = { self, nixpkgs, unstable, stylix, ... }@inputs:
+  outputs = { self, nixpkgs, unstable, stylix, lanzaboote, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -47,6 +52,7 @@
               ./home/configuration.nix
               stylix.nixosModules.stylix
               inputs.home-manager.nixosModules.default
+              lanzaboote.nixosModules.lanzaboote
             ];
           };
 

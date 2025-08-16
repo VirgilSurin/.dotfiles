@@ -51,6 +51,18 @@
     hostname = "VS-Chimaera";
   };
 
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi = {
+      canTouchEfiVariables = true;
+    };
+    grub = {
+      enable = false;
+      efiSupport = true;
+      useOSProber = true;
+      device = "nodev";
+    };
+  };
   boot.initrd.secrets = { "/crypto_keyfile.bin" = null;
                         };
 

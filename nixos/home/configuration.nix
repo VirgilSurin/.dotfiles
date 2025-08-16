@@ -50,6 +50,12 @@
     hostname = "VS-Coruscant";
   };
 
+  # for secure boot
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
   services.xserver = {
     enable = true;
     xkb.layout = "us";
