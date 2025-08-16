@@ -107,6 +107,8 @@ in
     eww
     cachix
 
+    memsed
+
     custom-i3lock
     picom
     qimgv # for images

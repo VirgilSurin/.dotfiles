@@ -31,7 +31,7 @@
     tailscale-systray
     prismlauncher
     bottles
-    flameshot
+    memsed
 
     dwt1-shell-color-scripts
     neovim
