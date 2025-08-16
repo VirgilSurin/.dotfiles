@@ -157,22 +157,10 @@ in
 
   gtk = {
     enable = true;
-    # theme = {
-    #   name = "${config.colorScheme.slug}";
-    #   package = gtkThemeFromScheme {scheme = config.colorScheme;};
-    # };
-    # iconTheme = {
-    #   name = "Papirus-Dark";
-    #   package = pkgs.papirus-icon-theme;
-    # };
   };
 
   qt = {
     enable = true;
-    # style = {
-    #   name = "Dracula";
-    #   package = pkgs.dracula-qt5-theme;
-    # };
   };
 
   programs.home-manager.enable = true;

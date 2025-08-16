@@ -7,7 +7,6 @@
     ./hardware-configuration.nix
     ../modules/common_config.nix
     inputs.home-manager.nixosModules.default
-    inputs.stylix.nixosModules.stylix
   ];
 
   stylix = {
@@ -202,6 +201,8 @@
     enable = true;
     package = pkgs.emacs-gtk;
   };
+
+  services.tailscale.enable = true;
 
   networking.stevenBlackHosts = {
     blockFakenews = true;

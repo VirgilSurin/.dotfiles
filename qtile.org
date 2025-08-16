@@ -33,10 +33,10 @@ from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal, send_notification
 from qtile_extras import widget
-from qtile_extras.widget.decorations import BorderDecoration, RectDecoration
+from qtile_extras.widget.decorations import BorderDecoration, RectDecoration, GradientDecoration
 from qtile_extras.popup.toolkit import PopupRelativeLayout, PopupText, PopupWidget
 from libqtile.command.client import InteractiveCommandClient
-
+from qtile_extras.popup.templates.mpris2 import COMPACT_LAYOUT, DEFAULT_LAYOUT
 #+end_src
 
 #+RESULTS:
@@ -47,7 +47,7 @@ Some variables to make life easier.
 #+begin_src python
 mod = "mod4"
 terminal = "alacritty"
-browser = "brave"
+browser = "zen"
 editor = "emacsclient -c -a 'emacs' "
 filemanager = "pcmanfm"
 lock = "custom-i3lock"
@@ -171,7 +171,7 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-")),
 
     # System commands
-    # Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
+    Key([mod, "control"], "f", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "shift"], "f", lazy.restart(), desc="Reload the config"),
 
     Key([mod, "control"], "z", lazy.spawn(lock), desc="Lock screen with XScreenSaver"),
@@ -233,12 +233,12 @@ The philosophy is to use the left hand's home row and 2 keys above the right han
 
 #+begin_src python
 groups = [
-    Group(name='a', label=''),
-    Group(name='r', label=''),
-    Group(name='s', label=''),
-    Group(name='t', label=''),
-    Group(name='l', label='', matches=[Match(wm_class="signal")], layout="columns"),
-    Group(name='u', label='', matches=[Match(wm_class="spotify")], layout="columns"),
+    Group(name='a', label='1'),
+    Group(name='r', label='2'),
+    Group(name='s', label='3'),
+    Group(name='t', label='4'),
+    Group(name='l', label='5', matches=[Match(wm_class="signal")], layout="columns"),
+    Group(name='u', label='6', matches=[Match(wm_class="spotify")], layout="columns"),
 ]
 
 for i in groups:
@@ -276,6 +276,7 @@ Theme definitions
 #+begin_src python
 One = {
     "bg":      "#282c34",
+    "darker_bg": "#202328",
     "fg":      "#bbc2cf",
     "black":   "#1c1f24",
     "white":   "#dfdfdf",
@@ -391,6 +392,9 @@ sep_bar = widget.TextBox(
                     fontsize = 10
                 )
 
+def sep_function(from_color, to_color):
+    return widget.TextBox(text="◤", fontsize=45, padding=-1, foreground=from_color, background=to_color),
+
 def widget_decoration(color):
     return [
         BorderDecoration(
@@ -398,7 +402,6 @@ def widget_decoration(color):
             border_width = [0, 0, 2, 0],
         )
     ]
-
 #+end_src
 
 * Widgets
@@ -417,12 +420,11 @@ def create_widget():
             },
         ),
         widget.Spacer(length=4),
-        sep_bar,
         widget.GroupBox(
             fontsize = 12,
-            margin_x = 15,
+            margin_x = 8,
             margin_y = 5,
-            padding_x = 1,
+            padding_x = 0,
             padding_y = 0,
             borderwidht = 2,
             active = colors["blue"],
@@ -437,91 +439,41 @@ def create_widget():
             foreground = colors["fg"],
             background = [colors["bg"]],
         ),
-        # widget.GroupBox(
-        #     fontsize = 16,
-        #     margin_x = 10,
-        #     margin_y = 5,
-        #     borderwidht = 3,
-        #     padding_x = 2,
-        #     active = colors["blue"],
-        #     inactive = colors["fg"],
-        #     center_aligned=True,
-        #     highlight_method = "line",
-        #     rounded = True,
-        #     highlight_color = ["#565c6400"], # if using "line" as  highlight method
-        #     this_current_screen_border = colors["green"],
-        #     other_current_screen_border = colors["magenta"],
-
-        #     this_screen_border = colors["magenta"],
-        #     other_screen_border = colors["magenta"],
-
-        #     foreground = colors["fg"],
-        #     background = [colors["bg"]],
-        #     **decoration_group,
-        # ),
-        sep_bar,
         widget.CurrentLayoutIcon(
             foreground = colors["orange"],
             scale = 0.5,
             use_mask = True,
             ,**widget_defaults,
         ),
-        sep_bar,
-        widget.WindowName(
-            max_chars = 32,
-            foreground = colors["blue"],
-            ,**widget_defaults,
-        ),
+        widget.TextBox(text="◤", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"40"),
+        widget.Spacer(background=colors["darker_bg"]+"40"),
+        widget.TextBox(text="◢", fontsize=55, padding=-1, foreground=colors["bg"], background=colors["darker_bg"]+"40"),
         widget.Spacer(length = 12),
-        widget.UnitStatus(
-            bus_name = "system",
-            foreground = colors["cyan"],
-            label = " emacs",
-            unit_name = "emacs.service",
-            mouse_callbacks = {
-                "Button1": lazy.spawn("systemctl restart emacs.service"),
-            },
-            ,**widget_defaults,
-        ),
-        widget.Spacer(length = 12),
-        widget.KeyboardLayout(
-            configured_keyboards = [ "US" ],
-            mouse_callbacks = {
-                "Button1": lazy.widget["keyboardlayout"].next_keyboard(),
-                "Button2": lazy.widget["keyboardlayout"].previous_keyboard()
-            },
+        widget.Memory(
             foreground = colors["orange"],
-            fmt = "⌨ {}",
+            measure_mem="G",
+            format = " {MemUsed: .0f}%",
+            ,**widget_defaults,
+        ),
+        widget.Spacer(length = 12),
+        widget.CPU(
+            foreground = colors["red"],
+            format = " {load_percent}%",
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
         widget.WiFiIcon(
-            active_colour = colors["red"],
+            active_colour = colors["purple"],
             disconnected_colour = colors["fg"],
-            inactive_colour = colors["black"],
+            inactive_colour = colors["darker_bg"],
             foreground = colors["red"],
             interface = "wlp6s0",
-            show_ssid = True,
+            show_ssid = False,
             mouse_callbacks={
                 "Button1": lazy.spawn("rofi-network-manager")
             },
             ,**widget_defaults,
         ),
-        # widget.Wlan(
-        #     disconnected_message = "disconnected",
-        #     interface = "wlp6s0",
-        #     foreground = colors["red"],
-        #     format = "{percent:2.0%}",
-        # ),
-        # widget.Net(
-        #     interface = "wlp6s0",
-        #     format = "{up:^3.0f}{up_suffix} ↑↓ {down:^3.0f}{down_suffix}",
-        #     foreground = colors["red"],
-        #     mouse_callbacks={
-        #         'Button1': lazy.spawn("rofi-network-manager")
-        #     },
-        #     **widget_defaults,
-        # ),
         widget.Spacer(length = 12),
         widget.Volume(
             foreground = colors["magenta"],
@@ -532,17 +484,6 @@ def create_widget():
             ,**widget_defaults,
         ),
         widget.Spacer(length = 12),
-        # widget.UPowerWidget(
-            # foreground = colors["green"],
-            # fill_charge = colors["green"],
-            # fill_critical = colors["red"],
-            # fill_low = colors["orange"],
-            # fill_normal = colors["green"],
-            # border_colour = colors["green"],
-            # border_charge_colour = colors["green"],
-            # border_critical_colour = colors["green"],
-            # **widget_defaults,
-        # ),
         widget.Battery(
             foreground = colors["green"],
             format = "  {percent:2.0%}",
@@ -566,12 +507,15 @@ def create_widget():
     ]
 #+end_src
 
+#+RESULTS:
+: None
+
 * Wallpaper
 
 #+begin_src python
 # wall = "~/.dotfiles/wallpapers/The_Artist's_Garden_at_Eragny2.jpg"
 # wall = "~/.dotfiles/wallpapers/boat_painting.jpg"
-wall = "~/.dotfiles/wallpapers/mountain_uw.jpg"
+wall = "~/.dotfiles/wallpapers/nuvole.png"
 # wall = "~/.dotfiles/wallpapers/forest_uw.jpg"
 
 #+end_src
@@ -585,14 +529,14 @@ I mainly work with 2 monitors.
 screens = [
     Screen(
         wallpaper=wall,
-        wallpaper_mode="stretch",
+        wallpaper_mode="fill",
         top=bar.Bar(
             create_widget(),
             26,
             border_width=[0, 0, 0, 0],
             border_color=[colors["black"]] * 4,
             margin = [6, 8, 6, 8],
-            background = colors["bg"]
+            background = colors["bg"] + "00"
         ),
     ),
     Screen(
@@ -604,7 +548,7 @@ screens = [
             border_width=[0, 0, 0, 0],
             border_color=[colors["black"]] * 4,
             margin = [6, 8, 6, 8],
-            background = colors["bg"]
+            background = colors["bg"] + "00"
         ),
     ),
 ]
