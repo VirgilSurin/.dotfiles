@@ -113,13 +113,11 @@
   ];
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    xterm
     konsole
     kate
     okular
     elisa
     kwrited
-    spectacle
   ];
 
   services.tailscale = {

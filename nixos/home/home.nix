@@ -23,6 +23,7 @@
 
   home.packages = with pkgs; [
     vlc
+    mpv
     qimgv
     chromium
     unstable.bitwarden
@@ -32,6 +33,12 @@
     prismlauncher
     bottles
     memsed
+    qbittorrent
+
+    kdePackages.kdialog
+
+    vial
+    via
 
     dwt1-shell-color-scripts
     neovim
@@ -46,9 +53,9 @@
       "image/png" = [ "qimgv.desktop" "emacs.desktop" ];
       "image/jpeg" = [ "qimgv.desktop" "emacs.desktop" ];
       "image/gif" = [ "qimgv.desktop" "emacs.desktop" ];
-      "video/mp4" = [ "vlc.desktop" ];
-      "video/webm" = [ "vlc.desktop" ];
-      "video/mkv" = [ "vlc.desktop" ];
+      "video/mp4" = [ "mpv.desktop" ];
+      "video/webm" = [ "mpv.desktop" ];
+      "video/mkv" = [ "mpv.desktop" ];
       "x-sheme-handler/mailto" = [ "proton-mail.desktop" ];
       "text/plain" = [ "emacs.desktop" ];
     };

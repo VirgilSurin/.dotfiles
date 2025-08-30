@@ -107,7 +107,8 @@ in
     eww
     cachix
 
-    memsed
+    vial
+    via
 
     custom-i3lock
     picom
